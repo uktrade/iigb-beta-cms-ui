@@ -1,0 +1,33 @@
+*, *:before, *:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+}
+
+.sections {
+  position: fixed;
+  margin-left: 300px;
+  padding: 8px;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: #E7E7E7;
+}
+
+.inspector {
+  margin-left: 600px;
+  padding: 8px;
+
+  pre {
+    font-family: Menlo;
+    font-size: 13px;
+  }
+}
