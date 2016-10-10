@@ -17,6 +17,7 @@ export default ({editing, file, onEdit, className, ...props}) => {
 }
 
 class Edit extends React.Component {
+
   render() {
     const {className, value, ...props} = this.props;
 
@@ -26,12 +27,17 @@ class Edit extends React.Component {
       autoFocus={true}
       defaultValue={value.file}
       onBlur={this.finishEdit}
-      onKeyPress={this.checkEnter}
+      onKeyDown={this.checkEnter}
       {...props} />;
   }
 
   checkEnter = (e) => {
-    if(e.key === 'Enter') {
+    const ESCAPE_KEY = 27;
+    const ENTER_KEY = 13;
+
+    if (e.keyCode === ESCAPE_KEY) {
+      this.cancelEdit();
+    } else if (e.keyCode === ENTER_KEY) {
       this.finishEdit(e);
     }
   }
@@ -41,6 +47,12 @@ class Edit extends React.Component {
 
     if(this.props.onEdit) {
       this.props.onEdit(this.props.fileId, this.props.sectionId, file);
+    }
+  }
+
+  cancelEdit = () => {
+    if(this.props.onEdit) {
+      this.props.onEdit(this.props.fileId, this.props.sectionId, this.props.value.file);
     }
   }
 }
