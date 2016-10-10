@@ -1,6 +1,9 @@
+var cx = require('classnames');
+
 import React from "react";
 import * as FileActions from '../actions/FileActions';
 import SectionStore from '../example/SectionStore.js';
+import Editable from './Editable';
 
 let placeholder = document.createElement("li");
 placeholder.className = "placeholder";
@@ -52,15 +55,44 @@ let Section = React.createClass({
     if (Array.isArray(this.props.files)){
       let rows = [];
 
-      {this.props.files.map((file, i) =>
-        rows.push(<li data-id={i}
+      this.props.files.map((file, i) => {
+
+        if (file.hasOwnProperty('editing')) {
+          rows.push(<li data-id={i}
+                        key={i}
+                        className={cx('file', {
+                          'is-active': this
+                        })} >
+            <Editable
+              editing={true}
+              fileId={i}
+              sectionId={this.props.sectionId}
+              className='editing'
+              value={file}
+              onEdit={this.onEditFile}/>
+          </li>)
+        } else {
+          rows.push(<li data-id={i}
                       key={i}
                       draggable="true"
                       onDragEnd={this.dragEnd}
-                      onDragStart={this.dragStart}>
-                        {file}
+                      onDragStart={this.dragStart}
+                      className={cx('file', {
+                        'is-active': this
+                      })} >
+                      <Editable
+                        className="editable"
+                        file={file}
+                        onClick={this.loadFile.bind(null, file, i)} />
+                      <button
+                        className="edit"
+                        onClick={this.editFile.bind(null, i, this.props.sectionId, file)}>E</button>
+                      <button
+                        className="delete"
+                        onClick={this.deleteFile.bind(null, i, this.props.sectionId)}>X</button>
                   </li>)
-      )}
+        }
+      })
       return (
         <ul onDragOver={this.dragOver}>Files
           {rows}
@@ -86,27 +118,59 @@ let Section = React.createClass({
     } else {
       return (
         <ul>File
-          <li>{this.props.files}</li>
-            <div>
-              <form onSubmit={e => {
-                e.preventDefault();
-                if (!this.input.value.trim()) {
-                  return;
-                }
-                SectionStore.addFileNameToSection(this.props, this.input.value);
-                this.input.value = '';
-              }}>
-                <input ref={node => {
-                  this.input = node
-                }} />
-                <button type="submit">
-                  Add/rename file
-                </button>
-              </form>
-            </div>
+          <li className={cx('file', {
+            'is-active': this.props.files.section
+          })} onClick={this.loadFile.bind(null, this.props.files)} onContextMenu={this.contextMenu}>
+            {this.props.files}
+          </li>
+          <div>
+            <form onSubmit={e => {
+              e.preventDefault();
+              if (!this.input.value.trim()) {
+                return;
+              }
+              SectionStore.addFileNameToSection(this.props, this.input.value);
+              this.input.value = '';
+            }}>
+              <input ref={node => {
+                this.input = node
+              }} />
+              <button type="submit">
+                Add/rename file
+              </button>
+            </form>
+          </div>
         </ul>
       );
     }
+  },
+
+  loadFile(file, editing) {
+    const url = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/' + file;
+    alert (url);
+    // Render .md page on right section
+    //FileActions.getFile(url)
+  },
+
+  deleteFile(fileId, sectionId, e) {
+    // Avoid bubbling to edit
+    e.stopPropagation();
+    SectionStore.deleteFile(fileId, sectionId)
+  },
+
+  editFile(fileId, sectionId, fileName) {
+    SectionStore.editFile(fileId, sectionId, fileName)
+  },
+
+  onEditFile(fileId, sectionId, fileName) {
+    SectionStore.renameFile(fileId, sectionId, fileName)
+  },
+
+  contextMenu: function(e) {
+    e.preventDefault();
+    console.log(e)
+    // Do something here....
+    alert('right click');
   },
 
   render() {

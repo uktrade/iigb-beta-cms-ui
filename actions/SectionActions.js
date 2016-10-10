@@ -7,6 +7,13 @@ export function createSection(section) {
   });
 }
 
+export function deleteFile(id) {
+  dispatcher.dispatch({
+    type: "DELETE_FILE",
+    id,
+  });
+}
+
 //Not needed at the moment. Kept for future changes
 /*export function addSection(section) {
   dispatcher.dispatch({

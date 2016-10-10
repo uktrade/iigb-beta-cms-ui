@@ -1,3 +1,5 @@
+var axios = require('axios');
+
 import { EventEmitter } from "events";
 import dispatcher from "./dispatcher";
 
@@ -15,6 +17,24 @@ class FileStore extends EventEmitter {
     }
   }
 
+  getFile(url) {
+    axios
+      .get(url)
+      .then (function (result) {
+        _this.setState({
+          tree: {children: result.data}
+        });
+      })
+  }
+
+  renameFile(newName, id, files) {
+    if (Array.isArray(files)) {
+      let data = files;
+      data[id].push(newName);
+      this.emit("newName");
+    }
+  }
+
   sortFiles() {
     this.emit("fileSorted");
   }
@@ -23,6 +43,14 @@ class FileStore extends EventEmitter {
     switch(action.type) {
       case "ADD_FILE": {
         this.addFile(action.name, action.files);
+        break;
+      }
+      case "DELETE_FILE": {
+        this.deleteFile(action.id);
+        break;
+      }
+      case "RENAME_FILE": {
+        this.renameFile(action.name, action.files, action.id);
         break;
       }
       case "SORT_FILE": {

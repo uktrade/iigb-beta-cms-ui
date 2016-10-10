@@ -7,7 +7,6 @@ var tree = require('./tree');
 var _ = require('../node_modules/lodash');
 
 import Section from "../dist/Section";
-import * as SectionActions from '../actions/SectionActions';
 import SectionStore from './SectionStore.js';
 import FileStore from './FileStore.js';
 
@@ -20,7 +19,8 @@ var App = React.createClass({
   getInitialState() {
     return {
       active: null,
-      tree: {}
+      // tree: tree,
+      tree: {},
     };
   },
 
@@ -40,7 +40,7 @@ var App = React.createClass({
     this.serverRequest.abort();
   },
 
-  renderNode(node) {
+  renderNode: function(node) {
     return (
       <span className={cx('node', {
         'is-active': node === this.state.active
@@ -50,25 +50,26 @@ var App = React.createClass({
     );
   },
 
-  onClickNode(node) {
+  onClickNode: function(node) {
     const section = node.sections;
     SectionStore.clearAll();
     const sections = SectionStore.createSection(section);
+    // node.sections = sections;
     this.setState({
       active: node,
       sections: sections
     });
   },
 
-  createSections(section) {
-    SectionActions.createSection({section: section, files: ''});
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return true;
   },
 
-  componentWillMount() {
+  componentWillMount: function() {
     SectionStore.on("change", () => {
       SectionStore.clearAll();
       this.setState({
-        sections: SectionStore.getAll(),
+        active: SectionStore.getAll(),
       });
       console.log('change-count', SectionStore.listenerCount('change'))
     });
@@ -84,11 +85,50 @@ var App = React.createClass({
       console.log('add-count', SectionStore.listenerCount('fileAdded'))
     });
 
+    SectionStore.on("fileDeleted", () => {
+      this.setState({
+        active: SectionStore.getAll(),
+      });
+      console.log('deleted-count', SectionStore.listenerCount('fileDeleted'))
+    });
+
+    SectionStore.on("fileToEdit", () => {
+      this.setState({
+        active: SectionStore.getAll(),
+      });
+      console.log('toEdit-count', SectionStore.listenerCount('fileToEdit'))
+    });
+
+    SectionStore.on("fileRenamed", () => {
+      this.setState({
+        active: SectionStore.getAll(),
+      });
+      console.log('renamed-count', SectionStore.listenerCount('fileRenamed'))
+    });
+
     FileStore.on("newAdded", () => {
       this.setState({
         sections: SectionStore.getAll(),
       });
       console.log('new-count', FileStore.listenerCount('newAdded'))
+    });
+
+    FileStore.on("fileSorted", () => {
+      this.setState({
+        sections: SectionStore.getAll(),
+      });
+      console.log('sort-count', FileStore.listenerCount('fileSorted'))
+    });
+
+    FileStore.on("newName", () => {
+      let id =  FileStore.id;
+      let section = FileStore.section;
+      let sect = FileStore.getAll();
+      this.state.active.sections[section] = sect[id].files;
+      this.setState({
+        active: this.state.active,
+      });
+      console.log('new-count', FileStore.listenerCount('newName'))
     });
 
     FileStore.on("fileSorted", () => {
@@ -106,16 +146,15 @@ var App = React.createClass({
     });*/
   },
 
-  // componentWillUnmount() {
-  //   FileStore.removeListener('change', SectionStore.getAll());
-  // },
-
   render() {
-    const sections = this.state.sections || [{section: '', files: ''}];
+    const sections = this.state.sections;
+    let SectionComponents = <div />;
 
-    const SectionComponents = sections.map((section) => {
-      return <Section key={section.section} {...section}/>;
-    });
+    if (sections) {
+      SectionComponents = sections.map((section) => {
+        return <Section key={section.section} {...section}/>;
+      });
+    }
 
     return (
       <div className="app">

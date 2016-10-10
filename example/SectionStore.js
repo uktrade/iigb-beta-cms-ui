@@ -2,6 +2,8 @@ import { EventEmitter } from "events";
 import dispatcher from "./dispatcher";
 
 var _ = require('../node_modules/lodash');
+var createFragment = require('../node_modules/react-addons-create-fragment');
+
 
 class SectionStore extends EventEmitter {
 
@@ -12,8 +14,8 @@ class SectionStore extends EventEmitter {
   createSection(section) {
     let sections = [];
 
-    Object.keys(section).map((key) => {
-      sections.push({section: key, files: section[key]});
+    Object.keys(section).map((key, i) => {
+      sections.push({section: key, files: section[key], sectionId: i});
     });
 
     this.emit("change");
@@ -36,11 +38,29 @@ class SectionStore extends EventEmitter {
       let id = _.findIndex(sections, function (obj) {
         return obj.section === props.section;
       });
-      sections[id].files = newName;
+      sections[id].files.name = newName;
       this.id = id;
       this.section = sections[id].section;
       this.emit("fileAdded");
     // }
+  }
+
+  deleteFile(fileId, sectionId) {
+    this.sections[sectionId].files.splice(fileId, 1);
+    this.emit("fileDeleted");
+    return this.sections;
+  }
+
+  editFile(fileId, sectionId, fileName) {
+    this.sections[sectionId].files[fileId] = {editing: true, file: fileName};
+    this.emit("fileToEdit");
+    return this.sections;
+  }
+
+  renameFile(fileId, sectionId, fileName) {
+    this.sections[sectionId].files[fileId] = fileName;
+    this.emit("fileRenamed");
+    return this.sections;
   }
 
   clearAll() {
@@ -55,6 +75,10 @@ class SectionStore extends EventEmitter {
     switch(action.type) {
       case "CREATE_SECTION": {
         this.createSection(action.section);
+        break;
+      }
+      case "REVERT_SECTION": {
+        this.revertSection(action.section);
         break;
       }
       case "ADD_SECTION": {
