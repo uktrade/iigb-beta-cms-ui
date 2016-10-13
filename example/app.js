@@ -31,7 +31,7 @@ var App = React.createClass({
         .get('https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/en_US.json')
         .then (function (result) {
           _this.setState({
-            tree: {children: result.data}
+            tree: {children: result.data.pages}
           });
         })
   },
