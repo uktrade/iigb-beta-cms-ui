@@ -28,7 +28,7 @@ var App = React.createClass({
     let _this = this;
     this.serverRequest =
       axios
-        .get('https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/us.json')
+        .get('https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/en_US.json')
         .then (function (result) {
           _this.setState({
             tree: {children: result.data}
@@ -45,13 +45,13 @@ var App = React.createClass({
       <span className={cx('node', {
         'is-active': node === this.state.active
         })} onClick={this.onClickNode.bind(null, node)}>
-        {node.title}
+        {node.pageTitle}
       </span>
     );
   },
 
   onClickNode: function(node) {
-    const section = node.sections;
+    const section = node.contentBlocks;
     SectionStore.clearAll();
     const sections = SectionStore.createSection(section);
     // node.sections = sections;

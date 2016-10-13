@@ -42,7 +42,7 @@ class FileStore extends EventEmitter {
   handleAction(action) {
     switch(action.type) {
       case "ADD_FILE": {
-        this.addFile(action.name, action.files);
+        this.addFile(action.file, action.files);
         break;
       }
       case "DELETE_FILE": {
@@ -50,7 +50,7 @@ class FileStore extends EventEmitter {
         break;
       }
       case "RENAME_FILE": {
-        this.renameFile(action.name, action.files, action.id);
+        this.renameFile(action.file, action.files, action.id);
         break;
       }
       case "SORT_FILE": {

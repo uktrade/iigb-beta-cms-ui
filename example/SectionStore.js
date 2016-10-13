@@ -14,9 +14,22 @@ class SectionStore extends EventEmitter {
   createSection(section) {
     let sections = [];
 
-    Object.keys(section).map((key, i) => {
-      sections.push({section: key, files: section[key], sectionId: i});
-    });
+    // Object.keys(section).map((key, i) => {
+    //   sections.push({section: key, files: section[key], sectionId: i});
+    // });
+
+    for (const key in section) {
+      let sect = section[key];
+      if (Array.isArray(sect)){
+        let files = [];
+        for (let i=0; i<sect.length; i++) {
+          files.push(sect[i])
+        }
+        sections.push({section: key, files: files})
+      } else {
+        sections.push({section: key, files: sect})
+      }
+    }
 
     this.emit("change");
     return this.sections = sections;
@@ -38,7 +51,7 @@ class SectionStore extends EventEmitter {
       let id = _.findIndex(sections, function (obj) {
         return obj.section === props.section;
       });
-      sections[id].files.name = newName;
+      sections[id].files.file = newName;
       this.id = id;
       this.section = sections[id].section;
       this.emit("fileAdded");

@@ -68,7 +68,7 @@ let Section = React.createClass({
               fileId={i}
               sectionId={this.props.sectionId}
               className='editing'
-              value={file}
+              value={file.file}
               onEdit={this.onEditFile}/>
           </li>)
         } else {
@@ -82,11 +82,11 @@ let Section = React.createClass({
                       })} >
                       <Editable
                         className="editable"
-                        file={file}
-                        onClick={this.loadFile.bind(null, file, i)} />
+                        file={file.file}
+                        onClick={this.loadFile.bind(null, file.file, i)} />
                       <button
                         className="edit"
-                        onClick={this.editFile.bind(null, i, this.props.sectionId, file)}>E</button>
+                        onClick={this.editFile.bind(null, i, this.props.sectionId, file.file)}>E</button>
                       <button
                         className="delete"
                         onClick={this.deleteFile.bind(null, i, this.props.sectionId)}>X</button>
@@ -121,7 +121,7 @@ let Section = React.createClass({
           <li className={cx('file', {
             'is-active': this.props.files.section
           })} onClick={this.loadFile.bind(null, this.props.files)} onContextMenu={this.contextMenu}>
-            {this.props.files}
+            {this.props.files.file}
           </li>
           <div>
             <form onSubmit={e => {
