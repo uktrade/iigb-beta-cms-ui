@@ -5,13 +5,13 @@ var 	express		= require('express'),
 
 
 //some basic redirect routes
-//app.get('/', function(req, res) {
-//  res.redirect('prose/');
-//});
+app.get('/', function(req, res) {
+  res.redirect('prose/');
+});
 
 app.set('case sensitive routing', false);
 
-app.use('/', express.static(__dirname + '/example'));
+app.use('/example', express.static(__dirname + '/example'));
 app.use('/prose', express.static(__dirname + '/prose'));
 
 app.listen(port, function() {

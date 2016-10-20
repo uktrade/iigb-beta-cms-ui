@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "cd prose && npm install",
-    "start": "node server.js",
+    "start": "npm run build && node server.js",
     "dev": "webpack-dev-server -c --port=8888",
-    "build": "make && cd prose && gulp",
+    "build": "cp oauth.json prose/ && make && cd prose && gulp",
     "deploy": "npm run build && github-pages-deploy",
     "test": "mocha"
   },

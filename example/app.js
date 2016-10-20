@@ -172,7 +172,7 @@ var App = React.createClass({
         </div>
         <div className="inspector">
           <pre>
-          {JSON.stringify(this.state.tree, null, '  ')}
+          <iframe src="/prose" style={{width:'100%',height:'768px'}}></iframe>
           </pre>
          </div>
       </div>
