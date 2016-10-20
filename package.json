@@ -27,10 +27,6 @@
     "url": "https://github.com/pqx/react-ui-tree/issues"
   },
   "homepage": "https://github.com/pqx/react-ui-tree",
-  "peerDependencies": {
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
-  },
   "devDependencies": {
     "axios": "^0.14.0",
     "babel-core": "^6.4.0",
@@ -53,6 +49,9 @@
     "classnames": "^2.2.3",
     "flux": "^2.1.1",
     "js-tree": "^1.1.0",
-    "react-bootstrap": "^0.30.5"
+    "lodash": "^4.16.4",
+    "react": "^15.3.2",
+    "react-bootstrap": "^0.30.5",
+    "react-dom": "^15.3.2"
   }
 }

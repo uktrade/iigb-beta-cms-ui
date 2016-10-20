@@ -1,8 +1,9 @@
-import { EventEmitter } from "events";
+import {
+  EventEmitter
+} from "events";
 import dispatcher from "./dispatcher";
 
 var _ = require('../node_modules/lodash');
-var createFragment = require('../node_modules/react-addons-create-fragment');
 
 
 class SectionStore extends EventEmitter {
@@ -20,14 +21,20 @@ class SectionStore extends EventEmitter {
 
     for (const key in section) {
       let sect = section[key];
-      if (Array.isArray(sect)){
+      if (Array.isArray(sect)) {
         let files = [];
-        for (let i=0; i<sect.length; i++) {
+        for (let i = 0; i < sect.length; i++) {
           files.push(sect[i])
         }
-        sections.push({section: key, files: files})
+        sections.push({
+          section: key,
+          files: files
+        })
       } else {
-        sections.push({section: key, files: sect})
+        sections.push({
+          section: key,
+          files: sect
+        })
       }
     }
 
@@ -39,22 +46,25 @@ class SectionStore extends EventEmitter {
   addSection(title) {
     let sections = this.sections;
 
-    sections.push({section: title, files: 'No files yet'});
+    sections.push({
+      section: title,
+      files: 'No files yet'
+    });
 
     this.emit("added");
     return this.sections = sections;
   }
 
-  addFileNameToSection (props, newName) {
+  addFileNameToSection(props, newName) {
     // if (!props.files) {
-      let sections = this.sections;
-      let id = _.findIndex(sections, function (obj) {
-        return obj.section === props.section;
-      });
-      sections[id].files.file = newName;
-      this.id = id;
-      this.section = sections[id].section;
-      this.emit("fileAdded");
+    let sections = this.sections;
+    let id = _.findIndex(sections, function(obj) {
+      return obj.section === props.section;
+    });
+    sections[id].files.file = newName;
+    this.id = id;
+    this.section = sections[id].section;
+    this.emit("fileAdded");
     // }
   }
 
@@ -65,7 +75,10 @@ class SectionStore extends EventEmitter {
   }
 
   editFile(fileId, sectionId, fileName) {
-    this.sections[sectionId].files[fileId] = {editing: true, file: fileName};
+    this.sections[sectionId].files[fileId] = {
+      editing: true,
+      file: fileName
+    };
     this.emit("fileToEdit");
     return this.sections;
   }
@@ -85,23 +98,27 @@ class SectionStore extends EventEmitter {
   }
 
   handleAction(action) {
-    switch(action.type) {
-      case "CREATE_SECTION": {
-        this.createSection(action.section);
-        break;
-      }
-      case "REVERT_SECTION": {
-        this.revertSection(action.section);
-        break;
-      }
-      case "ADD_SECTION": {
-        this.addSection(action.section);
-        break;
-      }
-      case "ADD_NEW_FILE": {
-        this.addFileNameToSection(action.section, action.file);
-        break;
-      }
+    switch (action.type) {
+      case "CREATE_SECTION":
+        {
+          this.createSection(action.section);
+          break;
+        }
+      case "REVERT_SECTION":
+        {
+          this.revertSection(action.section);
+          break;
+        }
+      case "ADD_SECTION":
+        {
+          this.addSection(action.section);
+          break;
+        }
+      case "ADD_NEW_FILE":
+        {
+          this.addFileNameToSection(action.section, action.file);
+          break;
+        }
     }
   }
 }
