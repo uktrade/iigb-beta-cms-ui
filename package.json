@@ -7,11 +7,9 @@
     "postinstall": "npm install --prefix ./prose",
     "start": "npm run build && node server.js",
     "dev": "webpack-dev-server -c --port=8888",
-    "build": "cp oauth.json prose/ && npm run make && cd prose && gulp",
+    "build": "cp oauth.json prose/ && make && cd prose && gulp",
     "deploy": "npm run build && github-pages-deploy",
-    "test": "mocha",
-    "clean" : "rm dist/* && rm example/bundle*",
-    "make" : "./node_modules/babel-cli/bin/babel.js lib --out-dir dist && node-sass lib/react-ui-tree.scss dist/react-ui-tree.css && ./node_modules/webpack/bin/webpack.js -p"
+    "test": "mocha"
   },
   "github-pages-deploy": {
     "src": "example"
