@@ -7,7 +7,7 @@
     "postinstall": "npm install --prefix ./prose && npm run build",
     "start": "node server.js",
     "dev": "webpack-dev-server -c --port=8888",
-    "build": "cp oauth.json prose/ && npm run make",
+    "build": "cp oauth.json prose/ && npm run make && cd prose",
     "deploy": "npm run build && github-pages-deploy",
     "test": "mocha",
     "clean" : "rm dist/* && rm example/bundle*",
