@@ -17,6 +17,7 @@ if (ipFilterOn === 'true') {
   console.log('Ip filter is on');
 }
 
+
 //some basic redirect routes
 app.get('/', function(req, res) {
   res.redirect('prose/');
