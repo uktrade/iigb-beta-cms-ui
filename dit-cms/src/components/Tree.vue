@@ -11,7 +11,8 @@
       <tree class="tree"
             v-for="model in model.children"
             :model="model"
-            :english="english">
+            :english="english"
+            @new-details="updateTree($event)">
       </tree>
       <li class="add" @click="addChild">Add new page</li>
     </ul>
@@ -19,6 +20,8 @@
 </template>
 
 <script>
+let treeDetails = null
+
 export default {
   name: 'tree',
   props: {
@@ -43,7 +46,13 @@ export default {
     toggle: function () {
       if (this.isFolder) {
         this.open = !this.open
+        // console.log(this.model)
+        treeDetails = this.model
+        this.$emit('new-details', this.model)
       }
+    },
+    updateTree: function () {
+      this.$emit('new-details', treeDetails)
     },
     changeType: function () {
       if (!this.isFolder) {

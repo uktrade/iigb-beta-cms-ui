@@ -12,30 +12,38 @@
         <ul v-if='treeData && branch === currentBranch'>
           <tree class="tree"
                 :english="english"
-                :model="treeData">
+                :model="treeData"
+                @new-details="updateTree($event)">
           </tree>
         </ul>
       </div>
     </template>
     <p>(You can double click on an item to turn it into a page.)</p>
+    <div>
+      <page v-if="treeDataDetails" :model="treeDataDetails">
+      </page>
+    </div>
   </div>
 </template>
 
 <script>
 import Tree from './Tree'
+import Page from './Page'
 
-var apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
+const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
 export default {
   name: 'sites',
   components: {
-    Tree
+    Tree,
+    Page
   },
   data: function () {
     return {
       branches: ['de_DE', 'en_IN', 'en_INT', 'en_US', 'zh_CN'],
       currentBranch: 'en_US',
       treeData: null,
+      treeDataDetails: null,
       english: true
     }
   },
@@ -56,10 +64,14 @@ export default {
       xhr.onload = function () {
         var structure = JSON.parse(xhr.responseText)
         self.treeData = structure.pages[0]
+        self.treeDataDetails = structure.pages[0]
         self.english = structure.sharedMeta.locale.language === 'en'
         // console.log(self.treeData)
       }
       xhr.send()
+    },
+    updateTree: function (model) {
+      this.treeDataDetails = model
     }
   }
 }
