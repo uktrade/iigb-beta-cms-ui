@@ -8,14 +8,17 @@
       <label for="page-url" class="">
         URL segment
       </label>
-      <input id="page-url" type="text" v-model="model.url">
+      <span v-if="model.url" style="border: .1px solid #ddd; padding: 3px 1px 1px; margin-right: 4px; font: 11px sans-serif">
+        {{model.url}}
+      </span>
+      <input v-else id="page-url" type="text" v-model="model.url">
       <label for="page-layout" class="">
         Layout
       </label>
       <input id="page-layout" type="text" v-model="model.layout">
     </div>
     <div>
-      <!--this will come from layout?-->
+      <!--will this come from layout?-->
     </div>
   </div>
 </template>
