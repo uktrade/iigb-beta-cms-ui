@@ -3,8 +3,8 @@
     <div :class="{bold: isFolder}"
          @click="toggle"
          @dblclick="changeType">
-      <span v-if="isEnglish">{{model.pageTitle}}</span>
-      <span v-else>{{model.pageTitle}} - {{model.url}}</span>
+      <span v-if="isEnglish">{{model.data.pageTitle}}</span>
+      <span v-else>{{model.data.pageTitle}} - {{model.path}}</span>
       <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
     </div>
     <ul v-show="open" v-if="isFolder">
@@ -22,6 +22,8 @@
 <script>
 let treeDetails = null
 
+import list from './DragAndDrop'
+
 export default {
   name: 'tree',
   props: {
@@ -35,8 +37,8 @@ export default {
   },
   computed: {
     isFolder: function () {
-      return this.model.pageTitle &&
-        this.model.pageTitle.length
+      return this.model.data.pageTitle &&
+        this.model.data.pageTitle.length
     },
     isEnglish: function () {
       return this.english
