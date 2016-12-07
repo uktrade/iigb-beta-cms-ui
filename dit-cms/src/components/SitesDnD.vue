@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Sites</h1>
-    <template v-for="branch in branches">
+    <template v-for="branch in branches" class="col-md-5">
       <div>
         <input type="radio"
                :id="branch"
@@ -16,8 +16,8 @@
                 <!--@new-details="updateTree($event)">-->
           <!--</tree>-->
         <!--</ul>-->
-        <div  class="col-md-5" v-if='treeData && branch === currentBranch' v-for="list in treeData">
-          <ul class="panel-body container-list"
+        <div v-if='treeData && branch === currentBranch' v-for="list in treeData" class="row">
+          <ul class="panel-body container-list col-md-5"
               v-dnd-list='{dndList: list,
                            dndInserted: "inserted",
                            dndEffectAllowed: "move",

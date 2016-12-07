@@ -12,7 +12,8 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
-    "vue": "^2.1.0"
+    "vue": "^2.1.0",
+    "vuedraggable": "^2.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
