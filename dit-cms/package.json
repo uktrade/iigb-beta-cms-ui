@@ -12,6 +12,7 @@
     "test": "npm run unit && npm run e2e"
   },
   "dependencies": {
+    "iigb-cms-tags": "uktrade/iigb-cms-tags",
     "vue": "^2.1.0",
     "vuedraggable": "^2.4.0"
   },
