@@ -45,7 +45,8 @@ export default {
     console.log(context)
     context.$http
       .get('http://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/' + code).then((data) => {
-          console.log(data);
+          var token = data.body.token;
+          document.cookie = "token=" + token;
         },
         (data) => {
 
