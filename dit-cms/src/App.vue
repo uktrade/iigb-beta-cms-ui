@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Login></Login>
     <sites></sites>
     <!--<layouts></layouts>-->
   </div>
@@ -12,6 +13,8 @@ import Sites from './components/SitesDraggable'
 import Layouts from './components/Layouts'
 import Page from './components/Page'
 import draggable from 'vuedraggable'
+import Login from './components/Login'
+
 
 const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
@@ -22,7 +25,8 @@ export default {
     Layouts,
     Page,
     draggable,
-    TreeDraggable
+    TreeDraggable,
+    Login,
   }
 }
 </script>
