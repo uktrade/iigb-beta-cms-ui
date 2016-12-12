@@ -4,11 +4,7 @@
     <div class="container">
     <div class="row">
     <div class="col-sm-4">
-      
-
-    <div v-if="!authenticated">
       <h2>Log In</h2>
-      </div>
       <div class="alert alert-danger" v-if="error">
         <p>{{ error }}</p>
       </div>
