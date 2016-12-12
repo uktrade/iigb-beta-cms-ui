@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Tree from '../Tree'
+import Tree from './Tree'
 import Page from '../Page'
 import List from './List'
 
