@@ -18,9 +18,9 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="$emit('close')">
-                Exit(no save atm)
+              <!--default footer-->
+              <button class="btn btn-danger modal-default-button" @click="$emit('close')">
+                Cancel
               </button>
             </slot>
           </div>
