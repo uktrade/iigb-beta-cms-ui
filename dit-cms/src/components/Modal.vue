@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container" :model="model">
+        <div class="modal-container">
 
           <div class="modal-header">
             <slot name="header">
@@ -33,12 +33,6 @@
 <script>
   export default {
     name: 'modal',
-    props: {
-      model: Object
-    },
-    components: {
-      //
-    },
     data: function () {
       return {
         input: null
@@ -48,9 +42,6 @@
       console(some) {
         console.log(some)
       }
-    },
-    computed: function () {
-      return this.input = this.model
     }
   }
 </script>
