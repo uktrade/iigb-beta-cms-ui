@@ -6,11 +6,11 @@
         <template v-for="branch in branches">
           <div>
             <input type="radio"
-                   :id="branch"
+                   :id="branch.code"
                    :value="branch"
                    name="branch"
                    v-model="currentBranch">
-            <label :for="branch">{{ branch }}</label>
+            <label :for="branch">{{branch.name}} {{branch.country}}</label>
 
             <div v-if='treeData && branch === currentBranch' class="row">
               <ul class="container-list drag">
@@ -32,14 +32,8 @@
         <button id="show-modal" @click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>
         <!-- use the modal component, pass in the prop -->
         <modal v-if="showModal"
-               @close="showModal = false"
-               :value="treeDataDetails"
-               :model="inputEditor">
-          <!--{{console(inputEditor)}}-->
-          <!--
-     you can use custom content here to overwrite
-     default content... markdown maybe???
-   -->
+               @close="showModal = false">
+
           <h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>
           <Editor slot="body" :content="inputEditor.content"></Editor>
         </modal>
@@ -67,8 +61,8 @@
     },
     data: function () {
       return {
-        branches: ['de_DE', 'en_IN', 'en_INT', 'en_US', 'zh_CN'],
-        currentBranch: 'en_US',
+        branches: [{code: 'zh_CN', name: 'Chinese', country: 'China'}, {code: 'en_IN', name: 'English', country: 'India'}, {code: 'en_INT', name: 'English', country: 'International'}, {code: 'en_US', name: 'English', country: 'United States'}, {code: 'de_DE', name: 'German', country: 'Germany'}],
+        currentBranch: {code: 'en_US', name: 'English', country: 'United States'},
         treeData: null,
         treeDataDetails: null,
         english: true,
@@ -92,13 +86,13 @@
       fetchStructure: function () {
         const xhr = new XMLHttpRequest()
         const self = this
-        xhr.open('GET', structureURL + self.currentBranch + '.json')
+        xhr.open('GET', structureURL + self.currentBranch.code + '.json')
         xhr.onload = function () {
           const structure = JSON.parse(xhr.responseText)
           self.treeData = structure.pages[0].children
           self.treeDataDetails = structure.pages[0]
           self.english = structure.globalData.locale.language === 'en'
-          //console.log(self.treeData)
+//          console.log(self.treeData)
         }
         xhr.send()
       },
