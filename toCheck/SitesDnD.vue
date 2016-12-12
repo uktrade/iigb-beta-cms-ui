@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import Tree from './Tree'
-import Page from './Page'
-import List from './DragAndDrop'
+import Tree from '../Tree'
+import Page from '../Page'
+import List from './List'
 
 const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
@@ -81,7 +81,7 @@ export default {
         self.treeData = structure
         self.treeDataDetails = structure.pages[0]
         self.english = structure.globalData.locale.language === 'en'
-        //console.log(self.treeData.children)
+        console.log(self.english)
       }
       xhr.send()
     },
@@ -98,6 +98,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="css">
   /**
+  SitesDnD
  * For the correct positioning of the placeholder element, the dnd-list and
  * it's children must have position: relative
  */

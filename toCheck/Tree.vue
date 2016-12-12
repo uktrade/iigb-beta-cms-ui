@@ -22,7 +22,7 @@
 <script>
 let treeDetails = null
 
-import list from './DragAndDrop'
+import list from './toCheck/List'
 
 export default {
   name: 'tree',
