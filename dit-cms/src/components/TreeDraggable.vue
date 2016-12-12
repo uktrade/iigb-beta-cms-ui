@@ -1,146 +1,120 @@
 <template lang="html">
   <draggable class="dragArea" :options="{group:'dragAll'}">
-    <li @click="toggle"
-        :class="{hasContainer: list.children}"
-        :list="list">
-      <div class="panel panel-vue padding" v-if="list.children">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{list.data.pageTitle}} <span v-if="isFolder">[{{open ? '-' : '+'}}]</span></h3>
-        </div>
-        <div class="panel-body drag">
-          <ul class="container-list"
-              v-show="open"
-              v-if="isFolder">
-            <template v-for="list in list.children">
-              <TreeDraggable :list="list"></TreeDraggable>
-              </template>
-          </ul>
-        </div>
+    <li>
+      <div :list="list">
+        <p @click="toggle"
+           v-if="english"
+           :class="{'is-folder': isFolder}">
+          <span :class="fileFolderIcon"> </span> {{list.data.pageTitle}}
+        </p>
+        <p v-else
+           @click="toggle"
+           :class="{'is-folder': isFolder}">
+          <span :class="fileFolderIcon"> </span> {{list.data.pageTitle}} <span
+          style="font-size: 12px; font-weight: 100">{{list.path}}</span>
+        </p>
+        <ul class="container-list"
+            v-show="open">
+          <template v-for="list in list.children">
+            <TreeDraggable :list="list"
+                           :english="english"
+                           @new-details="updateTree($event)">
+            </TreeDraggable>
+          </template>
+        </ul>
       </div>
-      <p v-else>
-        {{list.data.pageTitle}}
-      </p>
     </li>
   </draggable>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+  import draggable from 'vuedraggable'
 
-let treeDetails = null
+  let treeDetails = null
 
-export default {
-  name: 'TreeDraggable',
-  components: {
-    draggable
-  },
-  props: ['list', 'english'],
-  data: function () {
-    return {
-      open: false,
-      selected: false
-    }
-  },
-  methods: {
-    toggle: function () {
-      if (this.isFolder) {
-        this.open = !this.open
-        treeDetails = this.item
-        this.$emit('new-details', this.model)
+  export default {
+    name: 'TreeDraggable',
+    components: {
+      draggable
+    },
+    props: ['list', 'english'],
+    data: function () {
+      return {
+        open: false,
       }
     },
-    updateTree: function () {
-      this.$emit('new-details', treeDetails)
+    methods: {
+      toggle: function () {
+        if (this.isFolder) {
+          this.open = !this.open
+          treeDetails = this.list
+          this.$emit('new-details', treeDetails)
+        } else {
+          treeDetails = this.list
+          this.$emit('new-details', treeDetails)
+        }
+      },
+      updateTree: function () {
+        this.$emit('new-details', treeDetails)
+      },
+      console(some) {
+        console.log(some)
+      }
     },
-    console(some) {
-      console.log(some)
-    }
-  },
-  computed: {
-  isFolder: function () {
-    if (this.list.children) {
-      return true
-    } else {
-      return false
-    }
-  },
-  isEnglish: function () {
-    return this.english
-  }
-},
-};
+    computed: {
+      isFolder: function () {
+        if (this.list.children) {
+          return true
+        } else {
+          return false
+        }
+      },
+      isEnglish: function () {
+        return this.english
+      },
+      fileFolderIcon: function () {
+        return {
+          'glyphicon glyphicon-folder-open': this.isFolder && this.open,
+          'glyphicon glyphicon-folder-close': this.isFolder && !this.open,
+          'glyphicon glyphicon-file': !this.isFolder
+        }
+      }
+    },
+  };
 
 </script>
 
 <style lang="css">
 
-  /**
- * For the correct positioning of the placeholder element, the dnd-list and
- * it's children must have position: relative
- */
+  .is-folder {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 40px;
+    margin: 8px 0;
+  }
+
   ul.container-list
   ul.container-list > li {
     position: relative;
     min-height: 40px;
   }
 
-  /**
-   * The dnd-list should always have a min-height,
-   * otherwise you can't drop to it once it's empty
-   */
   ul.container-list {
-    padding-left: 0px;
+    padding-left: 30px;
   }
 
-  /**
-   * The dndDraggingSource class will be applied to
-   * the source element of a drag operation. It makes
-   * sense to hide it to give the user the feeling
-   * that he's actually moving it.
-   */
-  ul.container-list.dndDragging {
-    opacity: 0.7;
-  }
 
-  ul.container-list.dndDraggingSource {
-    display: none;
-  }
-
-  /**
-   * An element with .dndPlaceholder class will be
-   * added to the dnd-list while the user is dragging
-   * over it.
-   */
-  ul.container-list.dndPlaceholder {
-    display: block;
-    background-color: #eee;
-    min-height: 41px;
-  }
-
-  /**
-   * The dnd-lists's child elements currently MUST have
-   * position: relative. Otherwise we can not determine
-   * whether the mouse pointer is in the upper or lower
-   * half of the element we are dragging over. In other
-   * browsers we can use event.offsetY for this.
-   */
   ul.container-list li {
     background-color: #fff;
     color: #35495E;
-    border-bottom: 1px solid #41B883;
+    /*border-bottom: 1px solid #41B883;*/
     display: block;
-    padding: 0 15px;
+    /*padding: 0 15px;*/
     line-height: 40px;
   }
 
   ul.container-list li p {
     margin: 0;
-  }
-
-  ul.container-list li:last-child {
-    border-bottom: none;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
   }
 
   /**

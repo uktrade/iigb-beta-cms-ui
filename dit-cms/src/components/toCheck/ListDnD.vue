@@ -69,6 +69,7 @@ export default {
 <style lang="css">
 
   /**
+  DragAndDrop
  * For the correct positioning of the placeholder element, the dnd-list and
  * it's children must have position: relative
  */
