@@ -1,34 +1,66 @@
 <template>
   <div id="editor">
-    <textarea :value="content" @input="update"></textarea>
-    <div v-html="compiledMarkdown"></div>
+    <textarea v-model="input"></textarea>
+    <!--<div>{{ input | marked }}</div>-->
+    <div>
+      <table>
+        <thead>
+        <tr>
+          <th v-for="(value, title) in extractYaml.metadata">{{title}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td v-for="(value, title) in extractYaml.metadata">
+            <div>{{value}}</div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <article v-html="compiledMarkdown"></article>
+    </div>
   </div>
 </template>
 
 <script>
-  const _ = require('lodash')
   const marked = require('marked')
+  const jsyaml = require('js-yaml')
 
   export default {
     name: 'Editor',
     props: ['content'],
     data: function () {
       return {
-        // input: this.content
+        input: this.content,
       }
     },
     methods: {
       console(some) {
         console.log(some)
-      },
-      update: _.debounce(function (e) {
-        this.content = e.target.value
-      }, 300)
+      }
     },
     computed: {
       compiledMarkdown: function () {
-        return marked(this.content, { sanitize: true })
+        return marked(this.extractYaml.content, {sanitize: true})
       },
+
+      extractYaml: function () {
+        let metadata = {}
+        return {
+          content: this.input.replace(/^(---\n)((.|\n)*?)---\n?/, function (match, dashes, frontmatter) {
+            try {
+              metadata = jsyaml.safeLoad(frontmatter);
+
+            } catch (err) {
+              console.log('ERROR encoding YAML');
+              console.log(err);
+            }
+
+            return '';
+          }),
+          metadata: metadata
+        }
+      }
     }
   }
 </script>
@@ -64,5 +96,29 @@
 
   code {
     color: #f66;
+  }
+
+  table {
+    margin-bottom: 20px;
+  }
+
+  table th {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+  }
+
+  table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+  }
+
+  table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+  }
+
+  table td div {
+    width: 100% !important;
+    padding: 0 !important;
   }
 </style>
