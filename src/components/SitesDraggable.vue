@@ -8,11 +8,11 @@
             <input type="radio"
                    :id="branch.code"
                    :value="branch"
-                   name="branch"
+                   name="branch.code"
                    v-model="currentBranch">
             <label :for="branch">{{branch.name}} {{branch.country}}</label>
 
-            <div v-if='treeData && branch === currentBranch' class="row">
+            <div v-if='treeData && branch.code === currentBranch.code' class="row">
               <ul class="container-list drag">
                 <template v-for="list in treeData">
                   <TreeDraggable :list="list"
@@ -61,7 +61,15 @@
     },
     data: function () {
       return {
-        branches: [{code: 'zh_CN', name: 'Chinese', country: 'China'}, {code: 'en_IN', name: 'English', country: 'India'}, {code: 'en_INT', name: 'English', country: 'International'}, {code: 'en_US', name: 'English', country: 'United States'}, {code: 'de_DE', name: 'German', country: 'Germany'}],
+        branches: [{code: 'zh_CN', name: 'Chinese', country: 'China'}, {
+          code: 'en_IN',
+          name: 'English',
+          country: 'India'
+        }, {code: 'en_INT', name: 'English', country: 'International'}, {
+          code: 'en_US',
+          name: 'English',
+          country: 'United States'
+        }, {code: 'de_DE', name: 'German', country: 'Germany'}],
         currentBranch: {code: 'en_US', name: 'English', country: 'United States'},
         treeData: null,
         treeDataDetails: null,
@@ -72,16 +80,12 @@
         inputEditor: null
       }
     },
-
     created: function () {
       this.fetchStructure()
     },
-
     watch: {
       currentBranch: 'fetchStructure',
-//      inputEditor: 'fetchContent'
     },
-
     methods: {
       fetchStructure: function () {
         const xhr = new XMLHttpRequest()
