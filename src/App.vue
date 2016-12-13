@@ -1,5 +1,6 @@
 <template>
   <div>
+    <sidebar></sidebar>
     <sites></sites>
     <!--<layouts></layouts>-->
   </div>
@@ -11,6 +12,8 @@
   import draggable from 'vuedraggable'
   import Page from './components/Page'
   import Layouts from './components/Layouts'
+  import Sidebar from './components/Sidebar'
+
 
   const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
@@ -21,10 +24,10 @@
       TreeDraggable,
       draggable,
       Page,
+      Sidebar,
       Layouts
     }
   }
 </script>
 
-<style>
-</style>
+<style src="src/assets/custom.css">
