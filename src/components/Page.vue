@@ -13,10 +13,7 @@
         {{model.path}}
       </span>
       <input v-else id="page-url" type="text" v-model="model.path">
-      <label for="page-layout" class="">
-        Layout
-      </label>
-      <input id="page-layout" type="text" v-model="model.layout">
+      <Layouts :defaultValue="model.layout"></Layouts>
     </div>
     <div>
       <!--will this come from layout?-->
@@ -25,8 +22,11 @@
 </template>
 
 <script>
+  import Layouts from './Layouts'
+
   export default {
     name: 'page',
+    components: {Layouts},
     props: {
       model: Object
     },
