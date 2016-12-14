@@ -1,12 +1,10 @@
   <!-- src/components/Login.vue -->
 
   <template>
-  <div class="row">
-  <div class="col-md-6">
-        <div id="dit-cms-sidebar-wrapper">
-            <ul class="dit-cms-sidebar-nav">
+        <div class="dit-cms-sidebar__wrapper">
+            <ul class="dit-cms-sidebar__nav">
                 <li>
-                    <a href="#">Pages</a>
+                    <a href="#" class="active">Pages</a>
                 </li>
                 <li>
                     <a href="#">Content</a>
@@ -15,12 +13,11 @@
                     <a href="#">Media</a>
                 </li>
             </ul>
-            <div class="dit-cms-sidebar-logout">
+            <div class="dit-cms-sidebar__logout">
               <a href="#">Logout</a>
             </div>
         </div>
-  </div>
-  </div>
+
 
   </template>
 

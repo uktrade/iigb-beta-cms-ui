@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid dit-cms-pages__container">
     <sidebar></sidebar>
     <sites></sites>
     <!--<layouts></layouts>-->
@@ -30,4 +30,5 @@
   }
 </script>
 
-<style src="src/assets/custom.css">
+<style src="assets/main.scss" lang="scss">
+</style>

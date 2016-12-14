@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-4 dit-cms-pages__index">
         <h1>Sites</h1>
         <template v-for="branch in branches">
           <div>
@@ -13,7 +13,7 @@
             <label :for="branch">{{ branch }}</label>
 
             <div v-if='treeData && branch === currentBranch' class="row">
-              <ul class="container-list drag">
+              <ul class="dit-cms-pages__files container-list drag">
                 <template v-for="list in treeData">
                   <TreeDraggable :list="list"
                                  :english="english"
@@ -25,7 +25,7 @@
           </div>
         </template>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-6 dit-cms-pages__inputs">
         <page v-if="treeDataDetails" :model="treeDataDetails">
         </page>
 
@@ -45,7 +45,15 @@
         </modal>
       </div>
     </div>
+    <div class="row row-centered">
+        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
+        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
+        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
+        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
+        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
+    </div>
   </div>
+
 </template>
 
 <script>
