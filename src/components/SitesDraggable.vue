@@ -2,6 +2,7 @@
   <div>
     <div class="row">
       <div class="col-md-4 dit-cms-pages__index">
+      <i class="glyphicon glyphicon-plus-sign dit-cms-pages__add-page"></i>
         <h1>Sites</h1>
         <template v-for="branch in branches">
           <div>
@@ -45,15 +46,6 @@
         </modal>
       </div>
     </div>
-    <div class="row row-centered">
-        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
-        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
-        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
-        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
-        <div class="col-xs-6 col-centered col-max"><div class="item"><div class="content"></div></div></div>
-    </div>
-  </div>
-
 </template>
 
 <script>

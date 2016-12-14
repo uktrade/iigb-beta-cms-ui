@@ -145,12 +145,20 @@ min-height: 100%;
 
     &__files{
         & li{
-            background-color: $grey !important;
+        background-color: $grey !important;
         }
     }
     &__inputs{
-            background-color: $white;
-            height: 100vh;
+        background-color: $white;
+        height: 100vh;
+    }
+    &__add-page{
+        position: absolute;
+        right: 0;
+        margin-right: 20px;
+        font-size: 30px;
+        margin-top: 20px;
+        color: white;
     }
 }
 

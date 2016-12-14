@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div>
+    <div class="form-group col-md-12">
       <label for="page-title" class="">
         Page title
       </label>
       <input id="page-title" type="text" v-model="model.data.pageTitle">
+    </div>
+    <div class="form-group col-md-12">
       <label for="page-url" class="">
         URL segment
       </label>
@@ -13,15 +15,18 @@
         {{model.path}}
       </span>
       <input v-else id="page-url" type="text" v-model="model.path">
+      </div>
+    <div class="form-group col-md-12">
       <label for="page-layout" class="">
         Layout
       </label>
       <input id="page-layout" type="text" v-model="model.layout">
     </div>
-    <div>
-      <!--will this come from layout?-->
     </div>
-  </div>
+<!--     <div>
+      will this come from layout?
+    </div>
+  </div> -->
 </template>
 
 <script>
