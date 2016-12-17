@@ -4,13 +4,13 @@
         <div class="dit-cms-sidebar__wrapper">
             <ul class="dit-cms-sidebar__nav">
                 <li>
-                    <a href="#">Pages</a>
+                    <a v-bind:class="{ active: isPages }" href="/Pages">Pages</a>
                 </li>
                 <li>
-                    <a href="#">Content</a>
+                    <a v-bind:class="{ active: isContent }" href="/Content">Content</a>
                 </li>
                 <li>
-                    <a href="#">Media</a>
+                    <a v-bind:class="{ active: isMedia }" href="/Media">Media</a>
                 </li>
             </ul>
             <div class="dit-cms-sidebar__logout">
@@ -27,11 +27,21 @@
   export default {
     data() {
       return {
-        
+        isPages: false,
+        isContent: false,
+        isMedia: false,
         error: ''
       }
     },
      mounted() {
+      console.log(this.$route.name)
+      if (this.$route.name == 'pages'){
+        this.isPages = true;
+      }else if (this.$route.name == 'content'){
+        this.isContent = true;
+      }else if (this.$route.name == 'media'){
+        this.isMedia = true;
+      }
      
      },
     methods: {
