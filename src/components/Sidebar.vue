@@ -1,10 +1,10 @@
-  <!-- src/components/Login.vue -->
+  <!-- src/components/Sidebar.vue -->
 
   <template>
         <div class="dit-cms-sidebar__wrapper">
             <ul class="dit-cms-sidebar__nav">
                 <li>
-                    <a href="#" class="active">Pages</a>
+                    <a href="#">Pages</a>
                 </li>
                 <li>
                     <a href="#">Content</a>
