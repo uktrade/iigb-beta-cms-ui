@@ -5,6 +5,8 @@ import Login from './templates/Login'
 import Home from './templates/Home'
 import Pages from './App'
 import Layouts from './templates/Layouts'
+import Content from './templates/Content'
+
 
 Vue.use(VueRouter)
 
@@ -37,7 +39,7 @@ const router = new VueRouter({
 	}, {
 		path: '/content',
 		name: 'content',
-		component: Foo
+		component: Content
 	}, {
 		path: '/media',
 		name: 'media',
