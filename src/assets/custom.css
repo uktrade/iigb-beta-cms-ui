@@ -1,0 +1,157 @@
+
+ body {
+    overflow-x: hidden;
+ }
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 180px;
+}
+
+#dit-cms-sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 180px;
+    width: 0;
+    height: 100%;
+    margin-left: -180px;
+/*    overflow-y: auto;
+*/    background: #434343;
+/*    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;*/
+}
+
+#wrapper.toggled #dit-cms-sidebar-wrapper {
+    width: 180px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -180px;
+}
+
+/* Sidebar Styles */
+
+.dit-cms-sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 180px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dit-cms-sidebar-nav li {
+    line-height: 40px;
+    background: #000;
+
+}
+
+.dit-cms-sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+    border: 1px solid darkslategray;
+    border-width: 1px 0px;
+    height: 100px;
+    text-align: center;
+    padding: 30px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.dit-cms-sidebar-nav > .active li{
+    background-color: gray;
+}
+
+.dit-cms-sidebar-logout{
+    line-height: 40px;
+    display: block;
+    height: 100px;
+    text-align: center;
+    padding: 30px;
+    font-size: 20px;
+    color: #fff;
+    background-color: darkred;
+    position: fixed;
+    bottom:0;
+    width: inherit;
+}
+
+.dit-cms-sidebar-logout a{
+    color: #fff;
+}
+
+.dit-cms-sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer !important;
+}
+
+.dit-cms-sidebar-nav li a:active,
+.dit-cms-sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.dit-cms-sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.dit-cms-sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.dit-cms-sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 180px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #dit-cms-sidebar-wrapper {
+        width: 180px;
+    }
+
+    #wrapper.toggled #dit-cms-sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+}
+
+

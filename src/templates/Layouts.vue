@@ -2,19 +2,17 @@
   <div class="container-fluid dit-cms-pages__container">
     <sidebar></sidebar>
     <sites></sites>
-    <metadata></metadata>
-    <!--<layouts></layouts>-->
+    <layouts></layouts>
   </div>
 </template>
 
 <script>
-  import Sites from './components/SitesDraggable'
-  import TreeDraggable from './components/TreeDraggable'
+  import Sites from '../components/SitesDraggable'
+  import TreeDraggable from '../components/TreeDraggable'
   import draggable from 'vuedraggable'
-  import Page from './components/Page'
-  import Layouts from './components/Layouts'
-  import Sidebar from './components/Sidebar'
-  import Metadata from './components/Metadata'
+  import Page from '../components/Page'
+  import Layouts from '../components/Layouts'
+  import Sidebar from '../components/Sidebar'
 
   const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
@@ -24,7 +22,6 @@
       Sites,
       TreeDraggable,
       draggable,
-      Metadata,
       Page,
       Sidebar,
       Layouts

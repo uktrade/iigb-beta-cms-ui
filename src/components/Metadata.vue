@@ -1,44 +1,25 @@
 <template>
-    <div class="col-md-4 dit-cms-pages__index">
-      <a href="/pages/layouts/new"><i class="glyphicon glyphicon-plus-sign dit-cms-pages__add-page"></i></a>
-        <h1>Sites</h1>
-        <template v-for="branch in branches">
-          <div>
-            <input type="radio"
-                   :id="branch.code"
-                   :value="branch"
-                   name="branch.code"
-                   v-model="currentBranch">
-            <label :for="branch">{{branch.name}} {{branch.country}}</label>
-
-            <div v-if='treeData && branch.code === currentBranch.code' class="row">
-              <ul class="dit-cms-pages__files container-list drag">
-                <template v-for="list in treeData">
-                  <TreeDraggable :list="list"
-                                 :english="english"
-                                 @new-details="updateTree($event)">
-                  </TreeDraggable>
-                </template>
-              </ul>
-            </div>
-          </div>
-        </template>
-      </div>
-      <div class="col-md-8">
+	<div class="col-md-6 pull-col-md-2 dit-cms-pages__inputs">
+  <div>
         <page v-if="treeDataDetails" :model="treeDataDetails">
         </page>
 
         <button id="show-modal" @click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>
         <!-- use the modal component, pass in the prop -->
         <modal v-if="showModal"
-               @close="showModal = false">
-
+               @close="showModal = false"
+               :value="treeDataDetails"
+               :model="inputEditor">
+          <!--{{console(inputEditor)}}-->
+          <!--
+     you can use custom content here to overwrite
+     default content... markdown maybe???
+   -->
           <h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>
           <Editor slot="body" :content="inputEditor.content"></Editor>
         </modal>
+      </div> 
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -60,16 +41,8 @@
     },
     data: function () {
       return {
-        branches: [{code: 'zh_CN', name: 'Chinese', country: 'China'}, {
-          code: 'en_IN',
-          name: 'English',
-          country: 'India'
-        }, {code: 'en_INT', name: 'English', country: 'International'}, {
-          code: 'en_US',
-          name: 'English',
-          country: 'United States'
-        }, {code: 'de_DE', name: 'German', country: 'Germany'}],
-        currentBranch: {code: 'en_US', name: 'English', country: 'United States'},
+        branches: ['de_DE', 'en_IN', 'en_INT', 'en_US', 'zh_CN'],
+        currentBranch: 'en_US',
         treeData: null,
         treeDataDetails: null,
         english: true,
@@ -79,23 +52,27 @@
         inputEditor: null
       }
     },
+
     created: function () {
       this.fetchStructure()
     },
+
     watch: {
       currentBranch: 'fetchStructure',
+//      inputEditor: 'fetchContent'
     },
+
     methods: {
       fetchStructure: function () {
         const xhr = new XMLHttpRequest()
         const self = this
-        xhr.open('GET', structureURL + self.currentBranch.code + '.json')
+        xhr.open('GET', structureURL + self.currentBranch + '.json')
         xhr.onload = function () {
           const structure = JSON.parse(xhr.responseText)
           self.treeData = structure.pages[0].children
           self.treeDataDetails = structure.pages[0]
           self.english = structure.globalData.locale.language === 'en'
-//          console.log(self.treeData)
+          //console.log(self.treeData)
         }
         xhr.send()
       },
