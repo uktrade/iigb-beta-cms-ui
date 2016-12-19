@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './App'
 import Login from './templates/Login'
 import Home from './templates/Home'
 import Pages from './App'

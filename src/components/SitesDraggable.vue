@@ -25,19 +25,24 @@
         </div>
       </template>
     </div>
-    <div class="col-md-8">
-      <page v-if="treeDataDetails" :model="treeDataDetails">
-      </page>
+    <metadata :model="treeDataDetails"
+              :content="inputEditor"></metadata>
+    <!--<div class="col-md-6"-->
+         <!--style="background-color: white">-->
+      <!--<page v-if="treeDataDetails" :model="treeDataDetails">-->
+      <!--</page>-->
 
-      <button id="show-modal" @click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>
-      <!-- use the modal component, pass in the prop -->
-      <modal v-if="showModal"
-             @close="showModal = false">
+      <!--<button id="show-modal"-->
+              <!--class="btn btn-success"-->
+              <!--@click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>-->
+      <!--&lt;!&ndash; use the modal component, pass in the prop &ndash;&gt;-->
+      <!--<modal v-if="showModal"-->
+             <!--@close="showModal = false">-->
 
-        <h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>
-        <Editor slot="body" :content="inputEditor.content"></Editor>
-      </modal>
-    </div>
+        <!--<h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>-->
+        <!--<Editor slot="body" :content="inputEditor.content"></Editor>-->
+      <!--</modal>-->
+    <!--</div>-->
   </div>
 </template>
 
@@ -46,6 +51,7 @@
   import Page from './Page'
   import Modal from './Modal'
   import Editor from './MarkdownEditor'
+  import Metadata from './Metadata'
 
   const structureURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
   const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
@@ -56,7 +62,8 @@
       TreeDraggable,
       Page,
       Modal,
-      Editor
+      Editor,
+      Metadata
     },
     data: function () {
       return {
@@ -75,7 +82,6 @@
         english: true,
         disable: false,
         selected: null,
-        showModal: false,
         inputEditor: null
       }
     },
@@ -122,6 +128,5 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="css">
-
+<style lang="scss">
 </style>

@@ -7,13 +7,14 @@
       <input id="page-title" class="form-control" type="text" v-model="model.data.pageTitle">
     </div>
     <div class="form-group col-md-12">
-      <label for="page-url" class="">
+      <label for="page-url">
         URL segment
       </label>
-      <span v-if="model.path"
-            style="border: .1px solid #ddd; padding: 4px 1px; margin-right: 4px; font: 14px sans-serif">
+      <br>
+      <div v-if="model.path"
+            class="fake-input">
         {{model.path}}
-      </span>
+      </div>
       <input v-else
              id="page-url"
              class="form-control"
@@ -21,11 +22,6 @@
              v-model="model.path">
     </div>
     <div class="form-group col-md-12">
-      <label for="page-layout" class="">
-        Layout
-      </label>
-      <input id="page-layout" class="form-control" type="text" v-model="model.layout">
-      <!--<input v-else id="page-url" type="text" v-model="model.path">-->
       <Layouts :defaultValue="model.layout"></Layouts>
     </div>
   </div>
@@ -40,7 +36,9 @@
 
   export default {
     name: 'page',
-    components: {Layouts},
+    components: {
+      Layouts
+    },
     props: {
       model: Object
     },
@@ -64,5 +62,16 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss">
+  .fake-input {
+    width: 60%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.83;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
 </style>
