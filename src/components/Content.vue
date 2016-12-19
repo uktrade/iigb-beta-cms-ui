@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+  <p class="dit-cms-content__breadcrumb"><a href="">INVEST</a>  > de_DE</p>
   <div class="dit-cms-selection__bar">
   <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
     <li>
@@ -123,7 +124,7 @@
     text-align: left;
     padding: 8px;
     }  
-}
+  }
     &__preview{
     // margin-left: 80px;
     height: 280px;
@@ -138,17 +139,34 @@
     margin-bottom: 50px;
     }    
     }
+
+    &__breadcrumb{
+    position: absolute;
+    left: 250px;
+    top: 95px;
+    font-size: x-large;
+
+    }
 }
 
 .btn-content-edit{
     position: absolute;
     bottom: 0px;
     left: 250px;
+    @media (max-width: 1600px) {
+    left: 220px;
+
+    }
+
 }
 
 .btn-content-delete{
     position: absolute;
     bottom: 0px;
     left: 340px;
+    @media (max-width: 1600px) {
+    left: 310px;
+    }
 }
+
 </style>

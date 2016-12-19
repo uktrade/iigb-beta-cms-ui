@@ -29,7 +29,7 @@
 </div>
 <div class="col-md-3">
 <div class="col-md-8 col-md-push-3">
-<p style="margin-top: 40px;">Preview</p>
+<p class="preview-heading">Preview</p>
 <div class="panel panel-default dit-cms-content__preview">
 <div class="panel-body">  
 </div>
@@ -123,7 +123,7 @@
     width: 280px;
     border: 1px solid $black;
     background-color: $grey;
-    margin: 5px 0px;
+    margin: 0px 0px;
 
     .preview-heading{
     font-weight: bold;
@@ -131,6 +131,10 @@
     margin-bottom: 50px;
     }    
     }
+}
+
+.preview-heading{
+  margin-top: 32px;
 }
 
 .btn-content-edit{

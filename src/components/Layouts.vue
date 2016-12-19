@@ -65,5 +65,19 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss">
+
+@import "../assets/variables.scss";
+
+.layout-dropdown {
+    padding-top: 30px;
+    padding-left: 35%;
+}
+
+.layout-boxes {
+    border: 1px solid grey;
+    height: 160px;
+    margin-left: 12%;
+    margin-top: 30px;
+}
 </style>
