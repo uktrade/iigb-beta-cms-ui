@@ -130,7 +130,7 @@
     width: 280px;
     border: 1px solid $black;
     background-color: $grey;
-    margin: 20px 0px;
+    margin: 40px 0px 50px 0px;
 
     .preview-heading{
     font-weight: bold;
@@ -143,12 +143,12 @@
 .btn-content-edit{
     position: absolute;
     bottom: 0px;
-    left: 170px;
+    left: 250px;
 }
 
 .btn-content-delete{
     position: absolute;
     bottom: 0px;
-    left: 270px;
+    left: 340px;
 }
 </style>
