@@ -6,16 +6,10 @@ import Home from './templates/Home'
 import Pages from './App'
 import Layouts from './templates/Layouts'
 import Content from './templates/Content'
+import Media from './templates/Media'
 
 
 Vue.use(VueRouter)
-
-const Foo = {
-	template: '<div>This is Foo</div>'
-}
-const Bar = {
-	template: '<div>This is Bar {{ $route.params.id }}</div>'
-}
 
 const router = new VueRouter({
 	mode: 'history',
@@ -43,7 +37,7 @@ const router = new VueRouter({
 	}, {
 		path: '/media',
 		name: 'media',
-		component: Bar
+		component: Media
 	}]
 })
 

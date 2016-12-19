@@ -1,47 +1,40 @@
 <template>
   <div class="row">
   <div class="dit-cms-selection__bar">
-  <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
+  <ul class="list-group list-group-horizontal col-md-2 col-md-pull-2">
     <li>
-      Created
+      Upload
     </li>
-    <li>
-      Browse
-    </li>
-    <li>
-      Edit
-    </li>    
     <li>
       Delete
     </li>
   </ul>
 </div>
-<div class="col-md-4 col-md-offset-2 dit-cms-content__table">
+<div class="col-md-5 col-md-offset-2 dit-cms-content__table">
 <table>
   <th>Name</th><th>Modified</th>
   <tr>
-  <td><a href="">test1.md<a></td>
+  <td><a href="">image.jpeg<a></td>
   <td>3/11/16  9.15AM</td>
   </tr>  
   <tr>
-  <td><a href="">test2.md<a></td>
+  <td><a href="">video.avi<a></td>
   <td>3/11/16  9.15AM</td>
   </tr>  
   <tr>
-  <td><a href="">test3.md<a></td>
+  <td><a href="">web.avi<a></td>
   <td>3/11/16  9.15AM</td>
   </tr>
 </table>  
 </div>
 <div class="col-md-3">
-<div class="col-md-8 col-md-push-5 panel panel-default dit-cms-content__preview">
-<div class="panel-body">
-<p class="preview-heading">This is the title of the file</p>  
-<p class="preview-description">Description goes here.</p>  
+<div class="col-md-8 col-md-push-3">
+<p style="margin-top: 40px;">Preview</p>
+<div class="panel panel-default dit-cms-content__preview">
+<div class="panel-body">  
 </div>
 </div>
-<a href="" class="btn btn-primary btn-content-edit">Edit</a>
-<a href="" class="btn btn-danger btn-content-delete">Delete</a>
+</div>
 </div>
 </template>
 
@@ -68,7 +61,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style scoped lang="scss">
 
 @import "../assets/variables.scss";
 
@@ -130,7 +123,7 @@
     width: 280px;
     border: 1px solid $black;
     background-color: $grey;
-    margin: 20px 0px;
+    margin: 5px 0px;
 
     .preview-heading{
     font-weight: bold;
