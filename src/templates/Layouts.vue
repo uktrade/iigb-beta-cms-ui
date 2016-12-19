@@ -17,7 +17,7 @@
   const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
   export default {
-    name: 'app',
+    name: 'layout',
     components: {
       Sites,
       TreeDraggable,

@@ -1,42 +1,42 @@
 <template>
+  <div>
     <div class="col-md-4 dit-cms-pages__index">
       <a href="/pages/layouts/new"><i class="glyphicon glyphicon-plus-sign dit-cms-pages__add-page"></i></a>
-        <h1>Sites</h1>
-        <template v-for="branch in branches">
-          <div>
-            <input type="radio"
-                   :id="branch.code"
-                   :value="branch"
-                   name="branch.code"
-                   v-model="currentBranch">
-            <label :for="branch">{{branch.name}} {{branch.country}}</label>
+      <h1>Sites</h1>
+      <template v-for="branch in branches">
+        <div>
+          <input type="radio"
+                 :id="branch.code"
+                 :value="branch"
+                 name="branch.code"
+                 v-model="currentBranch">
+          <label :for="branch">{{branch.name}} {{branch.country}}</label>
 
-            <div v-if='treeData && branch.code === currentBranch.code' class="row">
-              <ul class="dit-cms-pages__files container-list drag">
-                <template v-for="list in treeData">
-                  <TreeDraggable :list="list"
-                                 :english="english"
-                                 @new-details="updateTree($event)">
-                  </TreeDraggable>
-                </template>
-              </ul>
-            </div>
+          <div v-if='treeData && branch.code === currentBranch.code' class="row">
+            <ul class="dit-cms-pages__files container-list drag">
+              <template v-for="list in treeData">
+                <TreeDraggable :list="list"
+                               :english="english"
+                               @new-details="updateTree($event)">
+                </TreeDraggable>
+              </template>
+            </ul>
           </div>
-        </template>
-      </div>
-      <div class="col-md-8">
-        <page v-if="treeDataDetails" :model="treeDataDetails">
-        </page>
+        </div>
+      </template>
+    </div>
+    <div class="col-md-8">
+      <page v-if="treeDataDetails" :model="treeDataDetails">
+      </page>
 
-        <button id="show-modal" @click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>
-        <!-- use the modal component, pass in the prop -->
-        <modal v-if="showModal"
-               @close="showModal = false">
+      <button id="show-modal" @click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>
+      <!-- use the modal component, pass in the prop -->
+      <modal v-if="showModal"
+             @close="showModal = false">
 
-          <h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>
-          <Editor slot="body" :content="inputEditor.content"></Editor>
-        </modal>
-      </div>
+        <h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>
+        <Editor slot="body" :content="inputEditor.content"></Editor>
+      </modal>
     </div>
   </div>
 </template>

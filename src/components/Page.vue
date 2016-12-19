@@ -14,21 +14,25 @@
             style="border: .1px solid #ddd; padding: 4px 1px; margin-right: 4px; font: 14px sans-serif">
         {{model.path}}
       </span>
-      <input v-else id="page-url" class="form-control" type="text" v-model="model.path">
-      </div>
+      <input v-else
+             id="page-url"
+             class="form-control"
+             type="text"
+             v-model="model.path">
+    </div>
     <div class="form-group col-md-12">
       <label for="page-layout" class="">
         Layout
       </label>
       <input id="page-layout" class="form-control" type="text" v-model="model.layout">
-      <input v-else id="page-url" type="text" v-model="model.path">
+      <!--<input v-else id="page-url" type="text" v-model="model.path">-->
       <Layouts :defaultValue="model.layout"></Layouts>
     </div>
-    </div>
-<!--     <div>
-      will this come from layout?
-    </div>
-  </div> -->
+  </div>
+  <!--     <div>
+        will this come from layout?
+      </div>
+    </div> -->
 </template>
 
 <script>
