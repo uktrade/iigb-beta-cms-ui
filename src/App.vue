@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div class="container-fluid dit-cms-pages__container">
+    <sidebar></sidebar>
     <sites></sites>
+    <metadata></metadata>
     <!--<layouts></layouts>-->
   </div>
 </template>
@@ -11,6 +13,8 @@
   import draggable from 'vuedraggable'
   import Page from './components/Page'
   import Layouts from './components/Layouts'
+  import Sidebar from './components/Sidebar'
+  import Metadata from './components/Metadata'
 
   const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
@@ -20,11 +24,13 @@
       Sites,
       TreeDraggable,
       draggable,
+      Metadata,
       Page,
+      Sidebar,
       Layouts
     }
   }
 </script>
 
-<style>
+<style src="assets/main.scss" lang="scss">
 </style>

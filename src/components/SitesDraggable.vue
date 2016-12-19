@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4">
+    <div class="col-md-4 dit-cms-pages__index">
+      <a href="/pages/layouts/new"><i class="glyphicon glyphicon-plus-sign dit-cms-pages__add-page"></i></a>
         <h1>Sites</h1>
         <template v-for="branch in branches">
           <div>
@@ -13,7 +12,7 @@
             <label :for="branch">{{ branch }}</label>
 
             <div v-if='treeData && branch === currentBranch' class="row">
-              <ul class="container-list drag">
+              <ul class="dit-cms-pages__files container-list drag">
                 <template v-for="list in treeData">
                   <TreeDraggable :list="list"
                                  :english="english"
@@ -24,28 +23,7 @@
             </div>
           </div>
         </template>
-      </div>
-      <div class="col-md-8">
-        <page v-if="treeDataDetails" :model="treeDataDetails">
-        </page>
-
-        <button id="show-modal" @click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>
-        <!-- use the modal component, pass in the prop -->
-        <modal v-if="showModal"
-               @close="showModal = false"
-               :value="treeDataDetails"
-               :model="inputEditor">
-          <!--{{console(inputEditor)}}-->
-          <!--
-     you can use custom content here to overwrite
-     default content... markdown maybe???
-   -->
-          <h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>
-          <Editor slot="body" :content="inputEditor.content"></Editor>
-        </modal>
-      </div>
-    </div>
-  </div>
+        </div>
 </template>
 
 <script>
