@@ -4,6 +4,7 @@ import App from './App'
 import Login from './templates/Login'
 import Home from './templates/Home'
 import Pages from './App'
+import Layouts from './templates/Layouts'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,10 @@ const router = new VueRouter({
 		path: '/pages',
 		name: 'pages',
 		component: Pages
+	}, , {
+		path: '/pages/layouts/new',
+		name: 'layouts',
+		component: Layouts
 	}, {
 		path: '/content',
 		name: 'content',

@@ -35,7 +35,7 @@
     },
      mounted() {
       console.log(this.$route.name)
-      if (this.$route.name == 'pages'){
+      if (this.$route.name == 'pages' || this.$route.name == 'layouts'){
         this.isPages = true;
       }else if (this.$route.name == 'content'){
         this.isContent = true;

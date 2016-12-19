@@ -1,6 +1,9 @@
 <template>
-  <div>
-      <label for="layouts" class="">
+  <div class="col-md-6 dit-cms-pages__inputs">
+  <div class="row">
+  <div class="dit-cms-selection__strip">
+    <div class="layout-dropdown">
+          <label for="layouts" class="">
         Layouts
       </label>
       <select name="" class="" id="layouts">
@@ -13,6 +16,18 @@
           </option>
         </template>
       </select>
+      </div>
+  </div>
+  <p class="dit-cms-selection__select">Select page template</p>
+  <template v-for="layout in layouts">
+  <div class="col-md-2 col-xs-4 layout-boxes">
+  
+  {{ layout.name }}
+
+  </div>
+
+  </template>
+  </div>
   </div>
 </template>
 
