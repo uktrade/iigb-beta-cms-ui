@@ -1,32 +1,31 @@
 <template>
-  <div class="col-md-6 dit-cms-pages__inputs">
+  <div class="col-md-6">
     <div class="row">
-      <div class="dit-cms-selection__strip">
-        <div class="layout-dropdown">
-          <label for="layouts" class="">
-            Layout
-          </label>
-          <select name="" class="" id="layouts">
-            <template v-if="defaultValue">
-              <option value="defaultValue" disabled selected>
-                {{defaultValue}}
-              </option>
-            </template>
-            <template v-else>
-              <option value="0-potential-layout" disabled selected>
-                Please select one
-              </option>
-            </template>
-            <template v-for="layout in layouts">
-              <option v-if="layout.type === 'file'" :value="layout.name">
-                {{ layout.name }}
-              </option>
-            </template>
-          </select>
-        </div>
+      <div class="dit-selection-strip">
+        <label for="layouts" class="">
+          Layout
+        </label>
+        <br>
+        <select name="" class="" id="layouts">
+          <template v-if="defaultValue">
+            <option value="defaultValue" disabled selected>
+              {{defaultValue}}
+            </option>
+          </template>
+          <template v-else>
+            <option value="0-potential-layout" disabled selected>
+              Please select one
+            </option>
+          </template>
+          <template v-for="layout in layouts">
+            <option v-if="layout.type === 'file'" :value="layout.name">
+              {{ layout.name }}
+            </option>
+          </template>
+        </select>
       </div>
       <div v-if="newPage">
-        <p class="dit-cms-selection__select">Select page template</p>
+        <p class="dit-selection-select">Select page template</p>
         <template v-for="layout in layouts">
           <div class="col-md-2 col-xs-4 layout-boxes">
             <template v-if="defaultValue">
@@ -73,5 +72,38 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
+
+  .dit-selection {
+   &-strip {
+     background-color: $whitesmoke;
+     /*min-height: 80px;*/
+     /*margin-bottom: 50px;*/
+     select {
+       height: 40px;
+       width: 100%;
+     }
+   }
+
+   &-select {
+     margin-left: 40px;
+     font-size: 16px;
+   }
+  }
+
+  .dit-layout {
+    &-dropdown {
+      padding-top: 30px;
+      padding-left: 35%;
+    }
+
+    &-boxes {
+      border: 1px solid grey;
+      height: 160px;
+      margin-left: 12%;
+      margin-top: 30px;
+    }
+  }
+
 </style>

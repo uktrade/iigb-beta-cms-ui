@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid dit-cms-pages__container">
+  <div class="container-fluid">
     <sidebar></sidebar>
     <sites></sites>
   </div>
@@ -12,8 +12,6 @@
   import Page from './components/Page'
   import Layouts from './components/Layouts'
   import Sidebar from './components/Sidebar'
-
-//  const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
 
   export default {
     name: 'app',
@@ -28,5 +26,14 @@
   }
 </script>
 
-<style src="assets/main.scss" lang="scss">
+<style lang="scss">
+  @import "./assets/variables.scss";
+  .container-fluid {
+    padding: 0;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
 </style>

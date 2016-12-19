@@ -27,22 +27,6 @@
     </div>
     <metadata :model="treeDataDetails"
               :content="inputEditor"></metadata>
-    <!--<div class="col-md-6"-->
-         <!--style="background-color: white">-->
-      <!--<page v-if="treeDataDetails" :model="treeDataDetails">-->
-      <!--</page>-->
-
-      <!--<button id="show-modal"-->
-              <!--class="btn btn-success"-->
-              <!--@click="fetchContent(treeDataDetails.data.pageHeader.content)">Edit</button>-->
-      <!--&lt;!&ndash; use the modal component, pass in the prop &ndash;&gt;-->
-      <!--<modal v-if="showModal"-->
-             <!--@close="showModal = false">-->
-
-        <!--<h3 slot="header">{{treeDataDetails.data.pageHeader.content}}</h3>-->
-        <!--<Editor slot="body" :content="inputEditor.content"></Editor>-->
-      <!--</modal>-->
-    <!--</div>-->
   </div>
 </template>
 
@@ -128,5 +112,35 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
+
+  .dit-cms-pages{
+
+  &__index{
+     /*margin-left: 200px;*/
+     height: 1200px;
+     background-color: $grey;
+   }
+
+  &__files{
+  & li{
+      background-color: $grey !important;
+    }
+  }
+
+  &__inputs{
+     background-color: $white;
+     height: 1200px;
+   }
+
+  &__add-page{
+     position: absolute;
+     right: 0;
+     margin-right: 20px;
+     font-size: 30px;
+     margin-top: 20px;
+     color: white;
+   }
+  }
 </style>

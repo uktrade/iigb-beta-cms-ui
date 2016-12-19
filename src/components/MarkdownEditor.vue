@@ -66,10 +66,12 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="css">
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
+
   html, body, #editor {
     margin: 0;
-    height: 480px;
+    height: 460px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     color: #333;
   }
@@ -85,40 +87,36 @@
 
   textarea {
     border: none;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid $modal-editor-border;
     resize: none;
     outline: none;
-    background-color: #f6f6f6;
+    background-color: $modal-editor-background;
     font-size: 14px;
     font-family: 'Monaco', courier, monospace;
     padding: 20px;
   }
 
-  code {
-    color: #f66;
-  }
-
   table {
     margin-bottom: 20px;
-  }
 
-  table th {
-    padding: 6px 13px;
-    border: 1px solid #ddd;
-  }
+    & th {
+      padding: 6px 13px;
+      border: 1px solid $modal-editor-border;
+    }
 
-  table td {
-    padding: 6px 13px;
-    border: 1px solid #ddd;
-  }
+    & td {
+      padding: 6px 13px;
+      border: 1px solid $modal-editor-border;
+    }
 
-  table tr {
-    background-color: #fff;
-    border-top: 1px solid #ccc;
-  }
+    & tr {
+      background-color: $white;
+      border-top: 1px solid $modal-editor-border;
+    }
 
-  table td div {
-    width: 100% !important;
-    padding: 0 !important;
+    & td div {
+      width: 100% !important;
+      padding: 0 !important;
+    }
   }
 </style>

@@ -15,5 +15,5 @@
   }
 </script>
 
-<style src="assets/main.scss" lang="scss">
+<style lang="scss">
 </style>

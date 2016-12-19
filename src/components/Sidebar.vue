@@ -1,20 +1,22 @@
 <!-- src/components/Sidebar.vue -->
 
 <template>
-  <div class="dit-cms-sidebar__wrapper">
-    <ul class="dit-cms-sidebar__nav">
-      <li>
-        <a :class="{ active: isPages }" href="/Pages">Pages</a>
-      </li>
-      <li>
-        <a :class="{ active: isContent }" href="/Content">Content</a>
-      </li>
-      <li>
-        <a :class="{ active: isMedia }" href="/Media">Media</a>
-      </li>
-    </ul>
-    <div class="dit-cms-sidebar__logout">
-      <a href="#">Logout</a>
+  <div>
+    <div class="col-md-2 dit-sidebar__wrapper">
+      <ul class="dit-sidebar__nav">
+        <li>
+          <a :class="{ active: isPages }" href="/Pages">Pages</a>
+        </li>
+        <li>
+          <a :class="{ active: isContent }" href="/Content">Content</a>
+        </li>
+        <li>
+          <a :class="{ active: isMedia }" href="/Media">Media</a>
+        </li>
+      </ul>
+      <div class="dit-sidebar__logout">
+        <a href="#">Logout</a>
+      </div>
     </div>
   </div>
 </template>
@@ -46,3 +48,119 @@
     }
   }
 </script>
+
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
+
+  .dit-sidebar {
+    &__wrapper {
+       height: 1160px;
+       background-color: $darkgrey;
+    }
+
+    &__nav {
+       width: 100%;
+       padding: 0;
+       list-style: none;
+      li {
+        line-height: 40px;
+        background: $black;
+        margin: 0 -15px;
+        a {
+          display: block;
+          text-decoration: none;
+          border: 1px solid $darkgrey;
+          height: 100px;
+          text-align: center;
+          padding: 30px;
+          font-size: 20px;
+          color: $white;
+          background-color: #222;
+
+          &.active {
+             background-color: $grey;
+             color: $black;
+             border: 0;
+          }
+        }
+      }
+    }
+
+    &__logout {
+      line-height: 40px;
+      display: block;
+      height: 100px;
+      width: 16.6%;
+      text-align: center;
+      padding: 30px;
+      margin-left: -15px;
+      font-size: 20px;
+      color: #fff;
+      background-color: $logout;
+      position: fixed;
+      bottom: 0;
+
+      a {
+        color: #fff;
+      }
+    }
+
+    &__nav {
+      li a {
+        &:hover {
+          text-decoration: none;
+          color: #fff;
+          background: rgba(255, 255, 255, 0.2);
+          cursor: pointer !important;
+        }
+
+        &:active, &:focus {
+          text-decoration: none;
+        }
+      }
+
+      > .sidebar-brand {
+        height: 65px;
+        font-size: 18px;
+        line-height: 60px;
+
+        a {
+          color: #999999;
+
+          &:hover {
+             color: #fff;
+             background: none;
+          }
+        }
+      }
+    }
+
+    @media (max-width: 1600px) {
+
+    /*&__wrapper {*/
+      /*width: $sidebarWidthMD;*/
+    /*}*/
+    /*&__nav {*/
+       /*width: $sidebarWidthMD;*/
+     /*}*/
+    /*&__logout {*/
+       /*width: $sidebarWidthMD;*/
+     /*}*/
+    }
+
+
+    @media (max-width: 1400px) {
+
+    /*&__wrapper {*/
+      /*display: none;*/
+    /*}*/
+    /*&__nav {*/
+       /*display: none;*/
+     /*}*/
+    /*&__logout {*/
+       /*display: none;*/
+     /*}*/
+    /*}*/
+    }
+  }
+</style>

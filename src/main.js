@@ -29,7 +29,7 @@ const router = new VueRouter({
 		path: '/pages',
 		name: 'pages',
 		component: Pages
-	}, , {
+	}, {
 		path: '/pages/layouts/new',
 		name: 'layouts',
 		component: Layouts

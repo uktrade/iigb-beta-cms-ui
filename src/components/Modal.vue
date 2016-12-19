@@ -47,7 +47,7 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="css">
+<style scoped lang="css">
   .modal-mask {
     position: fixed;
     z-index: 9998;

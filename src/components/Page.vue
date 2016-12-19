@@ -1,18 +1,21 @@
 <template>
-  <div class="dit-cms-pages__form">
-    <div class="form-group col-md-12">
+  <div class="dit-form">
+    <div class="dit-form-group col-md-12">
+      <Layouts :defaultValue="model.layout"></Layouts>
+    </div>
+    <div class="dit-form-group col-md-12">
       <label for="page-title" class="">
         Page title
       </label>
       <input id="page-title" class="form-control" type="text" v-model="model.data.pageTitle">
     </div>
-    <div class="form-group col-md-12">
+    <div class="dit-form-group col-md-12">
       <label for="page-url">
         URL segment
       </label>
       <br>
       <div v-if="model.path"
-            class="fake-input">
+           class="dit-fake-input">
         {{model.path}}
       </div>
       <input v-else
@@ -21,14 +24,7 @@
              type="text"
              v-model="model.path">
     </div>
-    <div class="form-group col-md-12">
-      <Layouts :defaultValue="model.layout"></Layouts>
-    </div>
   </div>
-  <!--     <div>
-        will this come from layout?
-      </div>
-    </div> -->
 </template>
 
 <script>
@@ -62,16 +58,32 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-  .fake-input {
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
+
+  .dit-form {
+    margin-top: 60px;
+  }
+
+  .dit-form-group {
+    margin-bottom: 40px;
+
+    input {
+      display: block;
+      width: 60%;
+      height: 40px;
+    }
+  }
+
+  .dit-fake-input {
     width: 60%;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.83;
     color: #555;
-    background-color: #fff;
+    background-color: $invalid-input;
     background-image: none;
-    border: 1px solid #ccc;
+    border: 1px solid $modal-editor-border;
     border-radius: 4px;
   }
 </style>
