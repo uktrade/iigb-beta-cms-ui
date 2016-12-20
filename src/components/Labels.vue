@@ -2,23 +2,39 @@
   <table>
     <thead>
     <tr>
-      <th v-for="key in columns"
-          @click="sortBy(key)"
-          :class="{ active: sortKey == key }">
+      <th>
+        Label
+      </th>
+      <!--<th v-for="key in columns"-->
+          <!--@click="sortBy(key)"-->
+          <!--:class="{ active: sortKey == key }">-->
+        <!--{{ key | capitalize }}-->
+        <!--<span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">-->
+        <!--</span>-->
+      <!--</th>-->
+      <th v-for="key in columns">
         {{ key | capitalize }}
-        <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-          </span>
       </th>
     </tr>
     </thead>
     <tbody>
     <tr v-for="(entry, key) in filteredData">
+      <td>
+        {{entry[0]}}
+      </td>
       <td v-for="key in columns">
-        <template v-if="key === 'labels'">
-          {{entry[key]}}
+        <template v-if="entry[1]['label']">
+          <input name="query" v-model="entry[1]['label'][key]">
         </template>
+
+        <template v-if="entry[1]['options']">
+          <template v-for="(item,index) in entry[1]['options'][key]">
+            <input name="query" v-model="entry[1]['options'][key][index]">
+          </template>
+        </template>
+
         <template v-else>
-          <input name="query" v-model="entry[key]">
+          <input name="query" v-model="entry[1][key]">
         </template>
       </td>
     </tr>
@@ -51,7 +67,7 @@
         let order = this.sortOrders[sortKey] || 1
         let dataIn = this.data
         let data = [];
-        for (let label in dataIn){
+        for (let label in dataIn) {
           let obj1 = {'labels': label}
           let obj2 = dataIn[label]
           let newObj = Object.assign(obj1, obj2);
@@ -91,17 +107,19 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
+
   table {
-    border: 1px solid #42b983;
+    border: 1px solid $modal-editor-border;
     border-radius: 3px;
-    background-color: #fff;
+    background-color: $white;
   }
 
   th {
-    background-color: #42b983;
-    color: rgba(255,255,255,0.66);
-    cursor: pointer;
+    background-color: $grey;
+    color: $black;
+    /*cursor: pointer;*/
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -109,7 +127,7 @@
   }
 
   td {
-    background-color: #f9f9f9;
+    background-color: $modal-editor-background;
   }
 
   th, td {
@@ -118,7 +136,7 @@
   }
 
   th.active {
-    color: #fff;
+    color: $black;
   }
 
   th.active .arrow {
@@ -137,12 +155,12 @@
   .arrow.asc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 4px solid #fff;
+    border-bottom: 4px solid $black;
   }
 
   .arrow.dsc {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-top: 4px solid #fff;
+    border-top: 4px solid $black;
   }
 </style>

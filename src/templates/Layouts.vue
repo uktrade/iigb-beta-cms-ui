@@ -2,7 +2,6 @@
   <div class="container-fluid dit-cms-pages__container">
     <sidebar></sidebar>
     <sites></sites>
-    <layouts></layouts>
   </div>
 </template>
 

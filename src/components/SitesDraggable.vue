@@ -89,18 +89,6 @@
         }
         xhr.send()
       },
-      fetchContent: function (url) {
-        const xhr = new XMLHttpRequest()
-        const self = this
-        xhr.open('GET', contentURL + url)
-        xhr.onload = function () {
-          const content = xhr.responseText
-          self.inputEditor = {content: content}
-          self.showModal = true
-//          console.log(content)
-        }
-        xhr.send()
-      },
       updateTree: function (model) {
         this.treeDataDetails = model
       },
@@ -117,30 +105,31 @@
 
   .dit-cms-pages{
 
-  &__index{
-     /*margin-left: 200px;*/
-     height: 1200px;
-     background-color: $grey;
-   }
-
-  &__files{
-  & li{
-      background-color: $grey !important;
+    &__index{
+      /*margin-left: 200px;*/
+      height: 1200px;
+      background-color: $grey;
+      overflow-x: scroll;
     }
-  }
 
-  &__inputs{
-     background-color: $white;
-     height: 1200px;
-   }
+    &__files{
+      & li{
+        background-color: $grey !important;
+      }
+    }
 
-  &__add-page{
-     position: absolute;
-     right: 0;
-     margin-right: 20px;
-     font-size: 30px;
-     margin-top: 20px;
-     color: white;
-   }
+    &__inputs{
+      background-color: $white;
+      height: 1200px;
+    }
+
+    &__add-page{
+      position: absolute;
+      right: 0;
+      margin-right: 20px;
+      font-size: 30px;
+      margin-top: 20px;
+      color: white;
+    }
   }
 </style>

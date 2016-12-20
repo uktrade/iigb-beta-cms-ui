@@ -72,9 +72,10 @@
    @import "../assets/variables.scss";
 
   .dit-cms-pages{
-  &__inputs{
-     background-color: $white;
-     height: 1200px;
-   }
+    &__inputs{
+      background-color: $white;
+      height: 1200px;
+      overflow-x: scroll;
+    }
   }
 </style>

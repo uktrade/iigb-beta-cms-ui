@@ -1,5 +1,5 @@
 <template>
-  <div class="dit-form">
+  <div>
     <div class="dit-form-group col-md-12">
       <Layouts :defaultValue="model.layout"></Layouts>
     </div>
@@ -60,10 +60,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   @import "../assets/variables.scss";
-
-  .dit-form {
-    margin-top: 60px;
-  }
 
   .dit-form-group {
     margin-bottom: 40px;

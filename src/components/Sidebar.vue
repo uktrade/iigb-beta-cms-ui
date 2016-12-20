@@ -13,6 +13,9 @@
         <li>
           <a :class="{ active: isMedia }" href="/Media">Media</a>
         </li>
+        <li>
+          <a :class="{ active: isLabels }" href="/Labels">Labels</a>
+        </li>
       </ul>
       <div class="dit-sidebar__logout">
         <a href="#">Logout</a>
@@ -28,17 +31,20 @@
         isPages: false,
         isContent: false,
         isMedia: false,
+        isLabels: false,
         error: ''
       }
     },
     mounted() {
-      console.log(this.$route.name)
+//      console.log(this.$route.name)
       if (this.$route.name == 'pages' || this.$route.name == 'layouts') {
         this.isPages = true;
       } else if (this.$route.name == 'content') {
         this.isContent = true;
       } else if (this.$route.name == 'media') {
         this.isMedia = true;
+      } else if (this.$route.name == 'labels') {
+        this.isLabels = true;
       }
 
     },
@@ -54,7 +60,7 @@
 
   .dit-sidebar {
     &__wrapper {
-       height: 1160px;
+       height: 1200px;
        background-color: $darkgrey;
     }
 

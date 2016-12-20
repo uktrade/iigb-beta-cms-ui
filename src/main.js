@@ -41,6 +41,10 @@ const router = new VueRouter({
 		path: '/media',
 		name: 'media',
 		component: Bar
+	}, {
+		path: '/labels',
+		name: 'labels',
+		component: Bar
 	}]
 })
 

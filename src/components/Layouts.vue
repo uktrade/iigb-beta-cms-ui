@@ -1,6 +1,18 @@
 <template>
-  <div class="col-md-6">
-    <div class="row">
+  <div class="row">
+    <div v-if="newPage" class="col-md-12">
+      <p class="dit-selection-select">Select page template</p>
+      <div class="row">
+        <template v-for="layout in layouts">
+          <template v-if="layout.type === 'file'">
+            <div class="col-md-3 dit-layout-boxes">
+              {{ layout.name }}
+            </div>
+          </template>
+        </template>
+      </div>
+    </div>
+    <div class="col-md-6">
       <div class="dit-selection-strip">
         <label for="layouts" class="">
           Layout
@@ -24,16 +36,6 @@
           </template>
         </select>
       </div>
-      <div v-if="newPage">
-        <p class="dit-selection-select">Select page template</p>
-        <template v-for="layout in layouts">
-          <div class="col-md-2 col-xs-4 layout-boxes">
-            <template v-if="defaultValue">
-              {{ layout.name }}
-            </template>
-          </div>
-        </template>
-      </div>
     </div>
   </div>
 </template>
@@ -44,9 +46,11 @@
   export default {
     name: 'layouts',
     props: ['defaultValue', 'newPage'],
+//    props: ['defaultValue'],
     data () {
       return {
-        layouts: null
+        layouts: null,
+//        newPage: false
       }
     },
     created: function () {
@@ -76,34 +80,33 @@
   @import "../assets/variables.scss";
 
   .dit-selection {
-   &-strip {
+  &-strip {
      background-color: $whitesmoke;
-     /*min-height: 80px;*/
-     /*margin-bottom: 50px;*/
-     select {
-       height: 40px;
-       width: 100%;
-     }
-   }
+     margin-top: 50px;
+  /*min-height: 80px;*/
+  select {
+    height: 40px;
+    width: 100%;
+  }
+  }
 
-   &-select {
+  &-select {
      margin-left: 40px;
      font-size: 16px;
    }
   }
 
   .dit-layout {
-    &-dropdown {
-      padding-top: 30px;
-      padding-left: 35%;
-    }
+  &-dropdown {
+     padding-top: 30px;
+     padding-left: 35%;
+   }
 
-    &-boxes {
-      border: 1px solid grey;
-      height: 160px;
-      margin-left: 12%;
-      margin-top: 30px;
-    }
+  &-boxes {
+     border: 1px solid grey;
+     height: 160px;
+     margin-left: 5%;
+     margin-top: 10px;
+   }
   }
-
 </style>
