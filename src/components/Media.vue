@@ -14,8 +14,9 @@
             <div class="col-md-5">
             <button class="upload-btn">Choose file</button>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
             <p class="filename">{{filename}}<p>
+            <p class="filename has-error">{{errorMsg}}<p>
             </div>
           </div>
           <input type="file" class="hidden-upload-btn" @change="onFileChange">
@@ -43,7 +44,7 @@
         <th>Modified</th>
           <tr v-for="(item, index) in items">
             <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']" @click="toggle(item)">
-            <span :class="fileFolderIcon"> </span> {{item.name}}
+            <span :class="[item.type == 'dir' ? 'glyphicon glyphicon-folder-close' : 'glyphicon glyphicon-file']"> </span> {{item.name}}
             </td>
             <td>TBC</td>
           </tr>
@@ -81,6 +82,7 @@
         modalSize: "modal-container-sm",
         disable: false,
         selected: '',
+        errorMsg: '',
         image: '',
         filename: '',
         inputEditor: null,
@@ -130,49 +132,50 @@
         this.showModal = false;
         this.image = '';
         this.filename = '';
+        this.selected = '';
+        this.errorMsg = '';
       },
       onFileChange(e) {
+      this.errorMsg = '';
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length)
         return;
       this.createImage(files[0]);
     },
     createImage(file) {
+
+    if (/image/.test(file.type) || /video/.test(file.type) ) {
+
       var image = new Image();
       var reader = new FileReader();
       var vm = this;
 
       reader.onload = (e) => {
         vm.image = e.target.result;
+        console.log(file.type)
         this.filename = file.name;
+        this.selected = file.name;
       };
       reader.readAsDataURL(file);
+    }else{
+      this.showErrorMsg();
+    }
     },
     removeImage: function () {
       self.image = '';
       self.filename = '';
     },
+    showErrorMsg: function(){
+      this.errorMsg = "Please select a valid image or video file.";
+      console.log('here');
+      // setTimeout(function(){
+      //  self.errorMsg = '';
+      // }, 2000)
+    },
       console(some) {
         console.log(some)
       }
-    },
-    computed: {
-      isFolder: function () {
-        // console.log(this.item.type)
-        // if (this.item.type == 'dir') {
-        //   return true
-        // } else {
-        //   return false
-        // }
-      },
-      fileFolderIcon: function () {
-        return {
-          'glyphicon glyphicon-folder-open': this.isFolder && this.open,
-          'glyphicon glyphicon-folder-close': this.isFolder && !this.open,
-          'glyphicon glyphicon-file': !this.isFolder
-        }
-      }
-    },
+    }
   }
 </script>
 
@@ -221,6 +224,10 @@
         font-family: arial, sans-serif;
         border-collapse: collapse;
         width: 100%;
+
+        tr:hover{
+        cursor: pointer !important;
+      }
       }
 
       th {
@@ -259,6 +266,10 @@
     position: absolute;
     top: 20px;
     left: 0px;
+    }
+
+    .has-error{
+      color: red;
     }
 
     .hidden-upload-btn{

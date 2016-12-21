@@ -57,7 +57,7 @@
         margin-top: 30px;
 
       img{
-        max-height: 220px;
+        max-height: 200px;
         max-width: 300px;
       }
         width: 100px;
