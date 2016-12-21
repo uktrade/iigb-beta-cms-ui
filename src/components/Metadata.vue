@@ -10,11 +10,6 @@
         <!-- use the modal component, pass in the prop -->
         <modal v-if="showModal"
                @close="showModal = false">
-          <!--{{console(inputEditor)}}-->
-          <!--
-     you can use custom content here to overwrite
-     default content... markdown maybe???
-   -->
           <h3 slot="header">{{model.data.pageHeader.content}}</h3>
           <Editor slot="body" :content="inputEditor.content"></Editor>
         </modal>

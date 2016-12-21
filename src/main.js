@@ -45,8 +45,6 @@ const router = new VueRouter({
 	}]
 })
 
-var centralStore = new Vue()
-
 new Vue({
 	router,
 	template: `

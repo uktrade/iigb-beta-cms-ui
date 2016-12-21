@@ -33,6 +33,7 @@
 <script>
   export default {
     name: 'modal',
+//    props: ['content'],
     data: function () {
       return {
         input: null

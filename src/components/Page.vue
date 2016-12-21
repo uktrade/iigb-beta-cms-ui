@@ -24,42 +24,67 @@
              type="text"
              v-model="model.path">
     </div>
+    <!--todo: check if it's convenient to create another component out of this-->
     <template v-for="(field, key) in fieldsList">
-      <div class="dit-form-group col-md-12">
-        <label for="key">
-          <template v-if="field['label']">
-            {{field['label']}}
-          </template>
-          <template v-else>
-            {{key}}
-          </template>
-        </label>
-        <br>
-        <div v-if="field['multiple']" class="dit-form-nested">
-          <div v-for="(some, idx) in model['data'][key]"
-               class="dit-form-nested__group">
-            <template v-for="(item, name) in field['fields']">
-              <label for="key">
-                <template v-if="item['label']">
-                  {{item['label']}}
-                </template>
-                <template v-else>
-                  {{name}}
-                </template>
-              </label>
-              <input id="key"
-                     class="form-control"
-                     type="text"
-                     v-model="some[name]">
+      <!--ignore global-->
+      <template v-if="field['global']">
+      </template>
+      <template v-else>
+        <div class="dit-form-group col-md-12">
+          <label for="key">
+            <template v-if="field['label']">
+              {{field['label']}}
             </template>
+            <!--to delete when label is mandatory-->
+            <template v-else>
+              {{key}}
+            </template>
+            <!--^^^^^^^^^-->
+          </label>
+          <br>
+          <div v-if="field['multiple']" class="dit-form-nested">
+            <Draggable class="dragArea">
+              <div v-for="(some, idx) in model['data'][key]"
+                 class="dit-form-nested__group">
+                <template v-for="(item, name) in field['fields']">
+                  <template v-if="model['data'][key]">
+                    <label for="key">
+                      <template v-if="item['label']">
+                        {{item['label']}}
+                      </template>
+                      <template v-else>
+                        {{name}}
+                      </template>
+                    </label>
+                  </template>
+                  <input id="key"
+                         class="form-control"
+                         type="text"
+                         v-model="some[name]">
+                </template>
+                <button id="show-modal"
+                        class="btn btn-success"
+                        @click="fetchContent(some['content'])">Edit</button>
+                <!-- use the modal component, pass in the prop -->
+                <modal v-if="showModal"
+                       @close="showModal = false">
+                  <h3 slot="header">{{contentUrl}}</h3>
+                  <Editor slot="body" :content="inputEditor.content"></Editor>
+                </modal>
+              </div>
+            </Draggable>
           </div>
+          <template v-else>
+            <template v-if="model['data'][key]">
+              <input
+                   id="key"
+                   class="form-control"
+                   type="text"
+                   v-model="model['data'][key]['content']">
+            </template>
+          </template>
         </div>
-        <input v-else
-               id="key"
-               class="form-control"
-               type="text"
-               v-model="model['data'][key]['content']">
-      </div>
+      </template>
     </template>
   </div>
 </template>
@@ -68,13 +93,20 @@
   import Layouts from './Layouts'
   import nunjucks from 'nunjucks'
   import tags from 'iigb-cms-tags'
+  import Draggable from 'vuedraggable'
+  import Modal from './Modal'
+  import Editor from './MarkdownEditor'
 
   const apiURL = "https://raw.githubusercontent.com/uktrade/iigb-beta-website/develop/src/templates"
+  const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
 
   export default {
     name: 'page',
     components: {
-      Layouts
+      Layouts,
+      Draggable,
+      Modal,
+      Editor
     },
     props: {
       model: Object,
@@ -82,6 +114,8 @@
     data: function () {
       return {
         fieldsList: null,
+        showModal: false,
+        contentUrl: null
       }
     },
     created: function () {
@@ -98,6 +132,20 @@
         const layout = nunjucks.render(path)
         const fields = tags.parse(layout)
         this.fieldsList = fields
+//        console.log(fields)
+      },
+      fetchContent: function (url) {
+        const xhr = new XMLHttpRequest()
+        const self = this
+        xhr.open('GET', contentURL + url)
+        xhr.onload = function () {
+          const content = xhr.responseText
+          self.inputEditor = {content: content}
+          self.showModal = true
+          self.contentUrl = url
+//          console.log(content)
+        }
+        xhr.send()
       },
       edit: function () {
         //
@@ -141,7 +189,7 @@
       padding: 10px 5px;
       margin-bottom: 20px;
       border-bottom: 1px solid black;
-      background-color: #545454;
+      background-color: #767676;
     }
   }
 

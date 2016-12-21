@@ -1,5 +1,5 @@
 <template lang="html">
-  <draggable class="dragArea" :options="{group:'dragAll'}">
+  <Draggable class="dragArea" :options="{group:'dragAll'}">
     <li>
       <div :list="list">
         <p @click="toggle"
@@ -24,18 +24,18 @@
         </ul>
       </div>
     </li>
-  </draggable>
+  </Draggable>
 </template>
 
 <script>
-  import draggable from 'vuedraggable'
+  import Draggable from 'vuedraggable'
 
   let treeDetails = null
 
   export default {
     name: 'TreeDraggable',
     components: {
-      draggable
+      Draggable
     },
     props: ['list', 'english'],
     data: function () {
