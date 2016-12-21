@@ -9,7 +9,8 @@
                 @click="fetchContent(model.data.pageHeader.content)">Edit</button>
         <!-- use the modal component, pass in the prop -->
         <modal v-if="showModal"
-               @close="showModal = false">
+               @close="showModal = false"
+                :modalSize="modalSize">
           <!--{{console(inputEditor)}}-->
           <!--
      you can use custom content here to overwrite
@@ -40,6 +41,7 @@
     data: function () {
       return {
         showModal: false,
+        modalSize: "modal-container-lg",
       }
     },
 
