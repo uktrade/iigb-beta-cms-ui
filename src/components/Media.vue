@@ -42,6 +42,7 @@
         <table>
         <th>Name</th>
         <th>Modified</th>
+        <tr><td><i class="glyphicon glyphicon-arrow-up" v-if="this.mediaURL != (this.contentURL + 'media')" @click="goUp()"></i></td></tr>
           <tr v-for="item in items">
             <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']" @click="toggle(item)">
             <span :class="[item.type == 'dir' ? 'glyphicon glyphicon-folder-close' : 'glyphicon glyphicon-file']"> </span> {{item.name}}
@@ -49,7 +50,6 @@
             <td>TBC</td>
           </tr>
         </table>
-        <i class="glyphicon glyphicon-step-backward" v-if="this.mediaURL != (this.contentURL + 'media')" @click="goUp()"></i>
       </div>
 
     <div class="col-md-3">
