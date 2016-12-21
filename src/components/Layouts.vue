@@ -1,6 +1,9 @@
 <template>
-  <div>
-      <label for="layouts" class="">
+  <div class="col-md-6 dit-cms-pages__inputs">
+  <div class="row">
+  <div class="dit-cms-selection__strip">
+    <div class="layout-dropdown">
+          <label for="layouts" class="">
         Layouts
       </label>
       <select name="" class="" id="layouts">
@@ -13,6 +16,18 @@
           </option>
         </template>
       </select>
+      </div>
+  </div>
+  <p class="dit-cms-selection__select">Select page template</p>
+  <template v-for="layout in layouts">
+  <div class="col-md-2 col-xs-4 layout-boxes">
+  
+  {{ layout.name }}
+
+  </div>
+
+  </template>
+  </div>
   </div>
 </template>
 
@@ -50,5 +65,19 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss">
+
+@import "../assets/variables.scss";
+
+.layout-dropdown {
+    padding-top: 30px;
+    padding-left: 35%;
+}
+
+.layout-boxes {
+    border: 1px solid grey;
+    height: 160px;
+    margin-left: 12%;
+    margin-top: 30px;
+}
 </style>
