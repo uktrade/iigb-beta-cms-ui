@@ -1,7 +1,6 @@
 <template>
   <div id="editor">
     <textarea v-model="input"></textarea>
-    <!--<div>{{ input | marked }}</div>-->
     <div>
       <table>
         <thead>
@@ -49,14 +48,14 @@
         return {
           content: this.input.replace(/^(---\n)((.|\n)*?)---\n?/, function (match, dashes, frontmatter) {
             try {
-              metadata = jsyaml.safeLoad(frontmatter);
+              metadata = jsyaml.safeLoad(frontmatter)
 
             } catch (err) {
-              console.log('ERROR encoding YAML');
-              console.log(err);
+              console.log('ERROR encoding YAML')
+              console.log(err)
             }
 
-            return '';
+            return ''
           }),
           metadata: metadata
         }

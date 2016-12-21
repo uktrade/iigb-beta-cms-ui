@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "express": "^4.14.0",
+    "iigb-cms-tags": "github:uktrade/iigb-cms-tags",
     "js-yaml": "^3.7.0",
     "lodash": "^4.17.2",
     "marked": "^0.3.6",
     "node-sass": "^3.13.1",
+    "nunjucks": "^3.0.0",
+    "nunjucks-date": "^1.2.0",
     "vue": "^2.1.0",
     "vue-router": "^2.1.1",
     "vuedraggable": "^2.4.0"

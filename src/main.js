@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from './templates/Login'
-import Home from './templates/Home'
+import Home from './templates/Labels'
 import Pages from './templates/Pages'
 // import Pages from './App'
 import Layouts from './templates/Layouts'
@@ -44,6 +44,8 @@ const router = new VueRouter({
 		component: Home
 	}]
 })
+
+var centralStore = new Vue()
 
 new Vue({
 	router,
