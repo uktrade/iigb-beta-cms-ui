@@ -42,7 +42,7 @@
         <table>
         <th>Name</th>
         <th>Modified</th>
-          <tr v-for="(item, index) in items">
+          <tr v-for="item in items">
             <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']" @click="toggle(item)">
             <span :class="[item.type == 'dir' ? 'glyphicon glyphicon-folder-close' : 'glyphicon glyphicon-file']"> </span> {{item.name}}
             </td>
@@ -76,7 +76,6 @@
       return {
         mediaURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/media/',
         contentURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/',
-        downloadURL: "https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/",
         items: null,
         treeData: null,
         treeDataDetails: null,
@@ -108,11 +107,11 @@
         xhr.send()
       },
       fetchFile: function (item) {
-        console.log(item.path);
-        this.image = this.downloadURL + item.path;
+        //TODO check if a video.        
+        this.image = item.download_url;
       },
       toggle: function (item) {
-        this.image = '';
+          this.image = '';
         if (item.type == 'dir') {
           this.mediaURL = this.contentURL + item.path;
           this.fetchStructure();
@@ -122,6 +121,8 @@
         }
       },
       goUp: function(){
+        console.log(this.contentURL)
+        console.log(this.mediaURL)
         var currentPath = this.mediaURL;
         var currentURLParams = currentPath.lastIndexOf("/");
         var futurePath = currentPath.substring(0, (currentURLParams))
@@ -151,7 +152,7 @@
     },
     createImage(file) {
 
-    if (/image/.test(file.type) || /video/.test(file.type) ) {
+    if (/image/.test(file.type)) {
 
       var image = new Image();
       var reader = new FileReader();
@@ -164,6 +165,8 @@
         this.selected = file.name;
       };
       reader.readAsDataURL(file);
+    }else if(/video/.test(file.type)){
+
     }else{
       this.showErrorMsg();
     }
