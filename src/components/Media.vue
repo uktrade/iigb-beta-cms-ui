@@ -76,6 +76,7 @@
       return {
         mediaURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/media/',
         contentURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/',
+        downloadURL: "https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/",
         items: null,
         treeData: null,
         treeDataDetails: null,
@@ -106,12 +107,18 @@
         }
         xhr.send()
       },
+      fetchFile: function (item) {
+        console.log(item.path);
+        this.image = this.downloadURL + item.path;
+      },
       toggle: function (item) {
+        this.image = '';
         if (item.type == 'dir') {
           this.mediaURL = this.contentURL + item.path;
           this.fetchStructure();
         } else {
           this.selected = item.name;
+          this.fetchFile(item);
         }
       },
       goUp: function(){

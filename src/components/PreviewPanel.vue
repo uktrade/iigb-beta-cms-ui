@@ -58,7 +58,7 @@
 
       img{
         max-height: 200px;
-        max-width: 300px;
+        max-width: 250px;
       }
         width: 100px;
         height: 200px;
