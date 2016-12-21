@@ -49,7 +49,7 @@
             <td>TBC</td>
           </tr>
         </table>
-        <i class="glyphicon glyphicon-step-backward" v-if="this.mediaURL != (this.contentURL + 'media/')" @click="goUp()"></i>
+        <i class="glyphicon glyphicon-step-backward" v-if="this.mediaURL != (this.contentURL + 'media')" @click="goUp()"></i>
       </div>
 
     <div class="col-md-3">
@@ -74,7 +74,7 @@
     },
     data: function () {
       return {
-        mediaURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/media/',
+        mediaURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/media',
         contentURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/',
         items: null,
         treeData: null,
@@ -121,8 +121,6 @@
         }
       },
       goUp: function(){
-        console.log(this.contentURL)
-        console.log(this.mediaURL)
         var currentPath = this.mediaURL;
         var currentURLParams = currentPath.lastIndexOf("/");
         var futurePath = currentPath.substring(0, (currentURLParams))
@@ -160,7 +158,6 @@
 
       reader.onload = (e) => {
         vm.image = e.target.result;
-        console.log(file.type)
         this.filename = file.name;
         this.selected = file.name;
       };
@@ -176,11 +173,7 @@
       self.filename = '';
     },
     showErrorMsg: function(){
-      this.errorMsg = "Please select a valid image or video file.";
-      console.log('here');
-      // setTimeout(function(){
-      //  self.errorMsg = '';
-      // }, 2000)
+      this.errorMsg = "Please select a valid image or video file.";     
     },
       console(some) {
         console.log(some)
