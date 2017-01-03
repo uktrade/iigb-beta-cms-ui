@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-        <img src="../assets/img/spin.gif" style="height: 40px; width: 40px; margin-left: 35%;">
+        <img src="../assets/img/spin.gif" class="animation">
           <h1>LOGGING YOU IN</h1>
         </div>
       </div>
@@ -40,6 +40,12 @@
   </script>
 
 <style scoped lang="scss">
+
+.animation{
+  height: 40px; 
+  width: 40px; 
+  margin-left: 35%;
+}
 
 
 </style>
