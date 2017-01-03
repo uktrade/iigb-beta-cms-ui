@@ -8,7 +8,7 @@ import Pages from './templates/Pages'
 import Layouts from './templates/Layouts'
 import Content from './templates/Content'
 import Media from './templates/Media'
-import auth from './auth/index.js'
+import auth from './auth/'
 
 
 
