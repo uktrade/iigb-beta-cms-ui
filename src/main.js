@@ -53,12 +53,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	console.log(to)
-	console.log(from)
 	if (auth.checkAuth()) {
 		next();
 	} else {
-		if (to.path != '/login') {
+		if (to.path != '/login' && to.path != '/login/redirect') {
 			next('/login')
 		}
 		next()
