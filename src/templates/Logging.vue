@@ -34,10 +34,6 @@
           ,1000)
      },
     methods: {
-      logout(){
-        auth.logout();
-        setTimeout( function(){location.reload()},500);
-      }
     }
   }
 
