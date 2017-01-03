@@ -11,7 +11,7 @@
           <h3 slot="header">File upload</h3>
           <div slot="body" class="dit-media__file-upload">
           <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
             <button class="upload-btn">Choose file</button>
             </div>
             <div class="col-md-6">
@@ -33,8 +33,8 @@
 
         </modal>
         </li>
-        <li>
-          Delete
+        <li style="padding:6px;">
+          <button class="btn-danger" v-if="selected != ''">Delete</button>         
         </li>
       </ul>
     </div>
