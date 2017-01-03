@@ -7,7 +7,6 @@
 
 <script>
   import Sites from './components/SitesDraggable'
-  import TreeDraggable from './components/TreeDraggable'
   import draggable from 'vuedraggable'
   import Page from './components/Page'
   import Layouts from './components/Layouts'
@@ -17,7 +16,6 @@
     name: 'app',
     components: {
       Sites,
-      TreeDraggable,
       draggable,
       Page,
       Sidebar,

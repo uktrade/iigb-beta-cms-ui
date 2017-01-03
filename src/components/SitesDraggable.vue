@@ -1,25 +1,23 @@
 <template>
   <div>
-    <div class="col-md-4 dit-cms-pages__index">
+    <div class="col-md-4 dit-cms-pages__index" style="padding-top: 25px">
       <a href="/pages/layouts/new"><i class="glyphicon glyphicon-plus-sign dit-cms-pages__add-page"></i></a>
-      <h1>Sites</h1>
-      <template v-for="branch in branches">
-        <div>
-          <input type="radio"
-                 :id="branch.code"
-                 :value="branch"
-                 name="branch.code"
-                 v-model="currentBranch">
-          <label :for="branch">{{branch.name}} {{branch.country}}</label>
+      <template v-for="(site, index) in sites">
+        <div @click="defaultSite = index">
+          <div class="site">
+            <span class="glyphicon glyphicon-hdd"></span>
+            {{site.name}} {{site.country}}
+          </div>
 
-          <div v-if='treeData && branch.code === currentBranch.code' class="row">
+          <div v-if='treeData && site.code === sites[defaultSite].code' class="row">
             <ul class="dit-cms-pages__files container-list drag">
-              <template v-for="list in treeData">
-                <TreeDraggable :list="list"
-                               :english="english"
-                               @new-details="updateTree($event)">
-                </TreeDraggable>
-              </template>
+              <Draggable :list="treeData">
+                <TreeElement v-for="list in treeData"
+                             :english="english"
+                             v-bind:list="list"
+                             @new-details="updateTree($event)"/>
+                <!--<p>{{treeData}}</p>-->
+              </Draggable>
             </ul>
           </div>
         </div>
@@ -31,10 +29,8 @@
 </template>
 
 <script>
-  import TreeDraggable from './TreeDraggable'
-  import Page from './Page'
-  import Modal from './Modal'
-  import Editor from './MarkdownEditor'
+  import Draggable from 'vuedraggable'
+  import TreeElement from './TreeElement'
   import Metadata from './Metadata'
 
   const structureURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
@@ -43,24 +39,14 @@
   export default {
     name: 'sites',
     components: {
-      TreeDraggable,
-      Page,
-      Modal,
-      Editor,
+      Draggable,
+      TreeElement,
       Metadata
     },
     data: function () {
       return {
-        branches: [{code: 'zh_CN', name: 'Chinese', country: 'China'}, {
-          code: 'en_IN',
-          name: 'English',
-          country: 'India'
-        }, {code: 'en_INT', name: 'English', country: 'International'}, {
-          code: 'en_US',
-          name: 'English',
-          country: 'United States'
-        }, {code: 'de_DE', name: 'German', country: 'Germany'}],
-        currentBranch: {code: 'en_US', name: 'English', country: 'United States'},
+        sites: [{code: 'zh_CN', name: 'Chinese', country: 'China'}, {code: 'en_IN', name: 'English', country: 'India'}, {code: 'en_INT', name: 'English', country: 'International'}, {code: 'en_US', name: 'English', country: 'United States'}, {code: 'de_DE', name: 'German', country: 'Germany'}],
+        defaultSite: 3,
         treeData: null,
         treeDataDetails: null,
         english: true,
@@ -73,19 +59,19 @@
       this.fetchStructure()
     },
     watch: {
-      currentBranch: 'fetchStructure',
+      defaultSite: 'fetchStructure',
     },
     methods: {
       fetchStructure: function () {
         const xhr = new XMLHttpRequest()
         const self = this
-        xhr.open('GET', structureURL + self.currentBranch.code + '.json')
+        xhr.open('GET', structureURL + self.sites[self.defaultSite].code + '.json')
         xhr.onload = function () {
           const structure = JSON.parse(xhr.responseText)
           self.treeData = structure.pages[0].children
           self.treeDataDetails = structure.pages[0]
           self.english = structure.globalData.locale.language === 'en'
-//          console.log(self.treeData)
+//          console.log(self.treeDataDetails)
         }
         xhr.send()
       },
@@ -131,5 +117,13 @@
       margin-top: 20px;
       color: white;
     }
+  }
+  .site {
+    margin-bottom: 8px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .glyphicon {
+    margin-right: 8px;
   }
 </style>
