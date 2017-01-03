@@ -5,7 +5,7 @@
     <div class="col-md-2 dit-sidebar__wrapper">
       <ul class="dit-sidebar__nav">
         <li>
-          <a :class="{ active: isPages }" href="/Pages">Pages</a>
+          <a :class="{ active: isPages }" href="/Pages">Markets</a>
         </li>
         <li>
           <a :class="{ active: isContent }" href="/Content">Content</a>
