@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import auth from '../auth'
+  import auth from '../auth/index.js'
 
   var Vue = require('vue');
   var VueResource = require('vue-resource');
