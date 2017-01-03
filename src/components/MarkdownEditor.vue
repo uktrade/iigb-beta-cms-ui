@@ -72,16 +72,27 @@
     margin: 0;
     height: 460px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
     color: #333;
   }
 
   textarea, #editor div {
     display: inline-block;
-    width: 49%;
+    width: 55%;
     height: 100%;
     vertical-align: top;
     box-sizing: border-box;
     padding: 0 20px;
+  }
+
+  #editor div {
+    display: inline-block;
+    width: 44%;
+    height: 100%;
+    vertical-align: top;
+    box-sizing: border-box;
+    padding: 0 20px;
+    overflow: scroll;
   }
 
   textarea {
