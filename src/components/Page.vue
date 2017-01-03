@@ -43,7 +43,7 @@
           </label>
           <br>
           <div v-if="field['multiple']" class="dit-form-nested">
-            <Draggable class="dragArea">
+            <Draggable :list="model['data'][key]" class="dragArea">
               <div v-for="(some, idx) in model['data'][key]"
                  class="dit-form-nested__group">
                 <template v-for="(item, name) in field['fields']">
