@@ -18,6 +18,9 @@ const router = new VueRouter({
 	mode: 'history',
 	base: __dirname,
 	routes: [{
+		path: '/',
+		redirect: '/login'
+	}, {
 		path: '/login',
 		name: 'login',
 		component: Login

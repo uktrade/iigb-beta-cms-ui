@@ -5,7 +5,7 @@
         <div class="col-sm-6 col-md-4 col-md-offset-4">
           <div class="account-wall">
             <img class="profile-img"
-                 src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                 src="../assets/img/logo.png"
                  alt="">
             <form class="form-signin">
               <a @click="submit()" class="btn btn-lg btn-primary btn-block social-signin" type="submit"> Sign in via
@@ -43,8 +43,9 @@
         setTimeout(
           function(){ if(auth.checkAuth() == true){
           location.reload()
-          }}
-          ,1000);
+          }
+        }
+        ,1000);
       },
       logout(){
         auth.logout();
@@ -114,13 +115,10 @@
   }
 
   .profile-img {
-    width: 96px;
-    height: 96px;
-    margin: 0 auto 10px;
+    width: 250px;
+    height: 120px;
+    margin: 0px 40px;
     display: block;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    border-radius: 50%;
   }
 
   .need-help {
