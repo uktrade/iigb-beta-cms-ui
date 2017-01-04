@@ -110,7 +110,7 @@
   const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
 
   export default {
-    name: 'page',
+    name: 'metadata',
     components: {
       Layouts,
       Draggable,
@@ -175,7 +175,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  @import "../assets/variables.scss";
+   @import "../assets/variables.scss";
 
   .dit-cms-pages{
     &__inputs{
