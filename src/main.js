@@ -10,8 +10,6 @@ import Content from './templates/Content'
 import Media from './templates/Media'
 import auth from './auth/'
 
-
-
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -65,7 +63,6 @@ router.beforeEach((to, from, next) => {
 		next()
 	}
 })
-
 
 new Vue({
 	router,

@@ -25,13 +25,22 @@
       }
     },
      mounted() {
+      try{
       var code = window.location.href.match(/\?code=(.*)/)[1];
+      }catch(Error){
+           location = '/login' 
+      }
       auth.authenticate(this,code);
         setTimeout(
-          function(){ if(auth.checkAuth() == true){
-          location = '/pages'
-          }}
-          ,1500)
+          function(){ 
+            if(auth.checkAuth() == true){
+           location = '/pages' 
+          }
+          else{
+           location = '/login' 
+          }
+          }
+          ,2000)
      },
     methods: {
     }
