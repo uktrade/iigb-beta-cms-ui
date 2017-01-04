@@ -84,7 +84,8 @@
 
 </script>
 
-<style lang="css">
+<style scoped lang="scss">
+  @import "../assets/variables.scss";
 
   .is-folder {
     font-size: 18px;
@@ -105,8 +106,8 @@
 
 
   ul.container-list li {
-    background-color: #fff;
-    color: #35495E;
+    background-color: $grey;
+    color: $black;
     /*border-bottom: 1px solid #41B883;*/
     display: block;
     /*padding: 0 15px;*/
@@ -117,22 +118,9 @@
     margin: 0;
   }
 
-  /**
-   * Show selected elements in green
-   */
-  .selected {
-    background-color: #dff0d8;
-    color: #3c763d;
-  }
-
   ul.container-list.selected.has-container {
-    background-color: #fff;
+    background-color: $white;
   }
 
-  ul.container-list.selected.has-container .panel-body,
-  ul.container-list.selected.has-container .panel-body li {
-    background-color: #dff0d8;
-    color: #3c763d;
-  }
 
 </style>

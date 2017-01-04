@@ -8,12 +8,12 @@
   import Sidebar from '../components/Sidebar'
 
   export default {
-    name: 'app',
+    name: 'main',
     components: {
       Sidebar
     }
   }
 </script>
 
-<style src="assets/main.scss" lang="scss">
+<style lang="scss">
 </style>

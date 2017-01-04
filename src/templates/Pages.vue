@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid dit-cms-pages__container">
+  <div class="container-fluid">
     <sidebar></sidebar>
     <sites></sites>
   </div>
@@ -13,10 +13,8 @@
   import Layouts from '../components/Layouts'
   import Sidebar from '../components/Sidebar'
 
-  const apiURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-structure/master/structure/'
-
   export default {
-    name: 'layout',
+    name: 'app',
     components: {
       Sites,
       TreeDraggable,
@@ -29,4 +27,13 @@
 </script>
 
 <style lang="scss">
+  @import "../assets/variables.scss";
+  .container-fluid {
+    padding: 0;
+  }
+
+  html,
+  body {
+    min-height: 100%;
+  }
 </style>

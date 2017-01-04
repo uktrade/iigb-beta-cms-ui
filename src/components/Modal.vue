@@ -2,7 +2,7 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container" :model="model">
+        <div :class="modalSize">
 
           <div class="modal-header">
             <slot name="header">
@@ -18,9 +18,9 @@
 
           <div class="modal-footer">
             <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="$emit('close')">
-                Exit(no save atm)
+              <!--default footer-->
+              <button class="btn btn-danger modal-default-button" @click="$emit('close')">
+                Cancel
               </button>
             </slot>
           </div>
@@ -33,12 +33,7 @@
 <script>
   export default {
     name: 'modal',
-    props: {
-      model: Object
-    },
-    components: {
-      //
-    },
+    props: ['modalSize'],
     data: function () {
       return {
         input: null
@@ -48,15 +43,12 @@
       console(some) {
         console.log(some)
       }
-    },
-    computed: function () {
-      return this.input = this.model
     }
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="css">
+<style scoped lang="css">
   .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -74,9 +66,21 @@
     vertical-align: middle;
   }
 
-  .modal-container {
+  .modal-container-lg {
     width: 90%;
     height: 700px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+    transition: all .3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  .modal-container-sm {
+    width: 30%;
+    height: 300px;
     margin: 0px auto;
     padding: 20px 30px;
     background-color: #fff;

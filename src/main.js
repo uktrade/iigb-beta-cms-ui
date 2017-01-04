@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import App from './App'
 import Login from './templates/Login'
 import Home from './templates/Home'
-import Pages from './App'
+import Pages from './templates/Pages'
+// import Pages from './App'
 import Layouts from './templates/Layouts'
 import Content from './templates/Content'
 import Media from './templates/Media'
@@ -26,7 +26,7 @@ const router = new VueRouter({
 		path: '/pages',
 		name: 'pages',
 		component: Pages
-	}, , {
+	}, {
 		path: '/pages/layouts/new',
 		name: 'layouts',
 		component: Layouts
@@ -38,6 +38,10 @@ const router = new VueRouter({
 		path: '/media',
 		name: 'media',
 		component: Media
+	}, {
+		path: '/labels',
+		name: 'labels',
+		component: Home
 	}]
 })
 
