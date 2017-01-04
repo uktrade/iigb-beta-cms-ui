@@ -1,39 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import auth from './auth/'
 import Login from './templates/Login'
-import Home from './templates/Labels'
+import Labels from './templates/Labels'
 import Logging from './templates/Logging'
-import Home from './templates/Home'
 import Pages from './templates/Pages'
-// import Pages from './App'
 import Layouts from './templates/Layouts'
 import Content from './templates/Content'
 import Media from './templates/Media'
-import auth from './auth/'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
 	mode: 'history',
 	base: __dirname,
-	routes: [
-    {
-		path: '/',
-		redirect: '/login'
-    },
-   {
+	routes: [{
+    path: '/',
+    redirect: '/login'
+    }, {
 		path: '/login',
 		name: 'login',
 		component: Login
-	},
-    {
+	}, {
 		path: '/login/redirect',
 		name: 'logging',
 		component: Logging
-	}, {
-		path: '/home',
-		name: 'home',
-		component: Home
 	}, {
 		path: '/pages',
 		name: 'pages',
@@ -53,7 +44,7 @@ const router = new VueRouter({
 	}, {
 		path: '/labels',
 		name: 'labels',
-		component: Home
+		component: Labels
 	}]
 })
 

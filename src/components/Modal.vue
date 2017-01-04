@@ -33,7 +33,9 @@
 <script>
   export default {
     name: 'modal',
-    props: ['modalSize'],
+    props: {
+      modalSize: {default: "modal-container-lg"}
+    },
     data: function () {
       return {
         input: null
@@ -56,7 +58,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .7);
     display: table;
     transition: opacity .3s ease;
   }

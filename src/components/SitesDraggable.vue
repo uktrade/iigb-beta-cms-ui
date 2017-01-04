@@ -95,7 +95,7 @@
       /*margin-left: 200px;*/
       height: 1200px;
       background-color: $grey;
-      overflow-x: scroll;
+      overflow-y: scroll;
     }
 
     &__files{

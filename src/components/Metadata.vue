@@ -181,7 +181,7 @@
     &__inputs{
       background-color: $white;
       height: 1200px;
-      overflow-x: scroll;
+      overflow-y: scroll;
       padding-left: 28px;
     }
   }

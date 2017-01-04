@@ -1,9 +1,9 @@
 <!-- src/components/Sidebar.vue -->
 
 <template>
-  <div>
-    <div class="col-md-2 dit-sidebar__wrapper">
-      <ul class="dit-sidebar__nav">
+  <div class="col-md-2 sidebar-wrapper">
+    <div class="sidebar">
+      <ul class="sidebar-nav">
         <li>
           <a :class="{ active: isPages }" href="/Pages">Markets</a>
         </li>
@@ -17,9 +17,9 @@
           <a :class="{ active: isLabels }" href="/Labels">Labels</a>
         </li>
       </ul>
-      <div class="dit-sidebar__logout">
-        <a href @click="logout()">Logout</a>
-      </div>
+    </div>
+    <div class="sidebar-logout">
+      <a href @click="logout()">Logout</a>
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@
       }
 
     },
-    methods: {    
+    methods: {
       logout(){
       auth.logout()
     }
@@ -61,115 +61,73 @@
 <style scoped lang="scss">
   @import "../assets/variables.scss";
 
-  .dit-sidebar {
-    &__wrapper {
-       height: 1200px;
-       background-color: $darkgrey;
+  .sidebar {
+    width: 16.64%;
+    position: fixed;
+    margin-left: -29px;
+
+    &-wrapper {
+      height: 1200px;
+      background-color: $darkgrey;
     }
 
-    &__nav {
-       width: 100%;
-       padding: 0;
-       list-style: none;
-      li {
-        line-height: 40px;
-        background: $black;
-        margin: 0 -15px;
-        a {
-          display: block;
-          text-decoration: none;
-          border: 1px solid $darkgrey;
-          height: 100px;
-          text-align: center;
-          padding: 30px;
-          font-size: 20px;
-          color: $white;
-          background-color: #222;
-
-          &.active {
-             background-color: $grey;
-             color: $black;
-             border: 0;
-          }
-        }
-      }
-    }
-
-    &__logout {
-      line-height: 40px;
-      display: block;
-      height: 100px;
-      width: 16.6%;
-      text-align: center;
-      padding: 30px;
-      margin-left: -15px;
-      font-size: 20px;
-      color: #fff;
-      background-color: $logout;
-      position: fixed;
-      bottom: 0;
+    &-logout {
+       line-height: 40px;
+       height: 100px;
+       width: 16.65%;
+       text-align: center;
+       padding: 30px;
+       margin-left: -15px;
+       font-size: 20px;
+       color: #fff;
+       background-color: $logout;
+       position: fixed;
+       bottom: 0;
 
       a {
         color: #fff;
       }
     }
 
-    &__nav {
-      li a {
-        &:hover {
-          text-decoration: none;
-          color: #fff;
-          background: rgba(255, 255, 255, 0.2);
-          cursor: pointer !important;
-        }
+    &-nav {
+      width: 100%;
+      padding: 0;
+      list-style: none;
 
-        &:active, &:focus {
-          text-decoration: none;
-        }
-      }
+      li {
+        line-height: 40px;
+        background: $black;
+        margin: 0 -15px;
 
-      > .sidebar-brand {
-        height: 65px;
-        font-size: 18px;
-        line-height: 60px;
+      a {
+        display: block;
+        text-decoration: none;
+        border: 1px solid $darkgrey;
+        height: 100px;
+        text-align: center;
+        padding: 30px;
+        font-size: 20px;
+        color: $white;
+        background-color: #222;
 
-        a {
-          color: #999999;
+          &.active {
+             background-color: $grey;
+             color: $black;
+             border: 0;
+          }
 
           &:hover {
-             color: #fff;
-             background: none;
+            text-decoration: none;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer !important;
+          }
+
+          &:active, &:focus {
+            text-decoration: none;
           }
         }
       }
-    }
-
-    @media (max-width: 1600px) {
-
-    /*&__wrapper {*/
-      /*width: $sidebarWidthMD;*/
-    /*}*/
-    /*&__nav {*/
-       /*width: $sidebarWidthMD;*/
-     /*}*/
-    /*&__logout {*/
-       /*width: $sidebarWidthMD;*/
-     /*}*/
-    }
-
-
-    @media (max-width: 1400px) {
-
-    /*&__wrapper {*/
-      /*display: none;*/
-    /*}*/
-    /*&__nav {*/
-       /*display: none;*/
-     /*}*/
-    /*&__logout {*/
-       /*display: none;*/
-     /*}*/
-    /*}*/
     }
   }
 </style>
