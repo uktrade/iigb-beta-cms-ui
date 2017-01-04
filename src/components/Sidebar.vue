@@ -19,7 +19,7 @@
       </ul>
     </div>
     <div class="sidebar-logout">
-      <a href @click="logout()">Logout</a>
+      <a @click="logout()">Logout</a>
     </div>
   </div>
 </template>
@@ -86,6 +86,7 @@
 
       a {
         color: #fff;
+        cursor: pointer;
       }
     }
 
