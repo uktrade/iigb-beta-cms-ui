@@ -1,16 +1,17 @@
 <template>
-  <div class="col-md-6 pull-col-md-2 dit-cms-pages__inputs">
+  <div class="col-md-6 dit-cms-pages__inputs">
     <div>
-      <div class="dit-form-group col-md-12">
+      <div class="form-group">
         <Layouts :defaultValue="model.layout"></Layouts>
       </div>
-      <div class="dit-form-group col-md-12">
+      <div class="form-group">
         <label for="page-title" class="">
           Page title
         </label>
-        <input id="page-title" class="form-control" type="text" v-model="model.data.pageTitle">
+        <br>
+        <input id="page-title" class="form-control single-input" type="text" v-model="model.data.pageTitle">
       </div>
-      <div class="dit-form-group col-md-12">
+      <div class="form-group">
         <label for="page-url">
           URL segment
         </label>
@@ -31,7 +32,7 @@
         <template v-if="field['global']">
         </template>
         <template v-else>
-          <div class="dit-form-group col-md-12">
+          <div class="form-group">
             <label for="key">
               <template v-if="field['label']">
                 {{field['label']}}
@@ -60,13 +61,11 @@
                           {{name}}
                         </template>
                       </label>
-                    </template>
-                    <label>
                       <input id="key"
-                           class="form-control"
-                           type="text"
-                           v-model="some[name]">
-                    </label>
+                             class="form-control"
+                             type="text"
+                             v-model="some[name]">
+                    </template>
                   </template>
                   <button class="btn btn-success"
                           @click="fetchContent(some['content'])">Edit
@@ -78,7 +77,7 @@
               <template v-if="model['data'][key]">
                 <input
                   id="key"
-                  class="form-control"
+                  class="form-control single-input"
                   type="text"
                   v-model="model['data'][key]['content']">
                 <button class="btn btn-success"
@@ -158,7 +157,6 @@
           self.inputEditor = {content: content}
           self.showModal = true
           self.contentUrl = url
-//          console.log(content)
         }
         xhr.send()
       },
@@ -184,10 +182,9 @@
       background-color: $white;
       height: 1200px;
       overflow-x: scroll;
-     }
+      padding-left: 28px;
+    }
   }
-
-  @import "../assets/variables.scss";
 
   .dit-form-group {
     margin-bottom: 40px;
@@ -201,13 +198,14 @@
 
   .dit-form-nested {
     padding: 10px;
-    margin-right: 30%;
+    margin-right: 15%;
     background-color: $invalid-input;
 
     input {
       display: block;
       width: 100%;
       height: 40px;
+      margin-bottom: 12px;
     }
 
     &__group {
@@ -219,7 +217,7 @@
   }
 
   .dit-fake-input {
-    width: 60%;
+    width: 85%;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.83;
@@ -235,5 +233,10 @@
     font-weight: 500;
     color: white;
     padding-bottom: 4px;
+  }
+
+  .single-input {
+    width: 85%;
+    margin-bottom: 12px;
   }
 </style>

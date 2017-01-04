@@ -44,7 +44,7 @@
 
 <script>
 
-  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
+  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/labels.json'
 
   export default {
     name: 'labels',
