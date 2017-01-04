@@ -21,7 +21,7 @@ export default {
   // user's code is sent to our gatekeeper on github
   authenticate(context, code) {
     context.$http
-      .get('http://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/' + code).then((data) => {
+      .get('https://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/' + code).then((data) => {
 
           if (data.body.token) {
             var token = data.body.token;
@@ -37,12 +37,11 @@ export default {
 
   // To log out, we just need to remove the token
   logout() {
-    console.log('called')
     Cookies.remove('gh_token', {
       expires: 1
     });
     setTimeout(function() {
-      window.location.reload();
+      window.location = '/login';
     }, 1000)
   },
 
