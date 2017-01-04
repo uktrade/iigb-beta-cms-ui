@@ -18,13 +18,15 @@
         </li>
       </ul>
       <div class="dit-sidebar__logout">
-        <a href="#">Logout</a>
+        <a href @click="logout()">Logout</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import auth from '../auth'
+
   export default {
     data() {
       return {
@@ -48,10 +50,11 @@
       }
 
     },
-    methods: {},
-    logout(){
-      //
+    methods: {    
+      logout(){
+      auth.logout()
     }
+  },
   }
 </script>
 
