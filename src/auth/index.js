@@ -41,7 +41,7 @@ export default {
       expires: 1
     });
     setTimeout(function() {
-      window.location = "/login";
+      window.location = '/login';
     }, 1000)
   },
 

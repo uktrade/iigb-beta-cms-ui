@@ -18,7 +18,7 @@
         </li>
       </ul>
       <div class="dit-sidebar__logout">
-        <a href @click="logout()">Logout</a>
+        <a @click="logout()">Logout</a>
       </div>
     </div>
   </div>
@@ -111,6 +111,7 @@
 
       a {
         color: #fff;
+        cursor: pointer;
       }
     }
 
