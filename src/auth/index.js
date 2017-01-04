@@ -21,7 +21,7 @@ export default {
   // user's code is sent to our gatekeeper on github
   authenticate(context, code) {
     context.$http
-      .get('http://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/' + code).then((data) => {
+      .get('https://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/' + code).then((data) => {
 
           if (data.body.token) {
             var token = data.body.token;
