@@ -128,11 +128,16 @@
     },
     methods: {
       getTemplateFields: function (path) {
-        nunjucks.configure(apiURL)
-        const layout = nunjucks.render(path)
+        const env = new nunjucks.Environment(new nunjucks.WebLoader(apiURL))
+        env.addFilter('date', function(content, language) {
+          return '';
+        });
+        env.addGlobal('now', function() {
+          return new Date();
+        });
+        const layout = env.render(path)
         const fields = tags.parse(layout)
         this.fieldsList = fields
-//        console.log(fields)
       },
       fetchContent: function (url) {
         const xhr = new XMLHttpRequest()
