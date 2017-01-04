@@ -8,7 +8,6 @@
 <script>
   import Sites from './components/SitesDraggable'
   import draggable from 'vuedraggable'
-  import Page from './components/Page'
   import Layouts from './components/Layouts'
   import Sidebar from './components/Sidebar'
 
@@ -17,7 +16,6 @@
     components: {
       Sites,
       draggable,
-      Page,
       Sidebar,
       Layouts
     }
