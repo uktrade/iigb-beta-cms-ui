@@ -46,9 +46,9 @@ export default {
     },
     fileFolderIcon: function () {
       return {
-        'glyphicon glyphicon-folder-open': this.isFolder && this.open,
-        'glyphicon glyphicon-folder-close': this.isFolder && !this.open,
-        'glyphicon glyphicon-file': !this.isFolder
+        'fa fa-folder-open-o fa-lg': this.isFolder && this.open,
+        'fa fa-folder-o fa-lg': this.isFolder && !this.open,
+        'fa fa-file-code-o': !this.isFolder
       }
     },
     isEnglish: function () {
@@ -75,6 +75,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   @import "../assets/variables.scss";
+
+  span {
+    margin-right: 6px;
+  }
 
   .is-folder {
     font-size: 18px;

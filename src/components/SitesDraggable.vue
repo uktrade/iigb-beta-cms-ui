@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="col-md-4 dit-cms-pages__index" style="padding-top: 25px">
-      <a href="/pages/layouts/new"><i class="glyphicon glyphicon-plus-sign dit-cms-pages__add-page"></i></a>
+      <a href="/pages/layouts/new"><i class="fa fa-plus-circle dit-cms-pages__add-page"></i></a>
       <template v-for="(site, index) in sites">
         <div @click="defaultSite = index">
           <div class="site">
-            <span class="glyphicon glyphicon-hdd"></span>
+            <span class="fa fa-sitemap fa-lg"></span>
             {{site.name}} {{site.country}}
           </div>
 
@@ -23,7 +23,7 @@
         </div>
       </template>
     </div>
-    <metadata :model="treeDataDetails"
+    <metadata v-if="treeDataDetails" :model="treeDataDetails"
               :content="inputEditor"></metadata>
   </div>
 </template>
@@ -121,7 +121,11 @@
   .site {
     margin-bottom: 8px;
     font-size: 20px;
-    font-weight: 700;
+    font-weight: 500;
+
+    span {
+      margin-right: 6px;
+    }
   }
   .glyphicon {
     margin-right: 8px;
