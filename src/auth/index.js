@@ -37,12 +37,11 @@ export default {
 
   // To log out, we just need to remove the token
   logout() {
-    console.log('called')
     Cookies.remove('gh_token', {
       expires: 1
     });
     setTimeout(function() {
-      window.location.reload();
+      window.location = "/login";
     }, 1000)
   },
 
