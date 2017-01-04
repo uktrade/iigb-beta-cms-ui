@@ -15,14 +15,17 @@ Vue.use(VueRouter)
 const router = new VueRouter({
 	mode: 'history',
 	base: __dirname,
-	routes: [{
-		path: '/',
-		redirect: '/login'
-	}, {
+	routes: [
+    // {
+		// path: '/',
+		// redirect: '/login'
+	// }
+   {
 		path: '/login',
 		name: 'login',
 		component: Login
-	}, {
+	},
+    {
 		path: '/login/redirect',
 		name: 'logging',
 		component: Logging
