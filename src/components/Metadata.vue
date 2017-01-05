@@ -1,5 +1,6 @@
 <template>
   <div class="col-md-6 dit-cms-pages__inputs">
+    <!--<i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>-->
     <div>
       <div class="form-group">
         <Layouts :defaultValue="model.layout"></Layouts>
@@ -22,7 +23,7 @@
         </div>
         <input v-else
                id="page-url"
-               class="form-control"
+               class="form-control single-input"
                type="text"
                v-model="model.path">
       </div>
@@ -48,9 +49,6 @@
               <Draggable :list="model['data'][key]" class="dragArea">
                 <div v-for="(some, idx) in model['data'][key]"
                      class="dit-form-nested__group">
-                  <!--temporary solution until adding content-->
-                  <div class="sortable-title"><span class="fa fa-arrows" style="margin-right: 12px"></span>{{some['content']}}</div>
-                  <!--^^^^^^^-->
                   <template v-for="(item, name) in field['fields']">
                     <template v-if="model['data'][key]">
                       <label for="key">
@@ -124,7 +122,8 @@
       return {
         fieldsList: null,
         showModal: false,
-        contentUrl: null
+        contentUrl: null,
+//        loading: false
       }
     },
     created: function () {
@@ -137,16 +136,28 @@
     },
     methods: {
       getTemplateFields: function (path) {
-        const env = new nunjucks.Environment(new nunjucks.WebLoader(apiURL))
-        env.addFilter('date', function (content, language) {
-          return '';
-        });
-        env.addGlobal('now', function () {
-          return new Date();
-        });
-        const layout = env.render(path)
-        const fields = tags.parse(layout)
-        this.fieldsList = fields
+//        this.loading = true
+//        get data from session storage if present
+        if (sessionStorage.getItem(path)) {
+          this.fieldsList = JSON.parse(sessionStorage.getItem(path))
+          this.$emit('content-loaded', false)
+//          this.loading = false
+        }
+        else {
+          const env = new nunjucks.Environment(new nunjucks.WebLoader(apiURL))
+          env.addFilter('date', function (content, language) {
+            return '';
+          });
+          env.addGlobal('now', function () {
+            return new Date();
+          });
+          const layout = env.render(path)
+          const fields = tags.parse(layout)
+          this.fieldsList = fields
+          sessionStorage.setItem(path, JSON.stringify(fields))
+          this.$emit('content-loaded', false)
+//          this.loading = false
+        }
       },
       fetchContent: function (url) {
         const xhr = new XMLHttpRequest()
@@ -200,6 +211,7 @@
     padding: 10px;
     margin-right: 15%;
     background-color: $invalid-input;
+    border-radius: 4px;
 
     input {
       display: block;
@@ -209,11 +221,12 @@
     }
 
     &__group {
-       padding: 10px 5px;
-       margin-bottom: 20px;
-       border-bottom: 1px solid black;
-       background-color: #767676;
-     }
+      padding: 10px 5px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid black;
+      background-color: #767676;
+      border-radius: 4px;
+    }
   }
 
   .dit-fake-input {
