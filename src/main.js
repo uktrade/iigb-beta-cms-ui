@@ -48,9 +48,7 @@ const router = new VueRouter({
 	}]
 })
 
-console.log(process.env.NODE_ENV);
-
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV != "development") {
 	router.beforeEach((to, from, next) => {
 		if (auth.checkAuth()) {
 			next();
