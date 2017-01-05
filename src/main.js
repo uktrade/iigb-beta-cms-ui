@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import auth from './auth/'
 import Login from './templates/Login'
+import Labels from './templates/Labels'
 import Logging from './templates/Logging'
-import Home from './templates/Home'
 import Pages from './templates/Pages'
-// import Pages from './App'
 import Layouts from './templates/Layouts'
 import Content from './templates/Content'
 import Media from './templates/Media'
-import auth from './auth/'
 
 Vue.use(VueRouter)
 
@@ -16,9 +15,9 @@ const router = new VueRouter({
 	mode: 'history',
 	base: __dirname,
 	routes: [{
-		path: '/',
-		redirect: '/login'
-	}, {
+    path: '/',
+    redirect: '/login'
+    }, {
 		path: '/login',
 		name: 'login',
 		component: Login
@@ -26,10 +25,6 @@ const router = new VueRouter({
 		path: '/login/redirect',
 		name: 'logging',
 		component: Logging
-	}, {
-		path: '/home',
-		name: 'home',
-		component: Home
 	}, {
 		path: '/pages',
 		name: 'pages',
@@ -49,22 +44,20 @@ const router = new VueRouter({
 	}, {
 		path: '/labels',
 		name: 'labels',
-		component: Home
+		component: Labels
 	}]
 })
 
-if (process.env.NODE_ENV == 'production') {
-	router.beforeEach((to, from, next) => {
-		if (auth.checkAuth()) {
-			next();
-		} else {
-			if (to.path != '/login' && to.path != '/login/redirect') {
-				next('/login')
-			}
-			next()
+router.beforeEach((to, from, next) => {
+	if (auth.checkAuth()) {
+		next();
+	} else {
+		if (to.path != '/login' && to.path != '/login/redirect') {
+			next('/login')
 		}
-	})
-}
+		next()
+	}
+})
 
 new Vue({
 	router,

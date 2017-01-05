@@ -42,7 +42,7 @@
           <p class="preview-description">Description goes here.</p>
         </div>
       </div>
-      <a href="" class="btn btn-primary btn-content-edit">Edit</a>
+      <a href="" class="btn btn-success btn-content-edit">Edit</a>
       <a href="" class="btn btn-danger btn-content-delete">Delete</a>
     </div>
     </div>
@@ -132,7 +132,7 @@
 
     &__breadcrumb {
       font-size: x-large;
-      margin-top: 80px;
+      padding-top: 80px;
       margin-left: 340px;
       position: relative;
     }

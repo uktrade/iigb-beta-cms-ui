@@ -1,33 +1,20 @@
 <template>
-	    <div class="panel panel-default dit-media__preview">
-          <div class="panel-body">
-          {{selected}}
-
-          <div class="preview-image">
-              <img :src="image" />
-          </div>
-          </div>
-        </div>
+  <div v-if="image" class="panel panel-default preview">
+    <div class="panel-body">
+      <div class="preview-heading">
+        {{selected}}
+      </div>
+      <div class="preview-image">
+         <img class="img img-fluid" :src="image" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-  let treeDetails = null
-
   export default {
     name: 'PreviewPanel',
-    components: {
-    },
     props: ['selected','image'],
-    data: function () {
-      return {
-      }
-    },
-    methods: {
-    },
-    computed: {
-      getType: function () {
-      }
-    }
   };
 
 </script>
@@ -37,36 +24,24 @@
 
   @import "../assets/variables.scss";
 
-  .dit-media {
+  .preview {
+    width: 95%;
+    height: 100%;
+    border: 1px solid $black;
+    background-color: $grey;
+    margin: 0;
 
-    &__preview {
-      /*margin-left: 80 px;*/
-      height: 280px;
-      width: 280px;
-      border: 1px solid $black;
-      background-color: $grey;
-      margin: 0;
+    &-heading {
+      margin: 12px;
+    }
 
-      .preview-heading {
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 50px;
-      }
-
-      .preview-image {
-        margin-top: 30px;
-
-      img{
-        max-height: 200px;
-        max-width: 250px;
-      }
-        width: 100px;
-        height: 200px;
-      }
+    &-image {
+      margin: 30px 55px;
     }
   }
 
-  .preview-heading {
-    margin-top: 12px;
+  .img {
+    margin: 0 auto;
   }
+
 </style>

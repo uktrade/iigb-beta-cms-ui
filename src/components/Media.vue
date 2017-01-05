@@ -1,72 +1,81 @@
 <template>
-  <div class="row">
+  <div>
     <div class="dit-selection__bar">
-      <ul class="list-group list-group-horizontal col-md-2 col-md-pull-2">
+      <ul class="list-group list-group-horizontal col-md-3">
         <li>
-          <button @click="openModal()">Upload</button>         
+          <button class="btn btn-primary" @click="openModal()">Upload</button>
           <modal v-if="showModal"
-               @close="showModal = false"
-               :modalSize="modalSize">
+                 @close="showModal = false"
+                 :modalSize="modalSize">
 
-          <h3 slot="header">File upload</h3>
-          <div slot="body" class="dit-media__file-upload">
-          <div class="row">
-            <div class="col-md-6">
-            <button class="upload-btn">Choose file</button>
+            <h3 slot="header">File upload</h3>
+            <div slot="body" class="dit-media__file-upload">
+              <div class="row">
+                <div class="col-md-6">
+                  <button class="btn btn-secondary btn-upload">Choose file</button>
+                </div>
+                <div class="col-md-6">
+                  <p class="filename">{{filename}}
+                  <p>
+                  <p class="filename has-error">{{errorMsg}}
+                  <p>
+                </div>
+              </div>
+              <input type="file" class="hidden-upload-btn" @change="onFileChange">
             </div>
-            <div class="col-md-6">
-            <p class="filename">{{filename}}<p>
-            <p class="filename has-error">{{errorMsg}}<p>
+
+            <div slot="footer">
+              <button class="btn btn-primary modal-default-button" @click="uploadFile()">
+                Upload File
+              </button>
+              <button class="btn btn-danger modal-default-button" @click="closeModal()">
+                Cancel
+              </button>
             </div>
-          </div>
-          <input type="file" class="hidden-upload-btn" @change="onFileChange">
-          </div>
-
-          <div  slot="footer">    
-            <button class="btn btn-primary modal-default-button" @click="uploadFile()">
-            Upload File
-            </button>
-            <button class="btn btn-danger modal-default-button" @click="closeModal()">
-            Cancel
-            </button>
-          </div>
-
-        </modal>
+          </modal>
         </li>
-        <li style="padding:6px;">
-          <button class="btn-danger" v-if="selected != ''">Delete</button>         
+        <li>
+          <button class="btn btn-danger" v-if="selected != ''">Delete</button>
         </li>
       </ul>
     </div>
-      <div class="col-md-4 col-md-offset-1 dit-media__table">
-        <table>
+    <div class="col-md-4 dit-media__table">
+      <table>
         <th>Name</th>
         <th>Modified</th>
-        <tr><td><i class="glyphicon glyphicon-arrow-up" v-if="this.mediaURL != (this.contentURL + 'media')" @click="goUp()"></i></td></tr>
-          <tr v-for="item in items">
-            <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']" @click="toggle(item)">
-            <span :class="[item.type == 'dir' ? 'glyphicon glyphicon-folder-close' : 'glyphicon glyphicon-file']"> </span> {{item.name}}
-            </td>
-            <td>TBC</td>
-          </tr>
-        </table>
-      </div>
+        <tr>
+          <td v-if="this.mediaURL != (this.contentURL + 'media')"
+              @click="goUp()">
+            <i class="fa fa-level-up fa-lg"></i>
+            ..
+          </td>
+        </tr>
+        <tr v-for="item in items">
+          <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']"
+              @click="toggle(item)">
+            <span
+              :class="[item.type == 'dir' ? 'fa fa-folder-o' : 'fa fa-file-o']"></span>
+            {{item.name}}
+          </td>
+          <td>TBC</td>
+        </tr>
+      </table>
+    </div>
 
-    <div class="col-md-3">
-      <div class="col-md-8 col-md-push-3">
+    <div class="col-md-6">
         <p class="preview-heading">Preview</p>
         <PreviewPanel :selected="selected"
                       :image="image">
         </PreviewPanel>
-      </div>
     </div>
+  </div>
 </template>
 
 <script>
   import PreviewPanel from './PreviewPanel'
   import Modal from './Modal'
 
-   export default {
+  export default {
     name: 'media',
     components: {
       PreviewPanel,
@@ -107,11 +116,11 @@
         xhr.send()
       },
       fetchFile: function (item) {
-        //TODO check if a video.        
+        //TODO check if a video.
         this.image = item.download_url;
       },
       toggle: function (item) {
-          this.image = '';
+        this.image = '';
         if (item.type == 'dir') {
           this.mediaURL = this.contentURL + item.path;
           this.fetchStructure();
@@ -120,7 +129,7 @@
           this.fetchFile(item);
         }
       },
-      goUp: function(){
+      goUp: function () {
         var currentPath = this.mediaURL;
         var currentURLParams = currentPath.lastIndexOf("/");
         var futurePath = currentPath.substring(0, (currentURLParams))
@@ -131,10 +140,10 @@
         console.log(file);
         self.selected = file.name;
       },
-      openModal: function() {
+      openModal: function () {
         this.showModal = true;
       },
-      closeModal: function() {
+      closeModal: function () {
         this.showModal = false;
         this.image = '';
         this.filename = '';
@@ -142,39 +151,39 @@
         this.errorMsg = '';
       },
       onFileChange(e) {
-      this.errorMsg = '';
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
-        return;
-      this.createImage(files[0]);
-    },
-    createImage(file) {
+        this.errorMsg = '';
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        this.createImage(files[0]);
+      },
+      createImage(file) {
 
-    if (/image/.test(file.type)) {
+        if (/image/.test(file.type)) {
 
-      var image = new Image();
-      var reader = new FileReader();
-      var vm = this;
+          var image = new Image();
+          var reader = new FileReader();
+          var vm = this;
 
-      reader.onload = (e) => {
-        vm.image = e.target.result;
-        this.filename = file.name;
-        this.selected = file.name;
-      };
-      reader.readAsDataURL(file);
-    }else if(/video/.test(file.type)){
+          reader.onload = (e) => {
+            vm.image = e.target.result;
+            this.filename = file.name;
+            this.selected = file.name;
+          };
+          reader.readAsDataURL(file);
+        } else if (/video/.test(file.type)) {
 
-    }else{
-      this.showErrorMsg();
-    }
-    },
-    removeImage: function () {
-      self.image = '';
-      self.filename = '';
-    },
-    showErrorMsg: function(){
-      this.errorMsg = "Please select a valid image or video file.";     
-    },
+        } else {
+          this.showErrorMsg();
+        }
+      },
+      removeImage: function () {
+        self.image = '';
+        self.filename = '';
+      },
+      showErrorMsg: function () {
+        this.errorMsg = "Please select a valid image or video file.";
+      },
       console(some) {
         console.log(some)
       }
@@ -184,32 +193,26 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
   @import "../assets/variables.scss";
 
   .dit-selection {
 
     &__bar {
-      background-color: $whitesmoke;
-      height: 40px;
-      margin-top: 7%;
+       background-color: $whitesmoke;
+       height: 60px;
 
-      ul {
-        display: -webkit-inline-box;
-        float: right;
-        list-style: none;
-        /*margin-right: 100 px;*/
+        ul {
+          display: -webkit-inline-box;
+          float: right;
+          list-style: none;
 
         li {
-          margin-right: 120px;
           padding: 10px 0;
         }
       }
-      @media (max-width: 1600px) {
-        margin-top: 9%;
-        ul {
-          /*margin-right: 130 px;*/
 
+      @media (max-width: 1600px) {
+        ul {
           li {
             margin-right: 60px;
           }
@@ -221,7 +224,7 @@
   .dit-media {
 
     &__table {
-    margin-top: 30px;
+       margin-top: 30px;
 
       table {
         font-family: arial, sans-serif;
@@ -229,8 +232,8 @@
         width: 100%;
 
         tr:hover{
-        cursor: pointer !important;
-      }
+          cursor: pointer !important;
+        }
       }
 
       th {
@@ -243,49 +246,38 @@
       }
     }
 
-    &__preview {
-      /*margin-left: 80 px;*/
-      height: 280px;
-      width: 280px;
-      border: 1px solid $black;
-      background-color: $grey;
-      margin: 0;
-
-      .preview-heading {
-        font-weight: bold;
-        font-size: 16px;
-        margin-bottom: 50px;
-      }
-    }
-
     &__file-upload{
-    height: 60px;
-    border: 1px solid black;
+       height: 60px;
+       border: 1px solid black;
 
-    .upload-btn{
-      margin: 20px;
-    }    
-    .filename{
-    position: absolute;
-    top: 20px;
-    left: 0px;
-    }
+      .upload-btn{
+        margin: 20px;
+      }
 
-    .has-error{
-      color: red;
-    }
+      .filename{
+        position: absolute;
+        top: 20px;
+        left: 0px;
+      }
 
-    .hidden-upload-btn{
-    position: absolute;
-    top: 38px;
-    left: 40px;
-    opacity: 0;
-    }
+      .has-error{
+        color: red;
+      }
+
+      .hidden-upload-btn{
+        position: absolute;
+        top: 38px;
+        left: 40px;
+        opacity: 0;
+      }
     }
   }
 
   .preview-heading {
-    margin-top: 12px;
+    margin-top: 38px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
   .is-folder {
@@ -294,10 +286,12 @@
     line-height: 40px;
     margin: 8px 0;
   }
-  
-  .modal-container{
-    width: 30%;
-    height: 300px;
+
+  .btn-upload {
+    margin: 10px;
   }
 
+  .fa {
+    margin-right: 8px;
+  }
 </style>

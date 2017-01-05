@@ -43,6 +43,9 @@
 </template>
 
 <script>
+
+  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/labels.json'
+
   export default {
     name: 'labels',
     props: {
@@ -51,7 +54,7 @@
       filterKey: String
     },
     data: function () {
-      let sortOrders = {}
+      var sortOrders = {}
       this.columns.forEach(function (key) {
         sortOrders[key] = 1
       })
@@ -62,34 +65,29 @@
     },
     computed: {
       filteredData: function () {
-        let sortKey = this.sortKey
-        let filterKey = this.filterKey && this.filterKey.toLowerCase()
-        let order = this.sortOrders[sortKey] || 1
-        let dataIn = this.data
-        let data = [];
-        for (let label in dataIn) {
-          let obj1 = {'labels': label}
-          let obj2 = dataIn[label]
-          let newObj = Object.assign(obj1, obj2);
-          data.push(newObj)
-        }
-
-        console.log(data)
+        var sortKey = this.sortKey
+        var filterKey = this.filterKey && this.filterKey.toLowerCase()
+        var order = this.sortOrders[sortKey] || 1
+        var data = this.data
+        var sortable = [];
+        for (var label in data)
+          sortable.push([label, data[label]])
         if (filterKey) {
-          data = data.slice().filter(function (row) {
+          sortable = sortable.slice().filter(function (row) {
             return Object.keys(row).some(function (key) {
               return String(row[key]).toLowerCase().indexOf(filterKey) > -1
             })
           })
         }
         if (sortKey) {
-          data = data.sort(function (a, b) {
+          sortable = sortable.sort(function (a, b) {
             a = a[sortKey]
             b = b[sortKey]
             return (a === b ? 0 : a > b ? 1 : -1) * order
           })
         }
-        return data
+//      console.log(sortable)
+        return sortable
       }
     },
     filters: {
@@ -101,6 +99,20 @@
       sortBy: function (key) {
         this.sortKey = key
         this.sortOrders[key] = this.sortOrders[key] * -1
+      },
+      fetchLabels: function () {
+        const xhr = new XMLHttpRequest()
+        const self = this
+        xhr.open('GET', labelsURL)
+        xhr.onload = function () {
+          const content = xhr.responseText
+          self.data = content
+//          console.log(content)
+        }
+        xhr.send()
+      },
+      console(some) {
+        console.log(some)
       }
     }
   }
