@@ -15,9 +15,9 @@ const router = new VueRouter({
 	mode: 'history',
 	base: __dirname,
 	routes: [{
-    path: '/',
-    redirect: '/login'
-    }, {
+		path: '/',
+		redirect: '/login'
+	}, {
 		path: '/login',
 		name: 'login',
 		component: Login
@@ -48,16 +48,18 @@ const router = new VueRouter({
 	}]
 })
 
-router.beforeEach((to, from, next) => {
-	if (auth.checkAuth()) {
-		next();
-	} else {
-		if (to.path != '/login' && to.path != '/login/redirect') {
-			next('/login')
+if (process.env.NODE_ENV != "development") {
+	router.beforeEach((to, from, next) => {
+		if (auth.checkAuth()) {
+			next();
+		} else {
+			if (to.path != '/login' && to.path != '/login/redirect') {
+				next('/login')
+			}
+			next()
 		}
-		next()
-	}
-})
+	})
+}
 
 new Vue({
 	router,
