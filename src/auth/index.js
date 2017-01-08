@@ -1,10 +1,13 @@
 // src/auth/index.js
 var Cookies = require('js-cookie');
+var conf  = require('' + process.env.GITHUB_CONFIG);
 
+
+console.log(conf);
 // URL and endpoint constants
-const LOGIN_URL = 'https://github.com/login/oauth/authorize'
-const CLIENT_ID = '14e4bbb060c1924d9d78' //TODO move to server
-const CALLBACK_URI = '/login' //TODO move to server
+const LOGIN_URL = 'https://github.com/login/oauth/authorize';
+const CLIENT_ID = conf.clientId; //TODO move to server
+const CALLBACK_URI = '/login'; //TODO move to server
   // const SIGNUP_URL = API_URL + 'users/'
 export default {
 
@@ -21,8 +24,7 @@ export default {
   // user's code is sent to our gatekeeper on github
   authenticate(context, code) {
     context.$http
-      .get('https://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/' + code).then((data) => {
-
+      .get(conf.gateKeeper + code).then((data) => {
           if (data.body.token) {
             var token = data.body.token;
             Cookies.set('gh_token', token, {
@@ -32,7 +34,7 @@ export default {
         },
         (data) => {
           console.log('error ' + data);
-        })
+        });
   },
 
   // To log out, we just need to remove the token
@@ -59,4 +61,4 @@ export default {
       'Authorization': 'Bearer ' + Cookies.get('gh_token')
     }
   }
-}
+};
