@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="col-md-4 dit-cms-pages__index">
-      <a href="/pages/layouts/new"><i class="fa fa-plus-circle dit-cms-pages__add-page"></i></a>
+    <div class="col-md-4 pages__index">
+      <a href="/pages/layouts/new"><i class="fa fa-plus-circle pages__add-page"></i></a>
         <template v-if="status==='ready'">
           <template v-for="(site, index) in sites">
             <div v-if="site.status==='loading'">Loading...</div>
@@ -19,7 +19,7 @@
                   Save
                 </button>
                 <div :class="{'alert alert-danger': site.status == 'failed'}">{{site.status}}</div>
-                <ul class="dit-cms-pages__files container-list drag">
+                <ul class="pages__files container-list drag">
                   <Draggable :list="site.content.pages">
                     <TreeElement v-for="list in site.content.pages"
                                  :english="site.content.globalData.locale.language === 'en'"
@@ -132,7 +132,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   @import "../assets/variables.scss";
-  .dit-cms-pages {
+  .pages {
     &__index {
       height: 1200px;
       background-color: $grey;
@@ -141,9 +141,9 @@
     }
 
     &__files {
-      & li{
-        background-color: $grey !important;
-      }
+      /*& li{*/
+        /*background-color: $grey !important;*/
+      /*}*/
     }
 
     &__add-page {
