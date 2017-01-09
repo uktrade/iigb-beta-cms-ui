@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import Sites from '../components/SitesDraggable'
-  import Sidebar from '../components/Sidebar'
+  import Sites from '../components/SitesDraggable';
+  import Sidebar from '../components/Sidebar';
 
   export default {
     name: 'app',

@@ -28,16 +28,16 @@
       try{
       var code = window.location.href.match(/\?code=(.*)/)[1];
       }catch(Error){
-           location = '/login' 
+           location = '/login'
       }
       auth.authenticate(this,code);
         setTimeout(
-          function(){ 
+          function(){
             if(auth.checkAuth() == true){
-           location = '/pages' 
+           location = '/pages'
           }
           else{
-           location = '/login' 
+           location = '/login'
           }
           }
           ,2000)
@@ -51,8 +51,8 @@
 <style scoped lang="scss">
 
 .animation{
-  height: 40px; 
-  width: 40px; 
+  height: 40px;
+  width: 40px;
   margin-left: 35%;
 }
 
