@@ -1,11 +1,19 @@
 <template>
-  <div v-if="image" class="panel panel-default preview">
-    <div class="panel-body">
+  <div class="panel panel-default preview">
+    <div v-if="image" class="panel-body">
       <div class="preview-heading">
         {{selected}}
       </div>
       <div class="preview-image">
          <img class="img img-fluid" :src="image" />
+      </div>
+    </div>
+    <div v-if="content" class="panel-body">
+      <div class="preview-heading">
+        {{selected}}
+      </div>
+      <div class="preview-content">
+      {{content.content}}
       </div>
     </div>
   </div>
@@ -14,7 +22,7 @@
 <script>
   export default {
     name: 'PreviewPanel',
-    props: ['selected','image'],
+    props: ['selected','image', 'content'],
   };
 
 </script>

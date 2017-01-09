@@ -77,6 +77,9 @@ export default {
   },
   getMediaRoot() {
     return conf.content.mediaPath;
+  },
+    getContentRoot() {
+    return conf.content.path;
   }
 };
 

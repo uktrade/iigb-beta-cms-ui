@@ -17,56 +17,161 @@
         </li>
       </ul>
     </div>
-    <div class="col-md-4 col-md-offset-1 dit-content__table">
+    <div class="col-md-4 dit-content__table">
       <table>
         <th>Name</th>
         <th>Modified</th>
         <tr>
-          <td><a href="">test1.md</a></td>
-          <td>3/11/16 9.15AM</td>
+          <td v-if="currentPath != contentRoot"
+              @click="goUp()">
+            <i class="fa fa-level-up fa-lg"></i>
+            ..
+          </td>
         </tr>
-        <tr>
-          <td><a href="">test2.md</a></td>
-          <td>3/11/16 9.15AM</td>
-        </tr>
-        <tr>
-          <td><a href="">test3.md</a></td>
-          <td>3/11/16 9.15AM</td>
+        <tr v-for="item in items">
+          <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']"
+              @click="toggle(item)">
+            <span
+              :class="[item.type == 'dir' ? 'fa fa-folder-o' : 'fa fa-file-o']"></span>
+            {{item.name}}
+          </td>
+          <td>TBC</td>
         </tr>
       </table>
     </div>
-    <div class="col-md-1">
-      <div class="col-md-8 col-md-push-5 panel panel-default dit-content__preview">
-        <div class="panel-body">
-          <p class="preview-heading">This is the title of the file</p>
-          <p class="preview-description">Description goes here.</p>
-        </div>
-      </div>
-      <a href="" class="btn btn-success btn-content-edit">Edit</a>
-      <a href="" class="btn btn-danger btn-content-delete">Delete</a>
+    <div class="col-md-5">
+        <p class="preview-heading">Preview</p>
+        <PreviewPanel :selected="selected"
+                      :content="inputEditor">
+        </PreviewPanel>
     </div>
+<!--     <div class="col-md-5">
+      <modal v-if="showModal"
+             @close="showModal = false">
+        <h3 slot="header">{{contentUrl}}</h3>
+        <Editor slot="body" :content="inputEditor.content"></Editor>
+      </modal>
+    </div> -->
     </div>
 </template>
 
 <script>
+  import PreviewPanel from './PreviewPanel'
+  import Modal from './Modal'
+  import github from '../github';
+
+  const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/';
+
   export default {
     name: 'content',
+    components: {
+      PreviewPanel,
+      Modal
+    },
     data: function () {
       return {
-        //
+        contentRoot: github.getContentRoot(),
+        currentPath: github.getContentRoot(),
+        items: null,
+        modalSize: "modal-container-sm",
+        selected: '',
+        errorMsg: '',
+        filename: '',
+        contentURL: 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/',
+        inputEditor: null,
+        showModal: false,
       }
     },
-    computed: {
-      //
+    created: function () {
+      this.loadList(github.getContentRoot())
     },
     methods: {
+      load(path) {
+        return github
+        .loadMedia(path);
+      },
+      loadList(path){
+          var self = this;
+          return self.load(path)
+          .then(function(list){
+            self.items = list;
+            return list;
+          });
+      },
+      toggle: function (item) {
+        var self = this;
+        this.image = '';
+        if (item.type === 'dir') {
+          this.loadList(item.path)
+            .then(function(){
+              self.currentPath =  item.path;
+            });
+        } else {
+          this.selected = item.name;
+          this.fetchContent(item.download_url);
+          console.log(item.download_url);
+        }
+      },
+      goUp: function () {
+        this.image = '';
+        var currentURLParams = this.currentPath.lastIndexOf("/");
+        this.currentPath = this.currentPath.substring(0, (currentURLParams))
+        this.loadList(this.currentPath);
+      },
+      openModal: function () {
+        this.showModal = true;
+      },
+      closeModal: function () {
+        this.showModal = false;
+        this.image = '';
+        this.filename = '';
+        this.selected = '';
+        this.errorMsg = '';
+      },
+      onFileChange(e) {
+        this.errorMsg = '';
+        var files = e.target.files || e.dataTransfer.files;
+        if (!files.length)
+          return;
+        this.createImage(files[0]);
+      },
+      uploadFile() {
+        console.log(this.image);
+        github.create(this.currentPath,this.filename,this.image)
+          .then(function(){
+
+          });
+      },
+      removeImage: function () {
+        self.image = '';
+        self.filename = '';
+      },
+      showErrorMsg: function () {
+        this.errorMsg = "Please select a valid image or video file.";
+      },
+      fetchContent: function (url) {
+        console.log(url);
+        const xhr = new XMLHttpRequest()
+        const self = this
+        xhr.open('GET', contentURL + url)
+        xhr.onload = function () {
+          const content = xhr.responseText
+          self.inputEditor = {content: content}
+          self.showModal = true
+          self.contentUrl = url
+        }
+        xhr.send()
+      },
       edit: function () {
         //
       },
       delete: function () {
         //
+      },
+      console(some) {
+        console.log(some)
       }
-    }
+   }
   }
 </script>
 
