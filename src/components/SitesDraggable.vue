@@ -1,7 +1,6 @@
 <template>
-  <div>
+  <div class="row">
     <div class="col-md-4 dit-cms-pages__index" style="padding-top: 25px">
-      <i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>
       <a href="/pages/layouts/new"><i class="fa fa-plus-circle dit-cms-pages__add-page"></i></a>
       <template v-for="(site, index) in sites">
         <div @click="defaultSite = index">
@@ -60,7 +59,7 @@
         disable: false,
         selected: null,
         inputEditor: null,
-        loading: true
+        loading: false
       }
     },
     created: function () {
@@ -68,7 +67,6 @@
     },
     watch: {
       defaultSite: 'fetchStructure',
-//      loading: 'startLoading'
     },
     methods: {
       fetchStructure: function () {
@@ -81,19 +79,19 @@
           self.treeData = structure.pages[0].children
           self.treeDataDetails = structure.pages[0]
           self.english = structure.globalData.locale.language === 'en'
+          self.loading = false
+//          console.log(self.treeDataDetails)
         }
         xhr.send()
       },
       updateTree: function (model) {
-//        console.log('uploadTree')
+        console.log('got here updateTree')
         this.treeDataDetails = model
       },
       startLoading: function (started) {
-//        console.log('startLoading')
         this.loading = started
       },
       endLoading: function (ended) {
-//        console.log('endLoading')
         this.loading = ended
       },
       console(some) {
@@ -110,7 +108,6 @@
   .dit-cms-pages{
 
     &__index{
-      /*margin-left: 200px;*/
       height: 1200px;
       background-color: $grey;
       overflow-y: scroll;
