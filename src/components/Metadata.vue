@@ -1,6 +1,5 @@
 <template>
   <div class="col-md-6 dit-cms-pages__inputs">
-    <!--<i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>-->
     <div>
       <div class="form-group">
         <Layouts :defaultValue="model.layout"></Layouts>
@@ -123,7 +122,6 @@
         fieldsList: null,
         showModal: false,
         contentUrl: null,
-//        loading: false
       }
     },
     created: function () {
@@ -136,12 +134,9 @@
     },
     methods: {
       getTemplateFields: function (path) {
-//        this.loading = true
 //        get data from session storage if present
         if (sessionStorage.getItem(path)) {
           this.fieldsList = JSON.parse(sessionStorage.getItem(path))
-          this.$emit('content-loaded', false)
-//          this.loading = false
         }
         else {
           const env = new nunjucks.Environment(new nunjucks.WebLoader(apiURL))
@@ -155,8 +150,6 @@
           const fields = tags.parse(layout)
           this.fieldsList = fields
           sessionStorage.setItem(path, JSON.stringify(fields))
-          this.$emit('content-loaded', false)
-//          this.loading = false
         }
       },
       fetchContent: function (url) {
