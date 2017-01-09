@@ -1,9 +1,8 @@
 /*
  * See github-api usage at http://github-tools.github.io/github/docs/3.0.0
  */
-
 import GitHub from 'github-api';
-var conf = require('' + process.env.GITHUB_CONFIG);
+var conf = process.env.GITHUB;
 var gh_token = require('js-cookie').get('gh_token');
 var github = new GitHub({
   token: gh_token
