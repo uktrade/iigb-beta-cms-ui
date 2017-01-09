@@ -1,39 +1,37 @@
 <template>
-  <div class="row">
-    <div class="col-md-4 dit-cms-pages__index" style="padding-top: 25px">
+  <div>
+    <div class="col-md-4 dit-cms-pages__index">
       <a href="/pages/layouts/new"><i class="fa fa-plus-circle dit-cms-pages__add-page"></i></a>
         <template v-if="status==='ready'">
-            <template v-for="(site, index) in sites">
-                <div v-if="site.status==='loading'">Loading...</div>
-                <div v-else @click="defaultSite = index">
-                  <div class="site">
-                    <span class="fa fa-sitemap fa-lg"></span>
-                    {{site.content.globalData.locale.countryName}}
-                    ({{site.content.globalData.locale.language}})
-                  </div>
+          <template v-for="(site, index) in sites">
+            <div v-if="site.status==='loading'">Loading...</div>
+            <div v-else @click="defaultSite = index">
+              <div class="site">
+                <span class="fa fa-sitemap fa-lg"></span>
+                {{site.content.globalData.locale.countryName}}
+                ({{site.content.globalData.locale.language}})
+              </div>
 
-                  <div v-if='site.name === sites[defaultSite].name' class="row">
-                    <!-- :disabled="!site.changed"  -->
-                    <input
-                      class="save"
-                      @click="update(site)"
-                      type="button"
-                      value="Save">
-                    </input>
-                    {{site.status}}
-                    <ul class="dit-cms-pages__files container-list drag">
-                      <Draggable :list="site.content.pages">
-                        <TreeElement v-for="list in site.content.pages"
-                                     :english="english"
-                                     v-bind:list="list"
-                                     @new-details="updateTree($event)"/>
-                      </Draggable>
-                    </ul>
-                  </div>
-                </div>
-              </template>
+              <div v-if='site.name === sites[defaultSite].name'>
+                <button class="btn btn-primary pull-right"
+                        @click="update(site)">
+                  <i class="fa fa-hdd-o"></i>
+                  Save
+                </button>
+                <div :class="{'alert alert-danger': site.status == 'failed'}">{{site.status}}</div>
+                <ul class="dit-cms-pages__files container-list drag">
+                  <Draggable :list="site.content.pages">
+                    <TreeElement v-for="list in site.content.pages"
+                                 :english="site.content.globalData.locale.language === 'en'"
+                                 v-bind:list="list"
+                                 @new-details="updateTree($event)"/>
+                  </Draggable>
+                </ul>
+              </div>
+            </div>
+          </template>
         </template>
-        <div v-else>{{status}}</div>
+        <div v-else class="alert alert-danger">{{status}}</div>
   </div>
   <metadata v-if="treeDataDetails" :model="treeDataDetails" :content="inputEditor"></metadata>
 </div>
@@ -58,7 +56,6 @@
         sites: [],
         defaultSite: 3,
         treeDataDetails: null,
-        english: true,
         disable: false,
         selected: null,
         inputEditor: null
@@ -137,10 +134,10 @@
   @import "../assets/variables.scss";
   .dit-cms-pages {
     &__index {
-      /*margin-left: 200px;*/
       height: 1200px;
       background-color: $grey;
       overflow-y: scroll;
+      padding-top: 28px;
     }
 
     &__files {
@@ -149,17 +146,12 @@
       }
     }
 
-    &__inputs {
-      background-color: $white;
-      height: 1200px;
-    }
-
     &__add-page {
       position: absolute;
       right: 0;
       margin-right: 20px;
       font-size: 30px;
-      margin-top: 20px;
+      margin-top: -20px;
       color: white;
     }
   }
@@ -173,14 +165,4 @@
       margin-right: 6px;
     }
   }
-
-  .glyphicon {
-    margin-right: 8px;
-  }
-
-  .save {
-    margin-left:40px;
-    margin-bottom: 15px;
-  }
-
 </style>

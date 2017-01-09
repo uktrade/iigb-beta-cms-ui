@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-8 dit-cms-pages__inputs">
+  <div class="col-md-6 dit-cms-pages__inputs">
     <!--<i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>-->
     <div>
       <div class="form-group">
@@ -239,13 +239,6 @@
     background-image: none;
     border: 1px solid $modal-editor-border;
     border-radius: 4px;
-  }
-
-  .sortable-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: white;
-    padding-bottom: 4px;
   }
 
   .single-input {

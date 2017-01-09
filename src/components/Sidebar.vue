@@ -67,7 +67,7 @@
     margin-left: -29px;
 
     &-wrapper {
-      /*height: 1200px;*/
+      height: 1200px;
       background-color: $darkgrey;
     }
 
