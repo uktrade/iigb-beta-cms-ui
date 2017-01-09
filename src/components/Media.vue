@@ -44,7 +44,7 @@
         <th>Name</th>
         <th>Modified</th>
         <tr>
-          <td v-if="this.mediaURL != (this.contentURL + 'media')"
+          <td v-if="currentPath != mediaRoot"
               @click="goUp()">
             <i class="fa fa-level-up fa-lg"></i>
             ..
@@ -74,6 +74,7 @@
 <script>
   import PreviewPanel from './PreviewPanel'
   import Modal from './Modal'
+  import github from '../github';
 
   export default {
     name: 'media',
@@ -83,62 +84,51 @@
     },
     data: function () {
       return {
-        mediaURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/media',
-        contentURL: 'https://api.github.com/repos/uktrade/iigb-beta-content/contents/',
+        mediaRoot: github.getMediaRoot(),
+        currentPath: github.getMediaRoot(),
         items: null,
-        treeData: null,
-        treeDataDetails: null,
         modalSize: "modal-container-sm",
-        disable: false,
         selected: '',
         errorMsg: '',
         image: '',
         filename: '',
-        inputEditor: null,
         showModal: false,
       }
     },
     created: function () {
-      this.fetchStructure()
-    },
-    watch: {
-      currentBranch: 'fetchStructure',
+      this.loadList()
     },
     methods: {
-      fetchStructure: function () {
-        const xhr = new XMLHttpRequest()
-        const self = this
-        xhr.open('GET', self.mediaURL)
-        xhr.onload = function () {
-          const structure = JSON.parse(xhr.responseText)
-          self.items = structure;
-        }
-        xhr.send()
+      load(path) {
+        return github
+        .loadMedia(path);
       },
-      fetchFile: function (item) {
-        //TODO check if a video.
-        this.image = item.download_url;
+      loadList(path){
+          var self = this;
+          return self.load(path)
+          .then(function(list){
+            self.items = list;
+            return list;
+          });
       },
       toggle: function (item) {
+        var self = this;
         this.image = '';
-        if (item.type == 'dir') {
-          this.mediaURL = this.contentURL + item.path;
-          this.fetchStructure();
+        if (item.type === 'dir') {
+          this.loadList(item.path)
+            .then(function(){
+              self.currentPath =  item.path;
+            });
         } else {
           this.selected = item.name;
-          this.fetchFile(item);
+          this.image=item.download_url;
         }
       },
       goUp: function () {
-        var currentPath = this.mediaURL;
-        var currentURLParams = currentPath.lastIndexOf("/");
-        var futurePath = currentPath.substring(0, (currentURLParams))
-        this.mediaURL = futurePath;
-        this.fetchStructure();
-      },
-      updateView: function () {
-        console.log(file);
-        self.selected = file.name;
+        this.image = '';
+        var currentURLParams = this.currentPath.lastIndexOf("/");
+        this.currentPath = this.currentPath.substring(0, (currentURLParams))
+        this.loadList(this.currentPath);
       },
       openModal: function () {
         this.showModal = true;
@@ -158,24 +148,31 @@
         this.createImage(files[0]);
       },
       createImage(file) {
-
         if (/image/.test(file.type)) {
-
           var image = new Image();
           var reader = new FileReader();
           var vm = this;
-
           reader.onload = (e) => {
             vm.image = e.target.result;
-            this.filename = file.name;
-            this.selected = file.name;
+            vm.filename = file.name;
+            vm.selected=file.name;
+            // vm.binaryString = vm.image.split(',')[1];
+
           };
-          reader.readAsDataURL(file);
+          reader.readAsText(file);
         } else if (/video/.test(file.type)) {
 
         } else {
           this.showErrorMsg();
         }
+      },
+      uploadFile() {
+        console.log(this.image);
+        github.create(this.currentPath,this.filename,this.image)
+          .then(function(){
+
+          });
+
       },
       removeImage: function () {
         self.image = '';
@@ -187,7 +184,7 @@
       console(some) {
         console.log(some)
       }
-    }
+   }
   }
 </script>
 

@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import auth from './auth/'
-import Login from './templates/Login'
-import Labels from './templates/Labels'
-import Logging from './templates/Logging'
-import Pages from './templates/Pages'
-import Layouts from './templates/Layouts'
-import Content from './templates/Content'
-import Media from './templates/Media'
+import Login from './components/Login'
+import Labels from './components/Labels'
+import Logging from './components/Logging'
+import Content from './components/Content'
+import Media from './components/Media'
+import Sites from './components/SitesDraggable';
+import Sidebar from './components/Sidebar';
+
 
 Vue.use(VueRouter)
 
@@ -28,23 +29,38 @@ const router = new VueRouter({
 	}, {
 		path: '/pages',
 		name: 'pages',
-		component: Pages
+		components: {
+		  default: Sidebar,
+      content: Sites
+    }
 	}, {
 		path: '/pages/layouts/new',
 		name: 'layouts',
-		component: Layouts
+    components: {
+      default: Sidebar,
+      content: Sites
+    }
 	}, {
 		path: '/content',
 		name: 'content',
-		component: Content
+		components: {
+      default: Sidebar,
+      content: Content
+    }
 	}, {
 		path: '/media',
 		name: 'media',
-		component: Media
+		components: {
+      default: Sidebar,
+		  content: Media
+    }
 	}, {
 		path: '/labels',
 		name: 'labels',
-		component: Labels
+		components: {
+      default: Sidebar,
+		  content: Labels
+    }
 	}]
 })
 
@@ -66,6 +82,7 @@ new Vue({
 	template: `
     <div id="app">
       <router-view class="view"></router-view>
+      <router-view class="view" name="content"></router-view>
     </div>
   `
 }).$mount('#app')

@@ -4,18 +4,10 @@
   <div class="col-md-2 sidebar-wrapper">
     <div class="sidebar">
       <ul class="sidebar-nav">
-        <li>
-          <a :class="{ active: isPages }" href="/Pages">Markets</a>
-        </li>
-        <li>
-          <a :class="{ active: isContent }" href="/Content">Content</a>
-        </li>
-        <li>
-          <a :class="{ active: isMedia }" href="/Media">Media</a>
-        </li>
-        <li>
-          <a :class="{ active: isLabels }" href="/Labels">Labels</a>
-        </li>
+        <router-link to="/pages" tag="li" active-class="active"><a>Markets</a></router-link>
+        <router-link to="/content" tag="li" active-class="active"><a>Content</a></router-link>
+        <router-link to="/media" tag="li" active-class="active"><a>Media</a></router-link>
+        <router-link to="/labels" tag="li" active-class="active"><a>Labels</a></router-link>
       </ul>
     </div>
     <div class="sidebar-logout">
@@ -30,25 +22,8 @@
   export default {
     data() {
       return {
-        isPages: false,
-        isContent: false,
-        isMedia: false,
-        isLabels: false,
         error: ''
       }
-    },
-    mounted() {
-//      console.log(this.$route.name)
-      if (this.$route.name == 'pages' || this.$route.name == 'layouts') {
-        this.isPages = true;
-      } else if (this.$route.name == 'content') {
-        this.isContent = true;
-      } else if (this.$route.name == 'media') {
-        this.isMedia = true;
-      } else if (this.$route.name == 'labels') {
-        this.isLabels = true;
-      }
-
     },
     methods: {
       logout(){
@@ -86,7 +61,6 @@
 
       a {
         color: #fff;
-        cursor: pointer;
       }
     }
 
@@ -97,18 +71,13 @@
 
       li {
         line-height: 40px;
-        background: $black;
         margin: 0 -15px;
-
-      a {
         display: block;
-        text-decoration: none;
         border: 1px solid $darkgrey;
         height: 100px;
         text-align: center;
         padding: 30px;
         font-size: 20px;
-        color: $white;
         background-color: #222;
 
           &.active {
@@ -119,7 +88,7 @@
 
           &:hover {
             text-decoration: none;
-            color: #fff;
+            color: $white;
             background: rgba(255, 255, 255, 0.2);
             cursor: pointer !important;
           }
@@ -127,6 +96,10 @@
           &:active, &:focus {
             text-decoration: none;
           }
+
+        a {
+          text-decoration: none;
+          color: $white;
         }
       }
     }
