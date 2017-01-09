@@ -10,7 +10,7 @@
     "build": "node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
-    "deploy" : "npm run build && node_modules/iigb-aws-helpers/deploy.sh",
+    "deploy" : "npm install && npm run build && node_modules/iigb-aws-helpers/deploy.sh",
     "test": "npm run e2e"
   },
   "dependencies": {
