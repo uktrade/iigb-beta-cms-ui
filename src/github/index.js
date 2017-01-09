@@ -56,7 +56,7 @@ export default {
         path + '/' + fileName,
         file,
         'Upload '+ fileName,
-        {}
+        {encode: false}
       )
       .then(function(response){
         return response.data;
