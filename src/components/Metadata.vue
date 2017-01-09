@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-6 dit-cms-pages__inputs">
+  <div class="col-md-8 dit-cms-pages__inputs">
     <!--<i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>-->
     <div>
       <div class="form-group">
@@ -192,8 +192,8 @@
     &__inputs{
       background-color: $white;
       height: 1200px;
-      overflow-y: scroll;
       padding-left: 28px;
+      overflow-y: scroll;
     }
   }
 

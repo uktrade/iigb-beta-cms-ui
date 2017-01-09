@@ -8,6 +8,13 @@
         <div class="col-md-3">
           <input class="form-control" name="query" v-model="filterKey">
         </div>
+        <div class="offset-md-2 col-md-2">
+        Add language
+        </div>
+        <div class="col-md-3">
+          <input class="form-control" name="query" v-model="language" placeholder="language code_COUNTRY CODE">
+        </div>
+        <button class="btn btn-primary" @click="addLanguage">Add</button>
       </div>
     </form>
     <div class="table-responsive">
@@ -68,9 +75,11 @@
       return {
         sortKey: '',
         sortOrders: sortOrders,
-        data: Object,
+        labels: Object,
         columns: [],
         filterKey: '',
+        language: '',
+        newLabels: {}
       }
     },
     beforeCreate: function() {
@@ -79,9 +88,9 @@
         xhr.open('GET', labelsURL)
         xhr.onload = function () {
           const response = xhr.responseText
-          self.data = JSON.parse(response)
-          for (let prop in self.data.reasons) {
-            if (Object.prototype.hasOwnProperty.call(self.data.reasons, prop)) {
+          self.labels = JSON.parse(response)
+          for (let prop in self.labels.reasons) {
+            if (Object.prototype.hasOwnProperty.call(self.labels.reasons, prop)) {
               self.columns.push(prop)
             }
           }
@@ -98,7 +107,7 @@
         const sortKey = this.sortKey
         const filterKey = this.filterKey && this.filterKey.toLowerCase()
         const order = this.sortOrders[sortKey] || 1
-        const data = this.data
+        const data = this.labels
         let sortable = [];
         for (let label in data)
           sortable.push([label, data[label]])
@@ -136,13 +145,23 @@
         xhr.open('GET', labelsURL)
         xhr.onload = function () {
           const response = xhr.responseText
-          self.data = response
+          self.labels = response
 //          console.log(response.reasons)
           for (key in response.reasons) {
             this.columns.push(key)
           }
         }
         xhr.send()
+      },
+      addLanguage: function () {
+        for (prop in this.labels) {
+          if (this.labels[prop].label){
+            this.$set(this.labels, this.labels[prop]['label'][this.language], "")
+            this.$set(this.labels, this.labels[prop]['options'][this.language], [])
+          } else {
+            this.$set(this.labels, this.labels[prop][this.language], "")
+          }
+        }
       },
       console(some) {
         console.log(some)
