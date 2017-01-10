@@ -4,9 +4,7 @@ var conf = process.env.GITHUB;
 
 // URL and endpoint constants
 const LOGIN_URL = 'https://github.com/login/oauth/authorize';
-const CLIENT_ID = conf.clientId; //TODO move to server
-const CALLBACK_URI = '/login'; //TODO move to server
-  // const SIGNUP_URL = API_URL + 'users/'
+const CLIENT_ID = conf.clientId;
 export default {
 
   // User object will let us check authentication status
@@ -16,7 +14,7 @@ export default {
 
   // user redirected to sign in via github
   login() {
-    window.location = LOGIN_URL + '?client_id=' + CLIENT_ID;
+    window.location = LOGIN_URL + '?client_id=' + CLIENT_ID + '&scope=public_repo';
   },
 
   // user's code is sent to our gatekeeper on github
@@ -31,7 +29,7 @@ export default {
           }
         },
         (data) => {
-          console.log('error ' + data);
+          console.error('error ', data);
         });
   },
 

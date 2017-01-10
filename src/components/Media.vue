@@ -149,17 +149,14 @@
       },
       createImage(file) {
         if (/image/.test(file.type)) {
-          var image = new Image();
           var reader = new FileReader();
           var vm = this;
           reader.onload = (e) => {
             vm.image = e.target.result;
             vm.filename = file.name;
             vm.selected=file.name;
-            // vm.binaryString = vm.image.split(',')[1];
-
           };
-          reader.readAsText(file);
+          reader.readAsDataURL(file);
         } else if (/video/.test(file.type)) {
 
         } else {
@@ -167,10 +164,11 @@
         }
       },
       uploadFile() {
-        console.log(this.image);
-        github.create(this.currentPath,this.filename,this.image)
+        // strip off the data: url prefix to get just the base64-encoded bytes
+        var data = this.image.replace(/^data:image\/\w+;base64,/, "");
+        github.create(this.currentPath,this.filename,data)
           .then(function(){
-
+            console.log('Uploaded');
           });
 
       },

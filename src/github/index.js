@@ -9,12 +9,13 @@ var github = new GitHub({
 });
 var structures = github.getRepo(conf.structure.org, conf.structure.repo);
 var media = github.getRepo(conf.content.org, conf.content.repo);
-var sitePattern = new RegExp(".+?_.+?.json");
+var sitePattern = new RegExp('.+?_.+?.json');
+var contents = github.getRepo(conf.content.org, conf.content.repo);
 
 export default {
   //load structure file list
   loadSites() {
-    return loadContent(conf.structure.path)
+    return loadStructure(conf.structure.path)
       .then(function(data) {
         var files = data || [];
         var sites = [];
@@ -30,7 +31,7 @@ export default {
       });
   },
   loadSite(path) {
-    return loadContent(path);
+    return loadStructure(path);
   },
   /*
    *  Update site content
@@ -49,14 +50,28 @@ export default {
         {}
       );
   },
+  updateContent(path,content) {
+    var _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
+    return contents
+    .writeFile(
+      conf.content.dev,
+      conf.content.path + '/' + path,
+      content,
+      'Update' + path,
+      {}
+    );
+  },
   create(path,fileName, file) {
-      return media
+    return media
       .writeFile(
         conf.content.live,
         path + '/' + fileName,
         file,
         'Upload '+ fileName,
-        {}
+        {encode: false}
       )
       .then(function(response){
         return response.data;
@@ -76,10 +91,25 @@ export default {
   },
   getMediaRoot() {
     return conf.content.mediaPath;
+  },
+  loadContent(path) {
+    var _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
+    return contents
+      .getContents(
+        conf.content.dev,
+        _path,
+        true
+      )
+      .then(function(response){
+        return response.data;
+      });
   }
 };
 
-function loadContent(path) {
+function loadStructure(path) {
   return structures
     .getContents(
       conf.structure.dev,
