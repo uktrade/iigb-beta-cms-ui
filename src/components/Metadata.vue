@@ -65,7 +65,7 @@
                     </template>
                   </template>
                   <button class="btn btn-success"
-                          @click="fetchContent(some['content'])">Edit
+                          @click="loadContent(some['content'])">Edit
                   </button>
                 </div>
               </Draggable>
@@ -78,7 +78,7 @@
                   type="text"
                   v-model="model['data'][key]['content']">
                 <button class="btn btn-success"
-                        @click="fetchContent(model['data'][key]['content'])">Edit
+                        @click="loadContent(model['data'][key]['content'])">Edit
                 </button>
               </template>
             </template>
@@ -89,16 +89,18 @@
       <modal v-if="showModal"
              @close="showModal = false">
         <h3 slot="header">{{contentUrl}}</h3>
-        <Editor slot="body" :content="inputEditor.content"></Editor>
+        button.btn.btn-success.modal-default-button
+        <Editor slot="body" :content="inputEditor"></Editor>
       </modal>
     </div>
   </div>
 </template>
 
 <script>
-  import Layouts from './Layouts'
   import nunjucks from 'nunjucks'
   import tags from 'iigb-cms-tags'
+  import github from '../github';
+  import Layouts from './Layouts'
   import Draggable from 'vuedraggable'
   import Modal from './Modal'
   import Editor from './MarkdownEditor'
@@ -152,23 +154,21 @@
           sessionStorage.setItem(path, JSON.stringify(fields))
         }
       },
-      fetchContent: function (url) {
-        const xhr = new XMLHttpRequest()
+      loadContent: function (path) {
         const self = this
-        xhr.open('GET', contentURL + url)
-        xhr.onload = function () {
-          const content = xhr.responseText
-          self.inputEditor = {content: content}
-          self.showModal = true
-          self.contentUrl = url
-        }
-        xhr.send()
+        return github.loadContent(path)
+          .then(function(data) {
+            self.inputEditor = data;
+            self.showModal = true
+            self.contentUrl = path
+            self.status = '';
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
       },
-      edit: function () {
-        //
-      },
-      delete: function () {
-        //
+      saveContent: function (contentUrl) {
+        console.log(contentUrl)
       },
       console(some) {
         console.log(some)
