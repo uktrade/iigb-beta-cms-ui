@@ -1,14 +1,10 @@
 // src/auth/index.js
 var Cookies = require('js-cookie');
-var conf  = require('' + process.env.GITHUB_CONFIG);
+var conf = process.env.GITHUB;
 
-
-console.log(conf);
 // URL and endpoint constants
 const LOGIN_URL = 'https://github.com/login/oauth/authorize';
-const CLIENT_ID = conf.clientId; //TODO move to server
-const CALLBACK_URI = '/login'; //TODO move to server
-  // const SIGNUP_URL = API_URL + 'users/'
+const CLIENT_ID = conf.clientId;
 export default {
 
   // User object will let us check authentication status
@@ -33,7 +29,7 @@ export default {
           }
         },
         (data) => {
-          console.log('error ' + data);
+          console.error('error ', data);
         });
   },
 

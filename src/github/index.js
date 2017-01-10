@@ -3,19 +3,20 @@
  */
 
 import GitHub from 'github-api';
-var conf = require('' + process.env.GITHUB_CONFIG);
+var conf = process.env.GITHUB;
 var gh_token = require('js-cookie').get('gh_token');
 var github = new GitHub({
   token: gh_token
 });
 var structures = github.getRepo(conf.structure.org, conf.structure.repo);
 var media = github.getRepo(conf.content.org, conf.content.repo);
-var sitePattern = new RegExp(".+?_.+?.json");
+var sitePattern = new RegExp('.+?_.+?.json');
+var contents = github.getRepo(conf.content.org, conf.content.repo);
 
 export default {
   //load structure file list
   loadSites() {
-    return loadContent(conf.structure.path)
+    return loadStructure(conf.structure.path)
       .then(function(data) {
         var files = data || [];
         var sites = [];
@@ -31,7 +32,7 @@ export default {
       });
   },
   loadSite(path) {
-    return loadContent(path);
+    return loadStructure(path);
   },
   /*
    *  Update site content
@@ -51,13 +52,13 @@ export default {
       );
   },
   create(path,fileName, file) {
-      return media
+    return media
       .writeFile(
         conf.content.live,
         path + '/' + fileName,
         file,
         'Upload '+ fileName,
-        {}
+        {encode: false}
       )
       .then(function(response){
         return response.data;
@@ -78,15 +79,24 @@ export default {
   getMediaRoot() {
     return conf.content.mediaPath;
   },
-    getContentRoot() {
-    return conf.content.path;
-  },    
-    getContentUrl() {
-    return conf.content.url;
-  },
+  loadContent(path) {
+    var _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
+    return contents
+      .getContents(
+        conf.content.dev,
+        _path,
+        true
+      )
+      .then(function(response){
+        return response.data;
+      });
+  }
 };
 
-function loadContent(path) {
+function loadStructure(path) {
   return structures
     .getContents(
       conf.structure.dev,
