@@ -14,7 +14,7 @@ export default {
 
   // user redirected to sign in via github
   login() {
-    window.location = LOGIN_URL + '?client_id=' + CLIENT_ID;
+    window.location = LOGIN_URL + '?client_id=' + CLIENT_ID + '&scope=public_repo';
   },
 
   // user's code is sent to our gatekeeper on github
