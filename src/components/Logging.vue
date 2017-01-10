@@ -25,8 +25,9 @@
       }
     },
     mounted() {
+      let code = ''
       try{
-        const code = window.location.href.match(/\?code=(.*)/)[1];
+        code = window.location.href.match(/\?code=(.*)/)[1];
         auth.authenticate(this,code);
         setTimeout(
           function(){

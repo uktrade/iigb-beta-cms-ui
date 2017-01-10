@@ -1,7 +1,6 @@
 /*
  * See github-api usage at http://github-tools.github.io/github/docs/3.0.0
  */
-
 import GitHub from 'github-api';
 var conf = process.env.GITHUB;
 var gh_token = require('js-cookie').get('gh_token');
@@ -50,6 +49,20 @@ export default {
         'Update ' + site.name,
         {}
       );
+  },
+  updateContent(path,content) {
+    var _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
+    return contents
+    .writeFile(
+      conf.content.dev,
+      conf.content.path + '/' + path,
+      content,
+      'Update' + path,
+      {}
+    );
   },
   create(path,fileName, file) {
     return media

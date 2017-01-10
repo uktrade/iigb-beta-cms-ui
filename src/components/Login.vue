@@ -21,8 +21,8 @@
 <script>
   import auth from '../auth/index.js'
 
-  var Vue = require('vue');
-  var VueResource = require('vue-resource');
+  const Vue = require('vue');
+  const VueResource = require('vue-resource');
   Vue.use(VueResource);
 
   export default {
@@ -32,8 +32,6 @@
         error: ''
       }
     },
-     mounted() {
-     },
     methods: {
       submit() {
         auth.login();

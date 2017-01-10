@@ -63,8 +63,8 @@
 
     methods: {
       fetchData: function () {
-        var xhr = new XMLHttpRequest()
-        var self = this
+        const xhr = new XMLHttpRequest()
+        let self = this
         xhr.open('GET', apiURL)
         xhr.onload = function () {
           self.layouts = JSON.parse(xhr.responseText)

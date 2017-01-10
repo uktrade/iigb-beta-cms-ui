@@ -20,12 +20,13 @@
                 </button>
                 <div :class="{'alert alert-danger': site.status == 'failed'}">{{site.status}}</div>
                 <ul class="pages__files container-list drag">
-                  <Draggable :list="site.content.pages">
+                  <div :list="site.content.pages"
+                             :options="{group:'all'}">
                     <TreeElement v-for="list in site.content.pages"
                                  :english="site.content.globalData.locale.language === 'en'"
                                  v-bind:list="list"
                                  @new-details="updateTree($event)"/>
-                  </Draggable>
+                  </div>
                 </ul>
               </div>
             </div>
@@ -66,13 +67,13 @@
     },
     methods: {
       reload: function() {
-        var self = this;
+        let self = this;
         self.status = 'loading';
         self.sites=[]; //clear list
         return github.loadSites()
           .then(function(files) {
-            for(var i in files) {
-              var site = files[i];
+            for(let i in files) {
+              let site = files[i];
               self.sites.push(site);
               self.loadSite(site)
                 .then(function(){
@@ -107,7 +108,7 @@
       update: function(site) {
         site.status='saving...';
         this.refresh();
-        var self = this;
+        let self = this;
         return github.update(site)
           .then(function(){
             site.status='saved';

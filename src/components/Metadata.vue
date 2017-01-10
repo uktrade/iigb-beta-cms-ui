@@ -1,6 +1,5 @@
 <template>
   <div class="col-md-6 dit-cms-pages__inputs">
-    <!--<i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>-->
     <div>
       <div class="form-group">
         <Layouts :defaultValue="model.layout"></Layouts>
@@ -66,7 +65,7 @@
                     </template>
                   </template>
                   <button class="btn btn-success"
-                          @click="fetchContent(some['content'])">Edit
+                          @click="loadContent(some['content'])">Edit
                   </button>
                 </div>
               </Draggable>
@@ -79,7 +78,7 @@
                   type="text"
                   v-model="model['data'][key]['content']">
                 <button class="btn btn-success"
-                        @click="fetchContent(model['data'][key]['content'])">Edit
+                        @click="loadContent(model['data'][key]['content'])">Edit
                 </button>
               </template>
             </template>
@@ -87,43 +86,55 @@
         </template>
       </template>
       <!-- use the modal component, pass in the prop -->
-      <modal v-if="showModal"
-             @close="showModal = false">
+      <modal v-if="showModal">
         <h3 slot="header">{{contentUrl}}</h3>
-        <Editor slot="body" :content="inputEditor.content"></Editor>
+        <div slot="footer">
+          <button class="btn btn-success modal-default-button" :disabled="disabled"
+                  @click="updateContent(contentUrl, contentUpdated)">Save</button>
+          <button class="btn btn-danger modal-default-button" @click="showModal = false">
+            Close
+          </button>
+        </div>
+
+        <Editor slot="body"
+                :content="inputEditor"
+                :disabled="disabled"
+                @updated="contentUpdated = $event"
+                @disabled="disabled = $event"></Editor>
       </modal>
     </div>
   </div>
 </template>
 
 <script>
-  import Layouts from './Layouts'
   import nunjucks from 'nunjucks'
   import tags from 'iigb-cms-tags'
+  import github from '../github';
   import Draggable from 'vuedraggable'
-  import Modal from './Modal'
   import Editor from './MarkdownEditor'
+  import Layouts from './Layouts'
+  import Modal from './Modal'
 
   const apiURL = "https://raw.githubusercontent.com/uktrade/iigb-beta-website/develop/src/templates"
-  const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
 
   export default {
     name: 'metadata',
     components: {
-      Layouts,
       Draggable,
-      Modal,
-      Editor
+      Editor,
+      Layouts,
+      Modal
     },
     props: {
       model: Object,
     },
     data: function () {
       return {
+        contentUpdated: null,
+        contentUrl: null,
         fieldsList: null,
         showModal: false,
-        contentUrl: null,
-//        loading: false
+        disabled: true
       }
     },
     created: function () {
@@ -136,12 +147,9 @@
     },
     methods: {
       getTemplateFields: function (path) {
-//        this.loading = true
 //        get data from session storage if present
         if (sessionStorage.getItem(path)) {
           this.fieldsList = JSON.parse(sessionStorage.getItem(path))
-          this.$emit('content-loaded', false)
-//          this.loading = false
         }
         else {
           const env = new nunjucks.Environment(new nunjucks.WebLoader(apiURL))
@@ -155,27 +163,32 @@
           const fields = tags.parse(layout)
           this.fieldsList = fields
           sessionStorage.setItem(path, JSON.stringify(fields))
-          this.$emit('content-loaded', false)
-//          this.loading = false
         }
       },
-      fetchContent: function (url) {
-        const xhr = new XMLHttpRequest()
+      loadContent: function (path) {
         const self = this
-        xhr.open('GET', contentURL + url)
-        xhr.onload = function () {
-          const content = xhr.responseText
-          self.inputEditor = {content: content}
-          self.showModal = true
-          self.contentUrl = url
-        }
-        xhr.send()
+        return github.loadContent(path)
+          .then(function(data) {
+            self.inputEditor = data;
+            self.showModal = true
+            self.contentUrl = path
+            self.status = '';
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
       },
-      edit: function () {
-        //
-      },
-      delete: function () {
-        //
+      updateContent: function (contentUrl, contentUpdated) {
+        console.log(contentUrl)
+        console.log(contentUpdated)
+        this.disabled = true
+//        return github.updateContent(contentUrl, contentUpdated)
+//          .then(function(){
+//            this.disabled = true
+//          })
+//          .catch(function(){
+//            console.log('save failed to complete')
+//          });
       },
       console(some) {
         console.log(some)

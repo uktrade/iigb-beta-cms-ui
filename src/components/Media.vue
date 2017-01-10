@@ -104,7 +104,7 @@
         .loadMedia(path);
       },
       loadList(path){
-          var self = this;
+          const self = this;
           return self.load(path)
           .then(function(list){
             self.items = list;
@@ -112,7 +112,7 @@
           });
       },
       toggle: function (item) {
-        var self = this;
+        const self = this;
         this.image = '';
         if (item.type === 'dir') {
           this.loadList(item.path)
@@ -126,7 +126,7 @@
       },
       goUp: function () {
         this.image = '';
-        var currentURLParams = this.currentPath.lastIndexOf("/");
+        const currentURLParams = this.currentPath.lastIndexOf("/");
         this.currentPath = this.currentPath.substring(0, (currentURLParams))
         this.loadList(this.currentPath);
       },
@@ -142,15 +142,16 @@
       },
       onFileChange(e) {
         this.errorMsg = '';
-        var files = e.target.files || e.dataTransfer.files;
+        let files = e.target.files || e.dataTransfer.files;
         if (!files.length)
           return;
         this.createImage(files[0]);
       },
       createImage(file) {
         if (/image/.test(file.type)) {
-          var reader = new FileReader();
-          var vm = this;
+          const reader = new FileReader();
+          const reader2 = new FileReader();
+          let vm = this;
           reader.onload = (e) => {
             vm.image = e.target.result;
             vm.filename = file.name;
@@ -165,7 +166,7 @@
       },
       uploadFile() {
         // strip off the data: url prefix to get just the base64-encoded bytes
-        var data = this.image.replace(/^data:image\/\w+;base64,/, "");
+        let data = this.image.replace(/^data:image\/\w+;base64,/, "");
         github.create(this.currentPath,this.filename,data)
           .then(function(){
             console.log('Uploaded');
