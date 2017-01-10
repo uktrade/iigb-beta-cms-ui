@@ -1,6 +1,8 @@
 <template>
   <div id="editor">
-    <textarea v-model="input" @change="$emit('updated', input)"></textarea>
+    <textarea v-model="input"
+              @change="$emit('updated', input)"
+              v-on:keypress="checkSave()"></textarea>
     <div>
       <table>
         <thead>
@@ -27,13 +29,18 @@
 
   export default {
     name: 'Editor',
-    props: ['content'],
+    props: ['content', 'disabled'],
     data: function () {
       return {
         input: this.content,
       }
     },
     methods: {
+      checkSave: function () {
+        if (this.disabled === true) {
+          this.$emit('disabled', false)
+        }
+      },
       console(some) {
         console.log(some)
       }

@@ -89,16 +89,18 @@
       <modal v-if="showModal">
         <h3 slot="header">{{contentUrl}}</h3>
         <div slot="footer">
-          <button class="btn btn-success modal-default-button"
+          <button class="btn btn-success modal-default-button" :disabled="disabled"
                   @click="updateContent(contentUrl, contentUpdated)">Save</button>
           <button class="btn btn-danger modal-default-button" @click="showModal = false">
-            Cancel
+            Close
           </button>
         </div>
 
         <Editor slot="body"
                 :content="inputEditor"
-                @updated="contentUpdated = $event"></Editor>
+                :disabled="disabled"
+                @updated="contentUpdated = $event"
+                @disabled="disabled = $event"></Editor>
       </modal>
     </div>
   </div>
@@ -131,7 +133,8 @@
         contentUpdated: null,
         contentUrl: null,
         fieldsList: null,
-        showModal: false
+        showModal: false,
+        disabled: true
       }
     },
     created: function () {
@@ -178,6 +181,14 @@
       updateContent: function (contentUrl, contentUpdated) {
         console.log(contentUrl)
         console.log(contentUpdated)
+        this.disabled = true
+//        return github.updateContent(contentUrl, contentUpdated)
+//          .then(function(){
+//            this.disabled = true
+//          })
+//          .catch(function(){
+//            console.log('save failed to complete')
+//          });
       },
       console(some) {
         console.log(some)
