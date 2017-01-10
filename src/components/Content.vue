@@ -54,7 +54,19 @@
       <modal v-if="showModal"
              @close="showModal = false">
         <h3 slot="header">{{selected}}</h3>
-        <Editor slot="body" :content="inputEditor.content"></Editor>
+        <Editor slot="body"
+                :content="inputEditor.content"
+                :disabled="disabled"
+                @updated="contentUpdated = $event"
+                @disabled="disabled = $event"
+                ></Editor>
+        <div slot="footer">
+          <button class="btn btn-success modal-default-button" :disabled="disabled"
+                  @click="updateContent((currentPath + '/' + selected), contentUpdated)">Save</button>
+          <button class="btn btn-danger modal-default-button" @click="showModal = false">
+            Close
+          </button>
+        </div>
       </modal>
       <modal v-if="showDeleteModal"
            @close="showDeleteModal = false"
@@ -69,7 +81,6 @@
           </div>
         </div>
       </div>
-
       <div slot="footer">
         <button class="btn btn-primary modal-default-button">
           Delete this file
@@ -109,6 +120,8 @@
         inputEditor: null,
         showModal: false,
         showDeleteModal: false,
+        disabled: true,
+        contentUpdated: null,
       }
     },
     created: function () {
@@ -186,6 +199,18 @@
         this.showModal = true;
         this.inputEditor = {content: ''};
         this.selected = 'new content file';
+      },
+      updateContent: function (currentPath, contentUpdated) {
+        console.log(currentPath)
+        console.log(contentUpdated)
+        this.disabled = true
+//        return github.updateContent(currentPath, contentUpdated)
+//          .then(function(){
+//            this.disabled = true
+//          })
+//          .catch(function(){
+//            console.log('save failed to complete')
+//          });
       },
       console(some) {
         console.log(some)
