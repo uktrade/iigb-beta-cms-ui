@@ -27,7 +27,8 @@
      mounted() {
       try{
       var code = window.location.href.match(/\?code=(.*)/)[1];
-      }catch(Error){
+      }catch(err){
+            console.log(err);
            location = '/login'
       }
       auth.authenticate(this,code);
