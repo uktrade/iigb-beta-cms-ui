@@ -11,7 +11,7 @@
     "repo": "iigb-cms-playground",
     "dev": "develop",
     "live": "master",
-    "path": "content/beta",
+    "path": "content",
     "mediaPath" : "media"
   },
   "gateKeeper": "https://iigb-cms-gatekeeper-dev.herokuapp.com/authenticate/",
