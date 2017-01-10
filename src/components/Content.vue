@@ -88,8 +88,7 @@
   import github from '../github';
   import Editor from './MarkdownEditor'
 
-
-  const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/';
+  const contentPath = 'content/beta';
 
   export default {
     name: 'content',
@@ -100,21 +99,20 @@
     },
     data: function () {
       return {
-        contentRoot: contentURL,
-        currentPath: contentURL,
+        contentRoot: contentPath,
+        currentPath: contentPath,
         items: null,
         modalSize: "modal-container-sm",
         selected: '',
         errorMsg: '',
         filename: '',
-        contentURL: contentURL,
         inputEditor: null,
         showModal: false,
         showDeleteModal: false,
       }
     },
     created: function () {
-      this.loadList('content/beta')
+      this.loadList(contentPath)
     },
     methods: {
       load(path) {
