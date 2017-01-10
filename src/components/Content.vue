@@ -82,7 +82,7 @@
         selected: '',
         errorMsg: '',
         filename: '',
-        contentURL: 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/',
+        contentURL: github.getContentUrl(),
         inputEditor: null,
         showModal: false,
       }

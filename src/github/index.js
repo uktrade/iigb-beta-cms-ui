@@ -80,7 +80,10 @@ export default {
   },
     getContentRoot() {
     return conf.content.path;
-  }
+  },    
+    getContentUrl() {
+    return conf.content.url;
+  },
 };
 
 function loadContent(path) {
