@@ -86,11 +86,19 @@
         </template>
       </template>
       <!-- use the modal component, pass in the prop -->
-      <modal v-if="showModal"
-             @close="showModal = false">
+      <modal v-if="showModal">
         <h3 slot="header">{{contentUrl}}</h3>
-        button.btn.btn-success.modal-default-button
-        <Editor slot="body" :content="inputEditor"></Editor>
+        <div slot="footer">
+          <button class="btn btn-success modal-default-button"
+                  @click="updateContent(contentUrl, contentUpdated)">Save</button>
+          <button class="btn btn-danger modal-default-button" @click="showModal = false">
+            Cancel
+          </button>
+        </div>
+
+        <Editor slot="body"
+                :content="inputEditor"
+                @updated="contentUpdated = $event"></Editor>
       </modal>
     </div>
   </div>
@@ -100,30 +108,30 @@
   import nunjucks from 'nunjucks'
   import tags from 'iigb-cms-tags'
   import github from '../github';
-  import Layouts from './Layouts'
   import Draggable from 'vuedraggable'
-  import Modal from './Modal'
   import Editor from './MarkdownEditor'
+  import Layouts from './Layouts'
+  import Modal from './Modal'
 
   const apiURL = "https://raw.githubusercontent.com/uktrade/iigb-beta-website/develop/src/templates"
-  const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
 
   export default {
     name: 'metadata',
     components: {
-      Layouts,
       Draggable,
-      Modal,
-      Editor
+      Editor,
+      Layouts,
+      Modal
     },
     props: {
       model: Object,
     },
     data: function () {
       return {
-        fieldsList: null,
-        showModal: false,
+        contentUpdated: null,
         contentUrl: null,
+        fieldsList: null,
+        showModal: false
       }
     },
     created: function () {
@@ -167,8 +175,9 @@
             console.error(err);
           });
       },
-      saveContent: function (contentUrl) {
+      updateContent: function (contentUrl, contentUpdated) {
         console.log(contentUrl)
+        console.log(contentUpdated)
       },
       console(some) {
         console.log(some)

@@ -1,6 +1,6 @@
 <template>
   <div id="editor">
-    <textarea v-model="input"></textarea>
+    <textarea v-model="input" @change="$emit('updated', input)"></textarea>
     <div>
       <table>
         <thead>
