@@ -2,25 +2,25 @@
  * See github-api usage at http://github-tools.github.io/github/docs/3.0.0
  */
 import GitHub from 'github-api';
-var conf = process.env.GITHUB;
-var gh_token = require('js-cookie').get('gh_token');
-var github = new GitHub({
+const conf = process.env.GITHUB;
+const gh_token = require('js-cookie').get('gh_token');
+const github = new GitHub({
   token: gh_token
 });
-var structures = github.getRepo(conf.structure.org, conf.structure.repo);
-var media = github.getRepo(conf.content.org, conf.content.repo);
-var sitePattern = new RegExp(".+?_.+?.json");
-var contents = github.getRepo(conf.content.org, conf.content.repo);
+const structures = github.getRepo(conf.structure.org, conf.structure.repo);
+const media = github.getRepo(conf.content.org, conf.content.repo);
+const sitePattern = new RegExp(".+?_.+?.json");
+const contents = github.getRepo(conf.content.org, conf.content.repo);
 
 export default {
   //load structure file list
   loadSites() {
     return loadStructure(conf.structure.path)
-      .then(function(data) {
-        var files = data || [];
-        var sites = [];
-        for (var i in files) {
-          var file = files[i];
+      .then(function (data) {
+        let files = data || [];
+        let sites = [];
+        for (let i in files) {
+          let file = files[i];
           if (file.type === 'file') {
             if (sitePattern.test(file.name)) {
               sites.push(file);
@@ -50,38 +50,38 @@ export default {
         {}
       );
   },
-  updateContent(path,content) {
+  updateContent(path, content) {
     return contents
-    .writeFile(
-      conf.content.dev,
-      conf.content.path + '/' + path,
-      content,
-      'Update' + path,
-      {}
-    );
+      .writeFile(
+        conf.content.dev,
+        conf.content.path + '/' + path,
+        content,
+        'Update' + path,
+        {}
+      );
   },
-  create(path,fileName, file) {
+  create(path, fileName, file) {
     return media
       .writeFile(
         conf.content.live,
         path + '/' + fileName,
         file,
-        'Upload '+ fileName,
+        'Upload ' + fileName,
         {encode: false}
       )
-      .then(function(response){
+      .then(function (response) {
         return response.data;
       });
   },
   loadMedia(path) {
-    var _path = path ?  path : conf.content.mediaPath;
+    const _path = path ? path : conf.content.mediaPath;
     return media
       .getContents(
         conf.content.live, //TODO: create dev for content path,
         _path,
         true
       )
-      .then(function(response){
+      .then(function (response) {
         return response.data;
       });
   },
@@ -89,14 +89,14 @@ export default {
     return conf.content.mediaPath;
   },
   loadContent(path) {
-    var _path = conf.content.path + '/' + path;
+    const _path = conf.content.path + '/' + path;
     return contents
       .getContents(
         conf.content.dev,
         _path,
         true
       )
-      .then(function(response){
+      .then(function (response) {
         return response.data;
       });
   }
@@ -109,7 +109,7 @@ function loadStructure(path) {
       path,
       true
     )
-    .then(function(response){
+    .then(function (response) {
       return response.data;
     });
 }
