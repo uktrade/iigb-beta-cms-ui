@@ -3,8 +3,10 @@
     <p class="dit-content__breadcrumb"><a href="">INVEST</a></p>
     <div class="dit-selection__bar">
       <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
-        <li>
+        <li v-if="showModal == false">
+        <button class="btn btn-primary btn-content" @click="createContent()">
           Create
+        </button> 
         </li>
         <li>
           Browse
@@ -15,7 +17,7 @@
         </button> 
         </li>
         <li v-if="selected">
-        <button class="btn btn-danger btn-content">
+        <button class="btn btn-danger btn-content" @click="openDeleteModal()">
           Delete
         </button> 
         </li>
@@ -54,6 +56,29 @@
         <h3 slot="header">{{selected}}</h3>
         <Editor slot="body" :content="inputEditor.content"></Editor>
       </modal>
+      <modal v-if="showDeleteModal"
+           @close="showDeleteModal = false"
+           :modalSize="modalSize">
+
+      <h3 slot="header">Delete {{selected}}?</h3>
+      <div slot="body" class="dit-media__file-upload">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="filename">Are you sure you want to delete {{selected}}?
+            <p>
+          </div>
+        </div>
+      </div>
+
+      <div slot="footer">
+        <button class="btn btn-primary modal-default-button">
+          Delete this file
+        </button>
+        <button class="btn btn-danger modal-default-button" @click="closeDeleteModal()">
+          Cancel
+        </button>
+      </div>
+    </modal>
     </div> 
 </template>
 
@@ -85,6 +110,7 @@
         contentURL: github.getContentUrl(),
         inputEditor: null,
         showModal: false,
+        showDeleteModal: false,
       }
     },
     created: function () {
@@ -125,10 +151,18 @@
       openModal: function () {
         this.showModal = true;
       },
+      openDeleteModal: function () {
+        this.showDeleteModal = true;
+      },
       closeModal: function () {
         this.showModal = false;
         this.image = '';
         this.filename = '';
+        this.selected = '';
+        this.errorMsg = '';
+      },      
+      closeDeleteModal: function () {
+        this.showDeleteModal = false;
         this.selected = '';
         this.errorMsg = '';
       },
@@ -146,10 +180,15 @@
         }
         xhr.send()
       },
-      edit: function () {
-      },
-      delete: function () {
-        //
+      // edit: function () {
+      // },
+      // delete: function () {
+      //   //
+      // },
+      createContent: function () {
+        this.showModal = true;
+        this.inputEditor = {content: ''};
+        this.selected = 'new content file';
       },
       console(some) {
         console.log(some)
@@ -229,5 +268,6 @@
 
   .btn-content {
     padding: 2px;
+    margin-bottom: 3px;
   }
 </style>
