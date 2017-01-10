@@ -13,7 +13,7 @@
         {{selected}}
       </div>
       <div class="preview-content">
-      {{content.content}}
+      <pre>{{content.content}}</pre>
       </div>
     </div>
   </div>
@@ -50,6 +50,12 @@
 
   .img {
     margin: 0 auto;
+  }
+
+  .preview-content pre{
+    margin: 25px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
   }
 
 </style>
