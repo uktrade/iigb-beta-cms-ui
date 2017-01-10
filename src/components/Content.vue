@@ -132,24 +132,6 @@
         this.selected = '';
         this.errorMsg = '';
       },
-      onFileChange(e) {
-        this.errorMsg = '';
-        var files = e.target.files || e.dataTransfer.files;
-        if (!files.length)
-          return;
-        this.createImage(files[0]);
-      },
-      uploadFile() {
-        console.log(this.image);
-        github.create(this.currentPath,this.filename,this.image)
-          .then(function(){
-
-          });
-      },
-      removeImage: function () {
-        self.image = '';
-        self.filename = '';
-      },
       showErrorMsg: function () {
         this.errorMsg = "Please select a valid image or video file.";
       },
