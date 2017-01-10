@@ -28,10 +28,7 @@
       let code = ''
       try {
         code = window.location.href.match(/\?code=(.*)/)[1];
-      } catch(Error) {
-           location = '/login'
-      }
-      auth.authenticate(this, code);
+        auth.authenticate(this, code);
         setTimeout(
           function() {
             if(auth.checkAuth() == true){
@@ -41,6 +38,12 @@
             }
           }
           ,2000)
+      } catch(err) {
+        console.log(err);
+        location = '/login'
+      }
+    },
+    methods: {
     }
   }
 

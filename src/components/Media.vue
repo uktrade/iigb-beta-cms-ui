@@ -157,14 +157,7 @@
             vm.filename = file.name;
             vm.selected=file.name;
           };
-          // reader2.onload = (e) => {
-          //   // console.log('Reader2', e.target.result);
-          //   // vm.image = e.target.result;
-          //   // vm.filename = file.name;
-          //   // vm.selected=file.name;
-          // };
           reader.readAsDataURL(file);
-          // reader2.readAsDataURL(file);
         } else if (/video/.test(file.type)) {
 
         } else {

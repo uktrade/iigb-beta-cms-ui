@@ -50,7 +50,11 @@ export default {
         {}
       );
   },
-  updateContent(path, content) {
+  updateContent(path,content) {
+    let _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
     return contents
       .writeFile(
         conf.content.dev,
@@ -89,7 +93,10 @@ export default {
     return conf.content.mediaPath;
   },
   loadContent(path) {
-    const _path = conf.content.path + '/' + path;
+    let _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
     return contents
       .getContents(
         conf.content.dev,
