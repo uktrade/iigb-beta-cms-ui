@@ -199,6 +199,7 @@
 
       td, th {
         text-align: left;
+        cursor: pointer;
         padding: 8px;
       }
     }
