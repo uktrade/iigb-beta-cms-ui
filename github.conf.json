@@ -1,19 +1,19 @@
 {
   "structure": {
     "org": "uktrade",
-    "repo": "iigb-beta-structure",
+    "repo": "iigb-cms-playground",
     "dev": "develop",
     "live": "master",
     "path": "structure"
   },
   "content": {
     "org": "uktrade",
-    "repo": "iigb-beta-content",
+    "repo": "iigb-cms-playground",
     "dev": "develop",
     "live": "master",
-    "path": "content/beta",
+    "path": "content",
     "mediaPath" : "media"
   },
-  "gateKeeper": "https://iigb-beta-cms-gatekeeper.herokuapp.com/authenticate/",
-  "clientId": "14e4bbb060c1924d9d78"
+  "gateKeeper": "https://iigb-cms-gatekeeper-dev.herokuapp.com/authenticate/",
+  "clientId": "110a383e0df2aa8aa53d"
 }
