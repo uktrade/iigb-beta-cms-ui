@@ -100,21 +100,21 @@
     },
     data: function () {
       return {
-        contentRoot: github.getContentRoot(),
-        currentPath: github.getContentRoot(),
+        contentRoot: contentURL,
+        currentPath: contentURL,
         items: null,
         modalSize: "modal-container-sm",
         selected: '',
         errorMsg: '',
         filename: '',
-        contentURL: github.getContentUrl(),
+        contentURL: contentURL,
         inputEditor: null,
         showModal: false,
         showDeleteModal: false,
       }
     },
     created: function () {
-      this.loadList(github.getContentRoot())
+      this.loadList('content/beta')
     },
     methods: {
       load(path) {
@@ -123,7 +123,7 @@
       },
       loadList(path){
           var self = this;
-          return self.load(path)
+          return github.loadContent(path)
           .then(function(list){
             self.items = list;
             return list;
@@ -139,7 +139,8 @@
             });
         } else {
           this.selected = item.name;
-          this.fetchContent(item.download_url);
+          console.log(item);
+          this.fetchContent(item.path);
         }
       },
       goUp: function () {
@@ -169,16 +170,14 @@
       showErrorMsg: function () {
         this.errorMsg = "Please select a valid image or video file.";
       },
-      fetchContent: function (url) {
-        const xhr = new XMLHttpRequest()
+      fetchContent: function (path) {
         const self = this
-        xhr.open('GET', contentURL + url)
-        xhr.onload = function () {
-          const content = xhr.responseText
-          self.inputEditor = {content: content}
-          self.contentUrl = url
-        }
-        xhr.send()
+          const content = github.loadContent(path);
+        return github.loadContent(path)
+          .then(function(list){
+            const content = list;
+            self.inputEditor = {content: content}
+          });
       },
       // edit: function () {
       // },
