@@ -50,8 +50,18 @@ export default {
         {}
       );
   },
+  updateContent(path,content) {
+    return contents
+    .writeFile(
+      conf.content.dev,
+      conf.content.path + '/' + path,
+      content,
+      'Update' + path,
+      {}
+    );
+  },
   create(path,fileName, file) {
-      return media
+    return media
       .writeFile(
         conf.content.live,
         path + '/' + fileName,
