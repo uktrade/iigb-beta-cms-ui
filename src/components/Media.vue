@@ -104,7 +104,7 @@
         .loadMedia(path);
       },
       loadList(path){
-          var self = this;
+          const self = this;
           return self.load(path)
           .then(function(list){
             self.items = list;
@@ -112,7 +112,7 @@
           });
       },
       toggle: function (item) {
-        var self = this;
+        const self = this;
         this.image = '';
         if (item.type === 'dir') {
           this.loadList(item.path)
@@ -126,7 +126,7 @@
       },
       goUp: function () {
         this.image = '';
-        var currentURLParams = this.currentPath.lastIndexOf("/");
+        const currentURLParams = this.currentPath.lastIndexOf("/");
         this.currentPath = this.currentPath.substring(0, (currentURLParams))
         this.loadList(this.currentPath);
       },
@@ -142,16 +142,16 @@
       },
       onFileChange(e) {
         this.errorMsg = '';
-        var files = e.target.files || e.dataTransfer.files;
+        let files = e.target.files || e.dataTransfer.files;
         if (!files.length)
           return;
         this.createImage(files[0]);
       },
       createImage(file) {
         if (/image/.test(file.type)) {
-          var image = new Image();
-          var reader = new FileReader();
-          var vm = this;
+          const image = new Image();
+          const reader = new FileReader();
+          let vm = this;
           reader.onload = (e) => {
             vm.image = e.target.result;
             vm.filename = file.name;
