@@ -9,7 +9,7 @@ var github = new GitHub({
 });
 var structures = github.getRepo(conf.structure.org, conf.structure.repo);
 var media = github.getRepo(conf.content.org, conf.content.repo);
-var sitePattern = new RegExp(".+?_.+?.json");
+var sitePattern = new RegExp('.+?_.+?.json');
 var contents = github.getRepo(conf.content.org, conf.content.repo);
 
 export default {
@@ -89,7 +89,10 @@ export default {
     return conf.content.mediaPath;
   },
   loadContent(path) {
-    var _path = conf.content.path + '/' + path;
+    var _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + path;
+    }
     return contents
       .getContents(
         conf.content.dev,
@@ -103,10 +106,14 @@ export default {
 };
 
 function loadStructure(path) {
+  var _path = path || '';
+  if(!_path.startsWith(conf.content.path + '/')) {
+    _path = conf.content.path + '/' + path;
+  }
   return structures
     .getContents(
       conf.structure.dev,
-      path,
+      _path,
       true
     )
     .then(function(response){
