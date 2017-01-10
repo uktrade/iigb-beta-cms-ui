@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <p class="dit-content__breadcrumb"><a href="">INVEST</a></p>
+    <p class="dit-content__breadcrumb"><a href="">INVEST</a> > {{currentPath}}</p>
     <div class="dit-selection__bar">
       <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
         <li v-if="showModal == false">
