@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <p class="dit-content__breadcrumb"><a href="">INVEST</a> > de_DE</p>
+    <p class="dit-content__breadcrumb"><a href="">INVEST</a></p>
     <div class="dit-selection__bar">
       <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
         <li>
@@ -10,12 +10,12 @@
           Browse
         </li>
         <li v-if="selected">
-        <button class="btn btn-primary" @click="openModal()">
+        <button class="btn btn-primary btn-content" @click="openModal()">
           Edit
         </button> 
         </li>
         <li v-if="selected">
-        <button class="btn btn-danger">
+        <button class="btn btn-danger btn-content">
           Delete
         </button> 
         </li>
@@ -239,28 +239,12 @@
     &__breadcrumb {
       font-size: x-large;
       padding-top: 80px;
-      margin-left: 340px;
+      margin-left: 380px;
       position: relative;
     }
   }
 
-  .btn-content-edit {
-    position: absolute;
-    bottom: 0px;
-    left: 120px;
-
-    @media (max-width: 1600px) {
-      left: 120px;
-    }
-  }
-
-  .btn-content-delete {
-    position: absolute;
-    bottom: 0px;
-    left: 230px;
-
-    @media (max-width: 1600px) {
-      left: 220px;
-    }
+  .btn-content {
+    padding: 2px;
   }
 </style>
