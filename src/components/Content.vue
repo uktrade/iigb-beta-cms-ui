@@ -4,16 +4,20 @@
     <div class="dit-selection__bar">
       <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
         <li>
-          Created
+          Create
         </li>
         <li>
           Browse
         </li>
-        <li>
+        <li v-if="selected">
+        <button class="btn btn-primary" @click="openModal()">
           Edit
+        </button> 
         </li>
-        <li>
+        <li v-if="selected">
+        <button class="btn btn-danger">
           Delete
+        </button> 
         </li>
       </ul>
     </div>
@@ -45,20 +49,20 @@
                       :content="inputEditor">
         </PreviewPanel>
     </div>
-<!--     <div class="col-md-5">
       <modal v-if="showModal"
              @close="showModal = false">
-        <h3 slot="header">{{contentUrl}}</h3>
+        <h3 slot="header">{{selected}}</h3>
         <Editor slot="body" :content="inputEditor.content"></Editor>
       </modal>
-    </div> -->
-    </div>
+    </div> 
 </template>
 
 <script>
   import PreviewPanel from './PreviewPanel'
   import Modal from './Modal'
   import github from '../github';
+  import Editor from './MarkdownEditor'
+
 
   const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/';
 
@@ -66,7 +70,8 @@
     name: 'content',
     components: {
       PreviewPanel,
-      Modal
+      Modal,
+      Editor
     },
     data: function () {
       return {
@@ -109,7 +114,6 @@
         } else {
           this.selected = item.name;
           this.fetchContent(item.download_url);
-          console.log(item.download_url);
         }
       },
       goUp: function () {
@@ -150,20 +154,17 @@
         this.errorMsg = "Please select a valid image or video file.";
       },
       fetchContent: function (url) {
-        console.log(url);
         const xhr = new XMLHttpRequest()
         const self = this
         xhr.open('GET', contentURL + url)
         xhr.onload = function () {
           const content = xhr.responseText
           self.inputEditor = {content: content}
-          self.showModal = true
           self.contentUrl = url
         }
         xhr.send()
       },
       edit: function () {
-        //
       },
       delete: function () {
         //
