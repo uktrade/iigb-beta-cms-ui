@@ -18,7 +18,7 @@ module.exports = {
       path: '"' + (process.env.IIGB_CONTENT_PATH || g.content.path) + '"',
       mediaPath: '"' + (process.env.IIGB_CONTENT_MEDIA_PATH || g.content.mediaPath) + '"'
     },
-    getKeeper: '"' + (process.env.IIGB_GATE_KEEPER || g.gateKeeper) + '"',
+    gateKeeper: '"' + (process.env.IIGB_GATE_KEEPER || g.gateKeeper) + '"',
     clientId: '"' + (process.env.IIGB_CLIENT_ID || g.clientId) + '"'
   }
 }

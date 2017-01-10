@@ -51,6 +51,10 @@ export default {
       );
   },
   updateContent(path,content) {
+    var _path = path || '';
+    if(!_path.startsWith(conf.content.path + '/')) {
+      _path = conf.content.path + '/' + _path;
+    }
     return contents
     .writeFile(
       conf.content.dev,
@@ -91,7 +95,7 @@ export default {
   loadContent(path) {
     var _path = path || '';
     if(!_path.startsWith(conf.content.path + '/')) {
-      _path = conf.content.path + '/' + path;
+      _path = conf.content.path + '/' + _path;
     }
     return contents
       .getContents(
@@ -106,14 +110,10 @@ export default {
 };
 
 function loadStructure(path) {
-  var _path = path || '';
-  if(!_path.startsWith(conf.content.path + '/')) {
-    _path = conf.content.path + '/' + path;
-  }
   return structures
     .getContents(
       conf.structure.dev,
-      _path,
+      path,
       true
     )
     .then(function(response){

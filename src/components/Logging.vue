@@ -24,30 +24,30 @@
         error: ''
       }
     },
-     mounted() {
+    mounted() {
       try{
-      var code = window.location.href.match(/\?code=(.*)/)[1];
-      }catch(err){
-            console.log(err);
-           location = '/login'
-      }
-      auth.authenticate(this,code);
+        const code = window.location.href.match(/\?code=(.*)/)[1];
+        auth.authenticate(this,code);
         setTimeout(
           function(){
             if(auth.checkAuth() == true){
-           location = '/pages'
-          }
-          else{
-           location = '/login'
-          }
+              location = '/pages'
+            }
+            else{
+              location = '/login'
+            }
           }
           ,2000)
-     },
+      }catch(err){
+        console.log(err);
+        location = '/login'
+      }
+    },
     methods: {
     }
   }
 
-  </script>
+</script>
 
 <style scoped lang="scss">
 
