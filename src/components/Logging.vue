@@ -25,12 +25,13 @@
       }
     },
     mounted() {
+      let code = ''
       try {
-        const code = window.location.href.match(/\?code=(.*)/)[1];
+        code = window.location.href.match(/\?code=(.*)/)[1];
       } catch(Error) {
            location = '/login'
       }
-      auth.authenticate(this,code);
+      auth.authenticate(this, code);
         setTimeout(
           function() {
             if(auth.checkAuth() == true){
