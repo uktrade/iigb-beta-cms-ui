@@ -4,14 +4,15 @@
   <div class="col-md-2 sidebar-wrapper">
     <div class="sidebar">
       <ul class="sidebar-nav">
-        <router-link to="/pages" tag="li" active-class="active"><a>Markets</a></router-link>
-        <router-link to="/content" tag="li" active-class="active"><a>Content</a></router-link>
-        <router-link to="/media" tag="li" active-class="active"><a>Media</a></router-link>
-        <router-link to="/labels" tag="li" active-class="active"><a>Labels</a></router-link>
+        <router-link to="/pages" tag="li" active-class="active">Markets</router-link>
+        <router-link to="/content" tag="li" active-class="active">Content</router-link>
+        <router-link to="/media" tag="li" active-class="active">Media</router-link>
+        <router-link to="/labels" tag="li" active-class="active">Labels</router-link>
       </ul>
     </div>
-    <div class="sidebar-logout">
-      <a @click="logout()">Logout</a>
+    <div>
+      <a class="sidebar-logout"
+         @click="logout()">Logout</a>
     </div>
   </div>
 </template>
@@ -47,24 +48,22 @@
     }
 
     &-logout {
-       line-height: 40px;
-       height: 100px;
-       width: 16.65%;
-       text-align: center;
-       padding: 30px;
-       margin-left: -15px;
-       font-size: 20px;
-       color: #fff;
-       background-color: $logout;
-       position: fixed;
-       bottom: 0;
-
-      a {
-        color: #fff;
-      }
+      display: block;
+      cursor: pointer;
+      line-height: 40px;
+      height: 100px;
+      width: 16.65%;
+      text-align: center;
+      padding: 30px;
+      margin-left: -15px;
+      font-size: 20px;
+      color: #fff !important;
+      background-color: $logout;
+      position: fixed;
+      bottom: 0;
     }
 
-    &-nav {
+  &-nav {
       width: 100%;
       padding: 0;
       list-style: none;
@@ -77,29 +76,25 @@
         height: 100px;
         text-align: center;
         padding: 30px;
+        color: $white;
         font-size: 20px;
         background-color: #222;
 
-          &.active {
-             background-color: $grey;
-             color: $black;
-             border: 0;
-          }
+        &.active {
+           background-color: $grey;
+           color: $black;
+           border: 0;
+        }
 
-          &:hover {
-            text-decoration: none;
-            color: $white;
-            background: rgba(255, 255, 255, 0.2);
-            cursor: pointer !important;
-          }
-
-          &:active, &:focus {
-            text-decoration: none;
-          }
-
-        a {
+        &:hover {
           text-decoration: none;
           color: $white;
+          background: rgba(255, 255, 255, 0.2);
+          cursor: pointer !important;
+        }
+
+        &:active, &:focus {
+          text-decoration: none;
         }
       }
     }
