@@ -2,9 +2,9 @@
  * See github-api usage at http://github-tools.github.io/github/docs/3.0.0
  */
 import GitHub from 'github-api';
-var conf = process.env.GITHUB;
-var gh_token = require('js-cookie').get('gh_token');
-var github = new GitHub({
+const conf = process.env.GITHUB;
+const gh_token = require('js-cookie').get('gh_token');
+const github = new GitHub({
   token: gh_token
 });
 
@@ -18,10 +18,10 @@ export default {
   loadSites() {
     return loadStructure(conf.structure.path)
       .then(function(data) {
-        var files = data || [];
-        var sites = [];
-        for (var i in files) {
-          var file = files[i];
+        let files = data || [];
+        let sites = [];
+        for (let i in files) {
+          let file = files[i];
           if (file.type === 'file') {
             if (sitePattern.test(file.name)) {
               sites.push(file);
@@ -79,7 +79,7 @@ export default {
       });
   },
   loadMedia(path) {
-    var _path = path ?  path : conf.content.mediaPath;
+    const _path = path ?  path : conf.content.mediaPath;
     return media
       .getContents(
         conf.content.live, //TODO: create dev for content path,
