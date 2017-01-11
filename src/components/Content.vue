@@ -1,72 +1,221 @@
 <template>
   <div class="row">
-    <p class="dit-content__breadcrumb"><a href="">INVEST</a> > de_DE</p>
+    <p class="dit-content__breadcrumb"><a href="">INVEST</a> > {{currentPath}}</p>
     <div class="dit-selection__bar">
       <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
-        <li>
-          Created
+        <li v-if="showModal == false">
+        <button class="btn btn-primary btn-content" @click="createContent()">
+          Create
+        </button> 
         </li>
         <li>
           Browse
         </li>
-        <li>
+        <li v-if="selected">
+        <button class="btn btn-primary btn-content" @click="openModal()">
           Edit
+        </button> 
         </li>
-        <li>
+        <li v-if="selected">
+        <button class="btn btn-danger btn-content" @click="openDeleteModal()">
           Delete
+        </button> 
         </li>
       </ul>
     </div>
-    <div class="col-md-4 col-md-offset-1 dit-content__table">
+    <div class="col-md-4 dit-content__table">
       <table>
         <th>Name</th>
         <th>Modified</th>
         <tr>
-          <td><a href="">test1.md</a></td>
-          <td>3/11/16 9.15AM</td>
+          <td v-if="currentPath != contentRoot"
+              @click="goUp()">
+            <i class="fa fa-level-up fa-lg"></i>
+            ..
+          </td>
         </tr>
-        <tr>
-          <td><a href="">test2.md</a></td>
-          <td>3/11/16 9.15AM</td>
-        </tr>
-        <tr>
-          <td><a href="">test3.md</a></td>
-          <td>3/11/16 9.15AM</td>
+        <tr v-for="item in items">
+          <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']"
+              @click="toggle(item)">
+            <span
+              :class="[item.type == 'dir' ? 'fa fa-folder-o' : 'fa fa-file-o']"></span>
+            {{item.name}}
+          </td>
+          <td>TBC</td>
         </tr>
       </table>
     </div>
-    <div class="col-md-1">
-      <div class="col-md-8 col-md-push-5 panel panel-default dit-content__preview">
-        <div class="panel-body">
-          <p class="preview-heading">This is the title of the file</p>
-          <p class="preview-description">Description goes here.</p>
+    <div class="col-md-5">
+        <p class="preview-heading">Preview</p>
+        <PreviewPanel :selected="selected"
+                      :content="inputEditor">
+        </PreviewPanel>
+    </div>
+      <modal v-if="showModal"
+             @close="showModal = false">
+        <h3 slot="header">{{selected}}</h3>
+        <Editor slot="body"
+                :content="inputEditor.content"
+                :disabled="disabled"
+                @updated="contentUpdated = $event"
+                @disabled="disabled = $event"
+                ></Editor>
+        <div slot="footer">
+          <button class="btn btn-success modal-default-button" :disabled="disabled"
+                  @click="updateContent((currentPath + '/' + selected), contentUpdated)">Save</button>
+          <button class="btn btn-danger modal-default-button" @click="showModal = false">
+            Close
+          </button>
+        </div>
+      </modal>
+      <modal v-if="showDeleteModal"
+           @close="showDeleteModal = false"
+           :modalSize="modalSize">
+
+      <h3 slot="header">Delete {{selected}}?</h3>
+      <div slot="body" class="dit-media__file-upload">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="filename">Are you sure you want to delete {{selected}}?
+            <p>
+          </div>
         </div>
       </div>
-      <a href="" class="btn btn-success btn-content-edit">Edit</a>
-      <a href="" class="btn btn-danger btn-content-delete">Delete</a>
-    </div>
-    </div>
+      <div slot="footer">
+        <button class="btn btn-primary modal-default-button">
+          Delete this file
+        </button>
+        <button class="btn btn-danger modal-default-button" @click="closeDeleteModal()">
+          Cancel
+        </button>
+      </div>
+    </modal>
+    </div> 
 </template>
 
 <script>
+  import PreviewPanel from './PreviewPanel'
+  import Modal from './Modal'
+  import github from '../github';
+  import Editor from './MarkdownEditor'
+
+  const contentPath = 'content/beta';
+
   export default {
     name: 'content',
+    components: {
+      PreviewPanel,
+      Modal,
+      Editor
+    },
     data: function () {
       return {
-        //
+        contentRoot: contentPath,
+        currentPath: contentPath,
+        items: null,
+        modalSize: "modal-container-sm",
+        selected: '',
+        errorMsg: '',
+        filename: '',
+        inputEditor: null,
+        showModal: false,
+        showDeleteModal: false,
+        disabled: true,
+        contentUpdated: null,
       }
     },
-    computed: {
-      //
+    created: function () {
+      this.loadList(contentPath)
     },
     methods: {
-      edit: function () {
-        //
+      load(path) {
+        return github
+        .loadMedia(path);
       },
-      delete: function () {
-        //
+      loadList(path){
+          var self = this;
+          return github.loadContent(path)
+          .then(function(list){
+            self.items = list;
+            return list;
+          });
+      },
+      toggle: function (item) {
+        var self = this;
+        this.image = '';
+        if (item.type === 'dir') {
+          this.loadList(item.path)
+            .then(function(){
+              self.currentPath =  item.path;
+            });
+        } else {
+          this.selected = item.name;
+          console.log(item);
+          this.fetchContent(item.path);
+        }
+      },
+      goUp: function () {
+        this.image = '';
+        var currentURLParams = this.currentPath.lastIndexOf("/");
+        this.currentPath = this.currentPath.substring(0, (currentURLParams))
+        this.loadList(this.currentPath);
+      },
+      openModal: function () {
+        this.showModal = true;
+      },
+      openDeleteModal: function () {
+        this.showDeleteModal = true;
+      },
+      closeModal: function () {
+        this.showModal = false;
+        this.image = '';
+        this.filename = '';
+        this.selected = '';
+        this.errorMsg = '';
+      },      
+      closeDeleteModal: function () {
+        this.showDeleteModal = false;
+        this.selected = '';
+        this.errorMsg = '';
+      },
+      showErrorMsg: function () {
+        this.errorMsg = "Please select a valid image or video file.";
+      },
+      fetchContent: function (path) {
+        const self = this
+          const content = github.loadContent(path);
+        return github.loadContent(path)
+          .then(function(list){
+            const content = list;
+            self.inputEditor = {content: content}
+          });
+      },
+      // edit: function () {
+      // },
+      // delete: function () {
+      //   //
+      // },
+      createContent: function () {
+        this.showModal = true;
+        this.inputEditor = {content: ''};
+        this.selected = 'new content file';
+      },
+      updateContent: function (currentPath, contentUpdated) {
+        console.log(currentPath)
+        console.log(contentUpdated)
+        this.disabled = true
+//        return github.updateContent(currentPath, contentUpdated)
+//          .then(function(){
+//            this.disabled = true
+//          })
+//          .catch(function(){
+//            console.log('save failed to complete')
+//          });
+      },
+      console(some) {
+        console.log(some)
       }
-    }
+   }
   }
 </script>
 
@@ -111,6 +260,7 @@
 
       td, th {
         text-align: left;
+        cursor: pointer;
         padding: 8px;
       }
     }
@@ -133,28 +283,13 @@
     &__breadcrumb {
       font-size: x-large;
       padding-top: 80px;
-      margin-left: 340px;
+      margin-left: 380px;
       position: relative;
     }
   }
 
-  .btn-content-edit {
-    position: absolute;
-    bottom: 0px;
-    left: 120px;
-
-    @media (max-width: 1600px) {
-      left: 120px;
-    }
-  }
-
-  .btn-content-delete {
-    position: absolute;
-    bottom: 0px;
-    left: 230px;
-
-    @media (max-width: 1600px) {
-      left: 220px;
-    }
+  .btn-content {
+    padding: 2px;
+    margin-bottom: 3px;
   }
 </style>
