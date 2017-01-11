@@ -14,7 +14,7 @@
         <div class="col-md-3">
           <input class="form-control" name="query" v-model="language" placeholder="language code_COUNTRY CODE">
         </div>
-        <button class="btn btn-primary" @click="addLanguage">Add</button>
+        <button class="btn btn-primary" @click="addLanguage()">Add</button>
       </div>
     </form>
     <div class="table-responsive">
@@ -24,15 +24,8 @@
           <th>
             Label
           </th>
-          <!--<th v-for="key in columns"-->
-              <!--@click="sortBy(key)"-->
-              <!--:class="{ active: sortKey == key }">-->
-            <!--{{ key | capitalize }}-->
-            <!--<span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">-->
-            <!--</span>-->
-          <!--</th>-->
           <th v-for="key in columns">
-            {{ key | capitalize }}
+            {{ key }}
           </th>
         </tr>
         </thead>
@@ -75,32 +68,38 @@
       return {
         sortKey: '',
         sortOrders: sortOrders,
-        labels: Object,
+        labels: {},
         columns: [],
         filterKey: '',
         language: '',
         newLabels: {}
       }
     },
-    beforeCreate: function() {
+    created: function() {
+      if (sessionStorage.getItem('labels')) {
+        this.columns = JSON.parse(sessionStorage.getItem('columns'))
+        this.labels = JSON.parse(sessionStorage.getItem('labels'))
+      } else {
         const xhr = new XMLHttpRequest()
         const self = this
+        console.log(self)
         xhr.open('GET', labelsURL)
         xhr.onload = function () {
           const response = xhr.responseText
+            sessionStorage.setItem('labels', response)
           self.labels = JSON.parse(response)
           for (let prop in self.labels.reasons) {
             if (Object.prototype.hasOwnProperty.call(self.labels.reasons, prop)) {
               self.columns.push(prop)
             }
           }
+          sessionStorage.setItem('columns', JSON.stringify(self.columns))
         }
         xhr.send()
-    },
-    created: function() {
-      this.columns.forEach(function (key) {
-        sortOrders[key] = 1
-      })
+        this.columns.forEach(function (key) {
+          sortOrders[key] = 1
+        })
+      }
     },
     computed: {
       filteredData: function () {
@@ -125,43 +124,27 @@
             return (a === b ? 0 : a > b ? 1 : -1) * order
           })
         }
-//      console.log(sortable)
         return sortable
       }
     },
-    filters: {
-      capitalize: function (str) {
-        return str.charAt(0).toUpperCase() + str.slice(1)
-      }
-    },
     methods: {
-      sortBy: function (key) {
-        this.sortKey = key
-        this.sortOrders[key] = this.sortOrders[key] * -1
-      },
-      fetchLabels: function () {
-        const xhr = new XMLHttpRequest()
-        const self = this
-        xhr.open('GET', labelsURL)
-        xhr.onload = function () {
-          const response = xhr.responseText
-          self.labels = response
-//          console.log(response.reasons)
-          for (key in response.reasons) {
-            this.columns.push(key)
-          }
-        }
-        xhr.send()
-      },
       addLanguage: function () {
-        for (prop in this.labels) {
-          if (this.labels[prop].label){
-            this.$set(this.labels, this.labels[prop]['label'][this.language], "")
-            this.$set(this.labels, this.labels[prop]['options'][this.language], [])
+        for (let prop in this.labels) {
+          if (this.labels[prop].hasOwnProperty('label')){
+            this.labels[prop]['label'] = Object.assign({}, this.labels[prop]['label'], this.labels[prop]['label'][this.language] = "")
+            this.labels[prop]['options'] = Object.assign({}, this.labels[prop]['options'], this.labels[prop]['options'][this.language] = this.labels[prop]['options']['en_US'])
           } else {
-            this.$set(this.labels, this.labels[prop][this.language], "")
+            this.labels[prop] = Object.assign({}, this.labels[prop], this.labels[prop][this.language] = "")
           }
         }
+        this.columns = []
+        for (let prop in this.labels.reasons) {
+          if (Object.prototype.hasOwnProperty.call(this.labels.reasons, prop)) {
+            this.columns.push(prop)
+          }
+        }
+        sessionStorage.setItem('columns', JSON.stringify(this.columns))
+        sessionStorage.setItem('labels', JSON.stringify(this.labels))
       },
       console(some) {
         console.log(some)

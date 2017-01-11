@@ -13,14 +13,15 @@
     <ul class="container-list"
         v-if="list.children"
         v-show="open">
-      <Draggable :list="list.children"
-                 :english="english">
+      <div :list="list.children"
+                 :english="english"
+                 :options="{group:'all'}">
         <TreeElement v-for="list in list.children"
                      :english="english"
                      v-bind:list="list"
                      @new-details="updateTree($event)"
                      @tree-load="startLoading($event)"/>
-      </Draggable>
+      </div>
     </ul>
   </li>
 </template>

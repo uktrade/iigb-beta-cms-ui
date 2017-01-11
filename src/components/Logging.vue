@@ -14,8 +14,8 @@
 <script>
   import auth from '../auth'
 
-  var Vue = require('vue');
-  var VueResource = require('vue-resource');
+  const Vue = require('vue');
+  const VueResource = require('vue-resource');
   Vue.use(VueResource);
 
   export default {
@@ -25,20 +25,20 @@
       }
     },
     mounted() {
-      try{
-        const code = window.location.href.match(/\?code=(.*)/)[1];
-        auth.authenticate(this,code);
+      let code = ''
+      try {
+        code = window.location.href.match(/\?code=(.*)/)[1];
+        auth.authenticate(this, code);
         setTimeout(
-          function(){
+          function() {
             if(auth.checkAuth() == true){
               location = '/pages'
-            }
-            else{
+            } else {
               location = '/login'
             }
           }
           ,2000)
-      }catch(err){
+      } catch(err) {
         console.log(err);
         location = '/login'
       }

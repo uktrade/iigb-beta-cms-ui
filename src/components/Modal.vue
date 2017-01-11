@@ -20,7 +20,7 @@
             <slot name="footer">
               <!--default footer-->
               <button class="btn btn-danger modal-default-button" @click="$emit('close')">
-                Cancel
+                Close
               </button>
             </slot>
           </div>

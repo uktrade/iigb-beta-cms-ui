@@ -1,6 +1,5 @@
 <template>
   <div class="col-md-6 dit-cms-pages__inputs">
-    <!--<i style="margin: 0 auto" v-show="loading" class="fa fa-spinner fa-spin fa-lg"></i>-->
     <div>
       <div class="form-group">
         <Layouts :defaultValue="model.layout"></Layouts>
@@ -38,11 +37,6 @@
               <template v-if="field['label']">
                 {{field['label']}}
               </template>
-              <!--to delete when label is mandatory-->
-              <template v-else>
-                {{key}}
-              </template>
-              <!--^^^^^^^^^-->
             </label>
             <br>
             <div v-if="field['multiple']" class="dit-form-nested">
@@ -65,8 +59,8 @@
                              v-model="some[name]">
                     </template>
                   </template>
-                  <button class="btn btn-success"
-                          @click="fetchContent(some['content'])">Edit
+                  <button class="btn btn-primary"
+                          @click="loadContent(some['content'])">Edit
                   </button>
                 </div>
               </Draggable>
@@ -78,8 +72,8 @@
                   class="form-control single-input"
                   type="text"
                   v-model="model['data'][key]['content']">
-                <button class="btn btn-success"
-                        @click="fetchContent(model['data'][key]['content'])">Edit
+                <button class="btn btn-primary"
+                        @click="loadContent(model['data'][key]['content'])">Edit
                 </button>
               </template>
             </template>
@@ -87,43 +81,55 @@
         </template>
       </template>
       <!-- use the modal component, pass in the prop -->
-      <modal v-if="showModal"
-             @close="showModal = false">
+      <modal v-if="showModal">
         <h3 slot="header">{{contentUrl}}</h3>
-        <Editor slot="body" :content="inputEditor.content"></Editor>
+        <div slot="footer">
+          <button class="btn btn-success modal-default-button" :disabled="saveContentDisabled"
+                  @click="updateContent(contentUrl, contentUpdated)">Save</button>
+          <button class="btn btn-danger modal-default-button" @click="showModal = false, saveContentDisabled = true">
+            Close
+          </button>
+        </div>
+
+        <Editor slot="body"
+                :content="inputEditor"
+                :disabled="saveContentDisabled"
+                @content-updated="contentUpdated = $event"
+                @content-save-btn="saveContentDisabled = $event"></Editor>
       </modal>
     </div>
   </div>
 </template>
 
 <script>
-  import Layouts from './Layouts'
   import nunjucks from 'nunjucks'
   import tags from 'iigb-cms-tags'
+  import github from '../github';
   import Draggable from 'vuedraggable'
-  import Modal from './Modal'
   import Editor from './MarkdownEditor'
+  import Layouts from './Layouts'
+  import Modal from './Modal'
 
   const apiURL = "https://raw.githubusercontent.com/uktrade/iigb-beta-website/develop/src/templates"
-  const contentURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/'
 
   export default {
     name: 'metadata',
     components: {
-      Layouts,
       Draggable,
-      Modal,
-      Editor
+      Editor,
+      Layouts,
+      Modal
     },
     props: {
       model: Object,
     },
     data: function () {
       return {
+        contentUpdated: null,
+        contentUrl: null,
         fieldsList: null,
         showModal: false,
-        contentUrl: null,
-//        loading: false
+        saveContentDisabled: true
       }
     },
     created: function () {
@@ -132,16 +138,19 @@
     watch: {
       model: function (val) {
         this.getTemplateFields(val.layout)
+      },
+      model: {
+        handler: function (val) {
+          this.$emit('metadata-save-btn', false)
+        },
+        deep: true
       }
     },
     methods: {
       getTemplateFields: function (path) {
-//        this.loading = true
 //        get data from session storage if present
         if (sessionStorage.getItem(path)) {
           this.fieldsList = JSON.parse(sessionStorage.getItem(path))
-          this.$emit('content-loaded', false)
-//          this.loading = false
         }
         else {
           const env = new nunjucks.Environment(new nunjucks.WebLoader(apiURL))
@@ -155,27 +164,30 @@
           const fields = tags.parse(layout)
           this.fieldsList = fields
           sessionStorage.setItem(path, JSON.stringify(fields))
-          this.$emit('content-loaded', false)
-//          this.loading = false
         }
       },
-      fetchContent: function (url) {
-        const xhr = new XMLHttpRequest()
+      loadContent: function (path) {
         const self = this
-        xhr.open('GET', contentURL + url)
-        xhr.onload = function () {
-          const content = xhr.responseText
-          self.inputEditor = {content: content}
-          self.showModal = true
-          self.contentUrl = url
-        }
-        xhr.send()
+        return github.loadContent(path)
+          .then(function(data) {
+            self.inputEditor = data;
+            self.showModal = true
+            self.contentUrl = path
+            self.status = '';
+          })
+          .catch(function(err) {
+            console.error(err);
+          });
       },
-      edit: function () {
-        //
-      },
-      delete: function () {
-        //
+      updateContent: function (contentUrl, contentUpdated) {
+        let self = this
+        return github.updateContent(contentUrl, contentUpdated)
+          .then(function(){
+            self.saveContentDisabled = true
+          })
+          .catch(function(){
+            console.log('save failed to complete')
+          });
       },
       console(some) {
         console.log(some)

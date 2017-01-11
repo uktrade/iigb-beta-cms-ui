@@ -7,10 +7,11 @@
             <img class="profile-img"
                  src="../assets/img/logo.png"
                  alt="">
-            <form class="form-signin">
-              <a @click="submit()" class="btn btn-lg btn-primary btn-block social-signin" type="submit"> Sign in via
-                Github</a>
-            </form>
+            <div class="button-wrap">
+              <button @click="submit()" class="btn btn-lg btn-primary btn-block social-signin">
+                Sign in via Github
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -21,8 +22,8 @@
 <script>
   import auth from '../auth/index.js'
 
-  var Vue = require('vue');
-  var VueResource = require('vue-resource');
+  const Vue = require('vue');
+  const VueResource = require('vue-resource');
   Vue.use(VueResource);
 
   export default {
@@ -32,14 +33,12 @@
         error: ''
       }
     },
-     mounted() {
-     },
     methods: {
       submit() {
         auth.login();
       },
       authenticate(code){
-        auth.authenticate(this,code);
+        auth.authenticate(this, code);
         setTimeout(
           function(){ if(auth.checkAuth() == true){
           location.reload()
@@ -58,60 +57,11 @@
 
 <style scoped lang="scss">
 
-  /* FORM STYLES */
-
-  .form-signin {
-    max-width: 330px;
-    padding: 15px;
-    margin: 0 auto;
-  }
-
-  .form-signin .form-signin-heading, .form-signin .checkbox {
-    margin-bottom: 10px;
-  }
-
-  .form-signin .checkbox {
-    font-weight: normal;
-  }
-
-  .form-signin .form-control {
-    position: relative;
-    font-size: 16px;
-    height: auto;
-    padding: 10px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  .form-signin .form-control:focus {
-    z-index: 2;
-  }
-
-  .form-signin input[type="text"] {
-    margin-bottom: -1px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-
   .account-wall {
     margin-top: 140px;
     padding: 40px 0px 20px 0px;
     background-color: #f7f7f7;
     border: 0.1px solid black;
-  }
-
-  .login-title {
-    color: #555;
-    font-size: 18px;
-    font-weight: 400;
-    display: block;
   }
 
   .profile-img {
@@ -121,20 +71,15 @@
     display: block;
   }
 
-  .need-help {
-    margin-top: 10px;
-  }
-
-  .new-account {
-    display: block;
-    margin-top: 10px;
-  }
-
   .social-signin {
     background-image: url("../assets/img/github.svg");
     background-size: 28px;
     background-repeat: no-repeat;
     background-position-x: 20px;
     background-position-y: 8px;
+  }
+
+  .button-wrap {
+    padding: 24px 40px 0;
   }
 </style>
