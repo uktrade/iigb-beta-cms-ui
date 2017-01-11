@@ -1,29 +1,31 @@
 <template>
-  <div class="row">
-    <p class="dit-content__breadcrumb"><a href="">INVEST</a> > {{currentPath}}</p>
-    <div class="dit-selection__bar">
-      <ul class="list-group list-group-horizontal col-md-4 col-md-pull-1">
-        <li v-if="showModal == false">
-        <button class="btn btn-primary btn-content" @click="createContent()">
-          Create
-        </button> 
-        </li>
-        <li>
-          Browse
-        </li>
-        <li v-if="selected">
-        <button class="btn btn-primary btn-content" @click="openModal()">
-          Edit
-        </button> 
-        </li>
-        <li v-if="selected">
-        <button class="btn btn-danger btn-content" @click="openDeleteModal()">
-          Delete
-        </button> 
-        </li>
-      </ul>
+  <div>
+    <div class="col-md-10">
+      <p class="content__breadcrumb"><a href="">INVEST</a> > {{currentPath}}</p>
+      <div class="selection__bar">
+        <ul class="list-inline offset-md-5">
+          <li v-if="showModal == false" class="list-inline-item">
+            <button class="btn btn-primary btn-content" @click="createContent()">
+              Create
+            </button>
+          </li>
+          <li class="list-inline-item">
+            <p>Browse</p>
+          </li>
+          <li v-if="selected" class="list-inline-item">
+            <button class="btn btn-primary btn-content" @click="openModal()">
+              Edit
+            </button>
+          </li>
+          <li v-if="selected" class="list-inline-item">
+            <button class="btn btn-danger btn-content" @click="openDeleteModal()">
+              Delete
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="col-md-4 dit-content__table">
+    <div class="col-md-4 content__table">
       <table>
         <th>Name</th>
         <th>Modified</th>
@@ -37,38 +39,39 @@
         <tr v-for="item in items">
           <td v-bind:class="[item.type == 'dir' ? 'is-folder ' : '']"
               @click="toggle(item)">
-            <span
-              :class="[item.type == 'dir' ? 'fa fa-folder-o' : 'fa fa-file-o']"></span>
+          <span
+            :class="[item.type == 'dir' ? 'fa fa-folder-o' : 'fa fa-file-o']"></span>
             {{item.name}}
           </td>
           <td>TBC</td>
         </tr>
       </table>
     </div>
-    <div class="col-md-5">
-        <p class="preview-heading">Preview</p>
-        <PreviewPanel :selected="selected"
-                      :content="inputEditor">
-        </PreviewPanel>
+    <div class="col-md-6 content__preview">
+      <p class="preview-heading">Preview</p>
+      <PreviewPanel :selected="selected"
+                    :content="inputEditor">
+      </PreviewPanel>
     </div>
-      <modal v-if="showModal"
-             @close="showModal = false">
-        <h3 slot="header">{{selected}}</h3>
-        <Editor slot="body"
-                :content="inputEditor.content"
-                :disabled="disabled"
-                @updated="contentUpdated = $event"
-                @disabled="disabled = $event"
-                ></Editor>
-        <div slot="footer">
-          <button class="btn btn-success modal-default-button" :disabled="disabled"
-                  @click="updateContent((currentPath + '/' + selected), contentUpdated)">Save</button>
-          <button class="btn btn-danger modal-default-button" @click="showModal = false">
-            Close
-          </button>
-        </div>
-      </modal>
-      <modal v-if="showDeleteModal"
+    <modal v-if="showModal"
+           @close="showModal = false">
+      <h3 slot="header">{{selected}}</h3>
+      <Editor slot="body"
+              :content="inputEditor.content"
+              :disabled="disabled"
+              @updated="contentUpdated = $event"
+              @disabled="disabled = $event"
+      ></Editor>
+      <div slot="footer">
+        <button class="btn btn-success modal-default-button" :disabled="disabled"
+                @click="updateContent((currentPath + '/' + selected), contentUpdated)">Save
+        </button>
+        <button class="btn btn-danger modal-default-button" @click="showModal = false">
+          Close
+        </button>
+      </div>
+    </modal>
+    <modal v-if="showDeleteModal"
            @close="showDeleteModal = false"
            :modalSize="modalSize">
 
@@ -90,7 +93,8 @@
         </button>
       </div>
     </modal>
-    </div> 
+  </div>
+
 </template>
 
 <script>
@@ -130,12 +134,12 @@
     methods: {
       load(path) {
         return github
-        .loadMedia(path);
+          .loadMedia(path);
       },
       loadList(path){
-          var self = this;
-          return github.loadContent(path)
-          .then(function(list){
+        var self = this;
+        return github.loadContent(path)
+          .then(function (list) {
             self.items = list;
             return list;
           });
@@ -145,8 +149,8 @@
         this.image = '';
         if (item.type === 'dir') {
           this.loadList(item.path)
-            .then(function(){
-              self.currentPath =  item.path;
+            .then(function () {
+              self.currentPath = item.path;
             });
         } else {
           this.selected = item.name;
@@ -172,7 +176,7 @@
         this.filename = '';
         this.selected = '';
         this.errorMsg = '';
-      },      
+      },
       closeDeleteModal: function () {
         this.showDeleteModal = false;
         this.selected = '';
@@ -183,9 +187,9 @@
       },
       fetchContent: function (path) {
         const self = this
-          const content = github.loadContent(path);
+        const content = github.loadContent(path);
         return github.loadContent(path)
-          .then(function(list){
+          .then(function (list) {
             const content = list;
             self.inputEditor = {content: content}
           });
@@ -215,7 +219,7 @@
       console(some) {
         console.log(some)
       }
-   }
+    }
   }
 </script>
 
@@ -224,26 +228,18 @@
 
   @import "../assets/variables.scss";
 
-  .dit-selection {
+  .selection {
 
     &__bar {
       background-color: $whitesmoke;
       height: 40px;
-      ul {
-        display: -webkit-inline-box;
-        float: right;
-        list-style: none;
-        margin-right: 100px;
-
-        li {
-          margin-right: 120px;
-          padding: 10px 0px;
-        }
+      li {
+        margin: 8px 30px 0 0;
       }
     }
   }
 
-  .dit-content {
+  .content {
 
     &__table {
       margin-top: 30px;
@@ -266,24 +262,20 @@
     }
 
     &__preview {
-      /*margin-left: 80px;*/
-      height: 280px;
-      width: 280px;
-      border: 1px solid $black;
-      background-color: $grey;
-      margin: 40px 0px 50px 0px;
+      margin-top: 30px;
 
       .preview-heading {
         font-weight: bold;
         font-size: 16px;
-        margin-bottom: 50px;
+        margin-bottom: 8px;
+        padding-top: 8px;
       }
     }
 
     &__breadcrumb {
       font-size: x-large;
-      padding-top: 80px;
-      margin-left: 380px;
+      padding-top: 40px;
+      /*margin-left: 280px;*/
       position: relative;
     }
   }

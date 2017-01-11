@@ -38,7 +38,7 @@
   @import "../assets/variables.scss";
 
   .sidebar {
-    width: 16.64%;
+    width: 16.63%;
     position: fixed;
     margin-left: -29px;
 
