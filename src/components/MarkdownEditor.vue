@@ -1,7 +1,7 @@
 <template>
   <div id="editor">
     <textarea v-model="input"
-              @change="$emit('updated', input)"
+              @change="$emit('content-updated', input)"
               v-on:keypress="checkSave()"></textarea>
     <div>
       <table>
@@ -38,7 +38,7 @@
     methods: {
       checkSave: function () {
         if (this.disabled === true) {
-          this.$emit('disabled', false)
+          this.$emit('content-save-btn', false)
         }
       },
       console(some) {

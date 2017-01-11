@@ -7,10 +7,11 @@ var gh_token = require('js-cookie').get('gh_token');
 var github = new GitHub({
   token: gh_token
 });
-var structures = github.getRepo(conf.structure.org, conf.structure.repo);
-var media = github.getRepo(conf.content.org, conf.content.repo);
-var sitePattern = new RegExp('.+?_.+?.json');
-var contents = github.getRepo(conf.content.org, conf.content.repo);
+
+const structures = github.getRepo(conf.structure.org, conf.structure.repo);
+const media = github.getRepo(conf.content.org, conf.content.repo);
+const sitePattern = new RegExp(".+?_.+?.json");
+const contents = github.getRepo(conf.content.org, conf.content.repo);
 
 export default {
   //load structure file list
@@ -51,7 +52,7 @@ export default {
       );
   },
   updateContent(path,content) {
-    var _path = path || '';
+    let _path = path || '';
     if(!_path.startsWith(conf.content.path + '/')) {
       _path = conf.content.path + '/' + _path;
     }
@@ -93,7 +94,8 @@ export default {
     return conf.content.mediaPath;
   },
   loadContent(path) {
-    var _path = path || '';
+
+    let _path = path || '';
     if(!_path.startsWith(conf.content.path + '/')) {
       _path = conf.content.path + '/' + _path;
     }

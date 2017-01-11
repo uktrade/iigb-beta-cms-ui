@@ -13,15 +13,15 @@
               </div>
 
               <div v-if='site.name === sites[defaultSite].name'>
-                <button class="btn btn-primary pull-right"
+                <button class="btn btn-success pull-right"
+                        :disabled="saveMetadataDisabled"
                         @click="update(site)">
                   <i class="fa fa-hdd-o"></i>
                   Save
                 </button>
-                <div :class="{'alert alert-danger': site.status == 'failed'}">{{site.status}}</div>
+                <div v-if="site.status === 'failed'" :class="{'alert alert-danger': site.status === 'failed'}">{{site.status}}</div>
                 <ul class="pages__files container-list drag">
-                  <div :list="site.content.pages"
-                             :options="{group:'all'}">
+                  <div :list="site.content.pages">
                     <TreeElement v-for="list in site.content.pages"
                                  :english="site.content.globalData.locale.language === 'en'"
                                  v-bind:list="list"
@@ -34,7 +34,10 @@
         </template>
         <div v-else class="alert alert-danger">{{status}}</div>
   </div>
-  <metadata v-if="treeDataDetails" :model="treeDataDetails" :content="inputEditor"></metadata>
+  <metadata v-if="treeDataDetails"
+            :model="treeDataDetails"
+            :content="inputEditor"
+            @metadata-save-btn="saveMetadataDisabled = $event"></metadata>
 </div>
 </template>
 
@@ -57,7 +60,7 @@
         sites: [],
         defaultSite: 3,
         treeDataDetails: null,
-        disable: false,
+        saveMetadataDisabled: true,
         selected: null,
         inputEditor: null
       }
@@ -111,11 +114,12 @@
         let self = this;
         return github.update(site)
           .then(function(){
-            site.status='saved';
+            site.status = 'saved';
+            self.saveMetadataDisabled = true
             self.refresh();
           })
           .catch(function(){
-            site.status='failed'
+            site.status = 'failed'
             self.refresh();
           });
       },

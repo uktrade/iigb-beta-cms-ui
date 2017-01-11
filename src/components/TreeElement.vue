@@ -23,7 +23,7 @@
                      @tree-load="startLoading($event)"/>
       </div>
     </ul>
-  </li>r
+  </li>
 </template>
 
 <script>

@@ -26,15 +26,15 @@
     },
     mounted() {
       let code = ''
-      try{
+
+      try {
         code = window.location.href.match(/\?code=(.*)/)[1];
-        auth.authenticate(this,code);
+        auth.authenticate(this, code);
         setTimeout(
           function(){
             if(auth.checkAuth() == true){
               location = '/pages'
-            }
-            else{
+            } else {
               location = '/login'
             }
           }

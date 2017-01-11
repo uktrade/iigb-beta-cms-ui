@@ -37,11 +37,6 @@
               <template v-if="field['label']">
                 {{field['label']}}
               </template>
-              <!--to delete when label is mandatory-->
-              <template v-else>
-                {{key}}
-              </template>
-              <!--^^^^^^^^^-->
             </label>
             <br>
             <div v-if="field['multiple']" class="dit-form-nested">
@@ -64,7 +59,7 @@
                              v-model="some[name]">
                     </template>
                   </template>
-                  <button class="btn btn-success"
+                  <button class="btn btn-primary"
                           @click="loadContent(some['content'])">Edit
                   </button>
                 </div>
@@ -77,7 +72,7 @@
                   class="form-control single-input"
                   type="text"
                   v-model="model['data'][key]['content']">
-                <button class="btn btn-success"
+                <button class="btn btn-primary"
                         @click="loadContent(model['data'][key]['content'])">Edit
                 </button>
               </template>
@@ -89,18 +84,18 @@
       <modal v-if="showModal">
         <h3 slot="header">{{contentUrl}}</h3>
         <div slot="footer">
-          <button class="btn btn-success modal-default-button" :disabled="disabled"
+          <button class="btn btn-success modal-default-button" :disabled="saveContentDisabled"
                   @click="updateContent(contentUrl, contentUpdated)">Save</button>
-          <button class="btn btn-danger modal-default-button" @click="showModal = false">
+          <button class="btn btn-danger modal-default-button" @click="showModal = false, saveContentDisabled = true">
             Close
           </button>
         </div>
 
         <Editor slot="body"
                 :content="inputEditor"
-                :disabled="disabled"
-                @updated="contentUpdated = $event"
-                @disabled="disabled = $event"></Editor>
+                :disabled="saveContentDisabled"
+                @content-updated="contentUpdated = $event"
+                @content-save-btn="saveContentDisabled = $event"></Editor>
       </modal>
     </div>
   </div>
@@ -134,7 +129,7 @@
         contentUrl: null,
         fieldsList: null,
         showModal: false,
-        disabled: true
+        saveContentDisabled: true
       }
     },
     created: function () {
@@ -143,6 +138,12 @@
     watch: {
       model: function (val) {
         this.getTemplateFields(val.layout)
+      },
+      model: {
+        handler: function (val) {
+          this.$emit('metadata-save-btn', false)
+        },
+        deep: true
       }
     },
     methods: {
@@ -179,16 +180,14 @@
           });
       },
       updateContent: function (contentUrl, contentUpdated) {
-        console.log(contentUrl)
-        console.log(contentUpdated)
-        this.disabled = true
-//        return github.updateContent(contentUrl, contentUpdated)
-//          .then(function(){
-//            this.disabled = true
-//          })
-//          .catch(function(){
-//            console.log('save failed to complete')
-//          });
+        let self = this
+        return github.updateContent(contentUrl, contentUpdated)
+          .then(function(){
+            self.saveContentDisabled = true
+          })
+          .catch(function(){
+            console.log('save failed to complete')
+          });
       },
       console(some) {
         console.log(some)
