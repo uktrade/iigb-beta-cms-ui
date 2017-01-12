@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="col-md-10">
-      <p class="content__breadcrumb"><a href="">INVEST</a> > {{currentPath}}</p>
+      <Breadcrumb v-bind:path="currentPath"
+                  @breadcrumb="currentPath = $event, loadList(currentPath)"></Breadcrumb>
       <div class="selection__bar">
         <ul class="list-inline offset-md-5">
           <li v-if="showModal == false" class="list-inline-item">
@@ -53,36 +54,44 @@
                     :content="inputEditor">
       </PreviewPanel>
     </div>
-    <modal v-if="showModal"
-           @close="showModal = false">
+    <modal v-if="showModal">
       <h3 slot="header">{{selected}}</h3>
       <Editor slot="body"
               :content="inputEditor.content"
-              :disabled="disabled"
-              @updated="contentUpdated = $event"
-              @disabled="disabled = $event"
-      ></Editor>
+              :disabled="saveContentDisabled"
+              @content-updated="contentUpdated = $event"
+              @content-save-btn="saveContentDisabled = $event"></Editor>
       <div slot="footer">
-        <button class="btn btn-success modal-default-button" :disabled="disabled"
-                @click="updateContent((currentPath + '/' + selected), contentUpdated)">Save
-        </button>
-        <button class="btn btn-danger modal-default-button" @click="showModal = false">
+        <button class="btn btn-success modal-default-button" :disabled="saveContentDisabled"
+                @click="updateContent((currentPath + '/' + selected), contentUpdated)">Save</button>
+        <button class="btn btn-danger modal-default-button" @click="checkSaved()">
           Close
         </button>
       </div>
-    </modal>
-    <modal v-if="showDeleteModal"
-           @close="showDeleteModal = false"
-           :modalSize="modalSize">
 
-      <h3 slot="header">Delete {{selected}}?</h3>
+    </modal>
+    <Alert v-if="contentNotSaved" type="error">
+      <div slot="body">
+        <h3>You have not saved your changes</h3>
+        <p>Do you want to exit without saving?</p>
+      </div>
+      <div slot="footer">
+        <button class="btn btn-success modal-default-button"
+                @click="contentNotSaved = false">Go back</button>
+        <button class="btn btn-danger modal-default-button"
+                @click="contentNotSaved = false, saveContentDisabled = true, showModal = false">
+          Exit anyway
+        </button>
+      </div>
+    </Alert>
+    <Alert v-if="showDeleteModal"
+           @close="showDeleteModal = false"
+           type="warning">
       <div slot="body" class="dit-media__file-upload">
-        <div class="row">
-          <div class="col-md-12">
-            <p class="filename">Are you sure you want to delete {{selected}}?
-            <p>
-          </div>
-        </div>
+        <h3>Delete {{selected}}?</h3>
+        <p class="filename">
+          Are you sure you want to delete {{selected}}?
+        <p>
       </div>
       <div slot="footer">
         <button class="btn btn-primary modal-default-button">
@@ -92,25 +101,29 @@
           Cancel
         </button>
       </div>
-    </modal>
+    </Alert>
   </div>
 
 </template>
 
 <script>
-  import PreviewPanel from './PreviewPanel'
-  import Modal from './Modal'
   import github from '../github';
+  import Alert from './Alert'
+  import Breadcrumb from './Breadcrumb'
   import Editor from './MarkdownEditor'
+  import Modal from './Modal'
+  import PreviewPanel from './PreviewPanel'
 
   const contentPath = 'content/beta';
 
   export default {
     name: 'content',
     components: {
-      PreviewPanel,
+      Alert,
+      Breadcrumb,
+      Editor,
       Modal,
-      Editor
+      PreviewPanel
     },
     data: function () {
       return {
@@ -124,8 +137,9 @@
         inputEditor: null,
         showModal: false,
         showDeleteModal: false,
-        disabled: true,
+        saveContentDisabled: true,
         contentUpdated: null,
+        contentNotSaved: false
       }
     },
     created: function () {
@@ -207,14 +221,21 @@
       updateContent: function (currentPath, contentUpdated) {
         console.log(currentPath)
         console.log(contentUpdated)
-        this.disabled = true
-//        return github.updateContent(currentPath, contentUpdated)
+        this.saveContentDisabled = true
+//        return github.updateContent(contentUrl, contentUpdated)
 //          .then(function(){
-//            this.disabled = true
+//            self.saveContentDisabled = true
 //          })
 //          .catch(function(){
 //            console.log('save failed to complete')
 //          });
+      },
+      checkSaved: function () {
+        if (this.saveContentDisabled === false) {
+          this.contentNotSaved = true
+        } else {
+          this.showModal = false
+        }
       },
       console(some) {
         console.log(some)
