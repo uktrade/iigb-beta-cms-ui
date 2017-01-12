@@ -26,11 +26,12 @@
     },
     mounted() {
       let code = ''
+
       try {
         code = window.location.href.match(/\?code=(.*)/)[1];
         auth.authenticate(this, code);
         setTimeout(
-          function() {
+          function(){
             if(auth.checkAuth() == true){
               location = '/pages'
             } else {
@@ -38,7 +39,7 @@
             }
           }
           ,2000)
-      } catch(err) {
+      }catch(err){
         console.log(err);
         location = '/login'
       }

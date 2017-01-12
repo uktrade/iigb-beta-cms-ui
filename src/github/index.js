@@ -7,6 +7,7 @@ const gh_token = require('js-cookie').get('gh_token');
 const github = new GitHub({
   token: gh_token
 });
+
 const structures = github.getRepo(conf.structure.org, conf.structure.repo);
 const media = github.getRepo(conf.content.org, conf.content.repo);
 const sitePattern = new RegExp(".+?_.+?.json");
@@ -16,7 +17,7 @@ export default {
   //load structure file list
   loadSites() {
     return loadStructure(conf.structure.path)
-      .then(function (data) {
+      .then(function(data) {
         let files = data || [];
         let sites = [];
         for (let i in files) {
@@ -56,36 +57,36 @@ export default {
       _path = conf.content.path + '/' + _path;
     }
     return contents
-      .writeFile(
-        conf.content.dev,
-        conf.content.path + '/' + path,
-        content,
-        'Update' + path,
-        {}
-      );
+    .writeFile(
+      conf.content.dev,
+      conf.content.path + '/' + path,
+      content,
+      'Update' + path,
+      {}
+    );
   },
-  create(path, fileName, file) {
+  create(path,fileName, file) {
     return media
       .writeFile(
         conf.content.live,
         path + '/' + fileName,
         file,
-        'Upload ' + fileName,
+        'Upload '+ fileName,
         {encode: false}
       )
-      .then(function (response) {
+      .then(function(response){
         return response.data;
       });
   },
   loadMedia(path) {
-    const _path = path ? path : conf.content.mediaPath;
+    const _path = path ?  path : conf.content.mediaPath;
     return media
       .getContents(
         conf.content.live, //TODO: create dev for content path,
         _path,
         true
       )
-      .then(function (response) {
+      .then(function(response){
         return response.data;
       });
   },
@@ -93,6 +94,7 @@ export default {
     return conf.content.mediaPath;
   },
   loadContent(path) {
+
     let _path = path || '';
     if(!_path.startsWith(conf.content.path + '/')) {
       _path = conf.content.path + '/' + _path;
@@ -103,7 +105,7 @@ export default {
         _path,
         true
       )
-      .then(function (response) {
+      .then(function(response){
         return response.data;
       });
   }
@@ -116,7 +118,7 @@ function loadStructure(path) {
       path,
       true
     )
-    .then(function (response) {
+    .then(function(response){
       return response.data;
     });
 }
