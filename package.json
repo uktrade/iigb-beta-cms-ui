@@ -1,6 +1,6 @@
 {
   "name": "dit-cms",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "CMS for DIT",
   "author": "pastorjuradotraverso <pastor.methods@gmail.com>",
   "private": true,
@@ -12,7 +12,8 @@
     "e2e": "node test/e2e/runner.js",
     "deploy": "npm install && npm run build && node_modules/iigb-aws-helpers/deploy.sh && node_modules/iigb-aws-helpers/invalidate-cache.sh",
     "test": "npm run e2e",
-    "release": "node_modules/iigb-aws-helpers/release.sh"
+    "release": "node_modules/iigb-aws-helpers/release.sh",
+    "rollback": "node_modules/iigb-aws-helpers/rollback.sh"
   },
   "dependencies": {
     "github-api": "^3.0.0",
