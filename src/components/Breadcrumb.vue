@@ -29,7 +29,6 @@
       createBreadcrumb () {
         let list = []
         let listElms = this.path.split('/')
-        console.log(listElms)
         let pathHelper = []
         for (let i=0; i<listElms.length; i++) {
           pathHelper.push(listElms[i])
