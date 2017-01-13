@@ -14,7 +14,6 @@
     data () {
       return {
         list: [],   // [{path: parent, name: parent} {path: parent/child, name: child}]
-        currentPath: null
       }
     },
     created () {
