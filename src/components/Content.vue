@@ -2,7 +2,7 @@
   <div>
     <div class="col-md-10">
       <Breadcrumb v-bind:path="currentPath"
-                  @breadcrumb="currentPath = $event, loadList(currentPath)"></Breadcrumb>
+                  @breadcrumb="currentPath = $event, loadList(currentPath), inputEditor = ''"></Breadcrumb>
       <div class="selection__bar">
         <ul class="list-inline offset-md-5">
           <li v-if="showModal == false" class="list-inline-item">
@@ -162,6 +162,7 @@
         var self = this;
         this.image = '';
         if (item.type === 'dir') {
+          this.inputEditor = ''
           this.loadList(item.path)
             .then(function () {
               self.currentPath = item.path;
@@ -173,7 +174,7 @@
         }
       },
       goUp: function () {
-        this.image = '';
+        this.inputEditor = '';
         var currentURLParams = this.currentPath.lastIndexOf("/");
         this.currentPath = this.currentPath.substring(0, (currentURLParams))
         this.loadList(this.currentPath);
@@ -205,7 +206,7 @@
         return github.loadContent(path)
           .then(function (list) {
             const content = list;
-            self.inputEditor = {content: content}
+            self.inputEditor = content
           });
       },
       // edit: function () {
