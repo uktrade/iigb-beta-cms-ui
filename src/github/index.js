@@ -17,7 +17,7 @@ export default {
   //load structure file list
   loadSites() {
     return loadStructure(conf.structure.path)
-      .then(function(data) {
+      .then(function (data) {
         let files = data || [];
         let sites = [];
         for (let i in files) {
@@ -51,42 +51,42 @@ export default {
         {}
       );
   },
-  updateContent(path,content) {
+  updateContent(path, content) {
     let _path = path || '';
-    if(!_path.startsWith(conf.content.path + '/')) {
+    if (!_path.startsWith(conf.content.path + '/')) {
       _path = conf.content.path + '/' + _path;
     }
     return contents
-    .writeFile(
-      conf.content.dev,
-      conf.content.path + '/' + path,
-      content,
-      'Update' + path,
-      {}
-    );
+      .writeFile(
+        conf.content.dev,
+        conf.content.path + '/' + path,
+        content,
+        'Update' + path,
+        {}
+      );
   },
-  create(path,fileName, file) {
+  create(path, fileName, file) {
     return media
       .writeFile(
         conf.content.live,
         path + '/' + fileName,
         file,
-        'Upload '+ fileName,
+        'Upload ' + fileName,
         {encode: false}
       )
-      .then(function(response){
+      .then(function (response) {
         return response.data;
       });
   },
   loadMedia(path) {
-    const _path = path ?  path : conf.content.mediaPath;
+    const _path = path ? path : conf.content.mediaPath;
     return media
       .getContents(
         conf.content.live, //TODO: create dev for content path,
         _path,
         true
       )
-      .then(function(response){
+      .then(function (response) {
         return response.data;
       });
   },
@@ -96,7 +96,7 @@ export default {
   loadContent(path) {
 
     let _path = path || '';
-    if(!_path.startsWith(conf.content.path + '/')) {
+    if (!_path.startsWith(conf.content.path + '/')) {
       _path = conf.content.path + '/' + _path;
     }
     return contents
@@ -105,7 +105,7 @@ export default {
         _path,
         true
       )
-      .then(function(response){
+      .then(function (response) {
         return response.data;
       });
   }
@@ -118,7 +118,7 @@ function loadStructure(path) {
       path,
       true
     )
-    .then(function(response){
+    .then(function (response) {
       return response.data;
     });
 }

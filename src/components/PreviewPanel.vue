@@ -13,7 +13,7 @@
         {{selected}}
       </div>
       <div class="preview-content">
-      <pre>{{content.content}}</pre>
+      <pre>{{content}}</pre>
       </div>
     </div>
   </div>

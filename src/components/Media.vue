@@ -270,10 +270,10 @@
   }
 
   .preview-heading {
-    margin-top: 38px;
+    margin: 30px 0 8px;
+    padding-top: 8px;
     font-weight: 700;
     font-size: 16px;
-    margin-bottom: 10px;
   }
 
   .is-folder {

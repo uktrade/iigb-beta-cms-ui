@@ -86,7 +86,7 @@
         <div slot="footer">
           <button class="btn btn-success modal-default-button" :disabled="saveContentDisabled"
                   @click="updateContent(contentUrl, contentUpdated)">Save</button>
-          <button class="btn btn-danger modal-default-button" @click="showModal = false, saveContentDisabled = true">
+          <button class="btn btn-danger modal-default-button" @click="checkSaved()">
             Close
           </button>
         </div>
@@ -97,6 +97,20 @@
                 @content-updated="contentUpdated = $event"
                 @content-save-btn="saveContentDisabled = $event"></Editor>
       </modal>
+      <Alert v-if="contentNotSaved" type="error">
+        <div slot="body">
+          <h3>You have not saved your changes</h3>
+          <p>Do you want to exit without saving?</p>
+        </div>
+        <div slot="footer">
+          <button class="btn btn-success modal-default-button"
+                  @click="contentNotSaved = false">Go back</button>
+          <button class="btn btn-danger modal-default-button"
+                  @click="contentNotSaved = false, saveContentDisabled = true, showModal = false">
+            Exit anyway
+          </button>
+        </div>
+      </Alert>
     </div>
   </div>
 </template>
@@ -105,6 +119,7 @@
   import nunjucks from 'nunjucks'
   import tags from 'iigb-cms-tags'
   import github from '../github';
+  import Alert from './Alert'
   import Draggable from 'vuedraggable'
   import Editor from './MarkdownEditor'
   import Layouts from './Layouts'
@@ -115,6 +130,7 @@
   export default {
     name: 'metadata',
     components: {
+      Alert,
       Draggable,
       Editor,
       Layouts,
@@ -129,7 +145,8 @@
         contentUrl: null,
         fieldsList: null,
         showModal: false,
-        saveContentDisabled: true
+        saveContentDisabled: true,
+        contentNotSaved: false
       }
     },
     created: function () {
@@ -189,6 +206,13 @@
             console.log('save failed to complete')
           });
       },
+      checkSaved: function () {
+        if (this.saveContentDisabled === false) {
+          this.contentNotSaved = true
+        } else {
+          this.showModal = false
+        }
+      },
       console(some) {
         console.log(some)
       }
@@ -233,6 +257,7 @@
     }
 
     &__group {
+      cursor: move;
       padding: 10px 5px;
       margin-bottom: 20px;
       border-bottom: 1px solid black;

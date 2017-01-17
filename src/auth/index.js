@@ -1,6 +1,6 @@
 // src/auth/index.js
-var Cookies = require('js-cookie');
-var conf = process.env.GITHUB;
+const Cookies = require('js-cookie');
+const conf = process.env.GITHUB;
 
 // URL and endpoint constants
 const LOGIN_URL = 'https://github.com/login/oauth/authorize';
@@ -21,16 +21,16 @@ export default {
   authenticate(context, code) {
     context.$http
       .get(conf.gateKeeper + code).then((data) => {
-          if (data.body.token) {
-            var token = data.body.token;
-            Cookies.set('gh_token', token, {
-              expires: 1
-            });
-          }
-        },
-        (data) => {
-          console.error('error ', data);
-        });
+        if (data.body.token) {
+          let token = data.body.token;
+          Cookies.set('gh_token', token, {
+            expires: 1
+          });
+        }
+      },
+      (data) => {
+        console.error('error ', data);
+      });
   },
 
   // To log out, we just need to remove the token
@@ -38,7 +38,7 @@ export default {
     Cookies.remove('gh_token', {
       expires: 1
     });
-    setTimeout(function() {
+    setTimeout(function () {
       window.location = '/login';
     }, 1000)
   },

@@ -58,8 +58,10 @@
 
 <script>
 
+  const jsyaml = require('js-yaml')
+
 //  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/labels.json'
-  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/feature/labels/content/_labels/labels.json'
+  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/feature/labels/content/_labels/labels.md'
 
   export default {
     name: 'labels',
@@ -72,7 +74,6 @@
         columns: [],
         filterKey: '',
         language: '',
-        newLabels: {}
       }
     },
     created: function() {
@@ -82,23 +83,31 @@
       } else {
         const xhr = new XMLHttpRequest()
         const self = this
-        console.log(self)
+        let metadata = {}
         xhr.open('GET', labelsURL)
         xhr.onload = function () {
           const response = xhr.responseText
-            sessionStorage.setItem('labels', response)
-          self.labels = JSON.parse(response)
-          for (let prop in self.labels.reasons) {
-            if (Object.prototype.hasOwnProperty.call(self.labels.reasons, prop)) {
-              self.columns.push(prop)
+          response.replace(/^(---\n)((.|\n)*?)---\n?/, function (match, dashes, frontmatter) {
+            try {
+              metadata = jsyaml.safeLoad(frontmatter)
+            } catch (err) {
+              console.log('ERROR encoding YAML')
+              console.log(err)
+            }
+            return ''
+          }),
+          self.labels = Object.assign({}, self.labels, metadata)
+          for (let prop in metadata.reasons) {
+            let i = Object.keys(metadata.reasons).indexOf(prop)
+            if (Object.prototype.hasOwnProperty.call(metadata.reasons, prop)) {
+              self.columns.splice(i, 1, prop)
             }
           }
-          sessionStorage.setItem('columns', JSON.stringify(self.columns))
+          self.columns.forEach(function (key) {
+            self.sortOrders[key] = 1
+          })
         }
         xhr.send()
-        this.columns.forEach(function (key) {
-          sortOrders[key] = 1
-        })
       }
     },
     computed: {
@@ -143,6 +152,7 @@
             this.columns.push(prop)
           }
         }
+//        todo: save in github instead of sessionStorage
         sessionStorage.setItem('columns', JSON.stringify(this.columns))
         sessionStorage.setItem('labels', JSON.stringify(this.labels))
       },
