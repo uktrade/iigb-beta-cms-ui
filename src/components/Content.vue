@@ -57,7 +57,7 @@
     <modal v-if="showModal">
       <h3 slot="header">{{selected}}</h3>
       <Editor slot="body"
-              :content="inputEditor.content"
+              :content="inputEditor"
               :disabled="saveContentDisabled"
               @content-updated="contentUpdated = $event"
               @content-save-btn="saveContentDisabled = $event"></Editor>
@@ -169,7 +169,6 @@
             });
         } else {
           this.selected = item.name;
-          console.log(item);
           this.fetchContent(item.path);
         }
       },
