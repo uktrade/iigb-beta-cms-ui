@@ -60,8 +60,7 @@
 
   const jsyaml = require('js-yaml')
 
-//  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/labels.json'
-  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/feature/labels/content/_labels/labels.md'
+  const labelsURL = 'https://raw.githubusercontent.com/uktrade/iigb-beta-content/master/content/_labels/labels.md'
 
   export default {
     name: 'labels',
@@ -86,8 +85,7 @@
         let metadata = {}
         xhr.open('GET', labelsURL)
         xhr.onload = function () {
-          const response = xhr.responseText
-          response.replace(/^(---\n)((.|\n)*?)---\n?/, function (match, dashes, frontmatter) {
+          xhr.responseText.replace(/^(---\n)((.|\n)*?)---\n?/, function (match, dashes, frontmatter) {
             try {
               metadata = jsyaml.safeLoad(frontmatter)
             } catch (err) {
