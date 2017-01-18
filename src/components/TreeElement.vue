@@ -19,8 +19,7 @@
         <TreeElement v-for="list in list.children"
                      :english="english"
                      v-bind:list="list"
-                     @new-details="updateTree($event)"
-                     @tree-load="startLoading($event)"/>
+                     @new-details="updateTree($event)"/>
       </div>
     </ul>
   </li>
@@ -63,13 +62,9 @@ export default {
         this.open = !this.open
       }
       this.$emit('new-details', this.list)
-      this.$emit('tree-load', true)
     },
     updateTree: function (model) {
       this.$emit('new-details', model)
-    },
-    startLoading: function (started) {
-      this.$emit('tree-load', started)
     },
     console(some) {
       console.log(some)
