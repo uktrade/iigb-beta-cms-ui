@@ -44,7 +44,17 @@
 </script>
 
 <style scoped lang="scss">
+  @import "../assets/variables.scss";
+
   a {
     cursor: pointer;
+
+    &:hover {
+      border-bottom: 1px solid $black;
+    }
+  }
+
+  .breadcrumb {
+    background-color: $white;
   }
 </style>
