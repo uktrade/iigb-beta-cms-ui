@@ -292,13 +292,6 @@
         padding-top: 8px;
       }
     }
-
-    &__breadcrumb {
-      font-size: x-large;
-      padding-top: 40px;
-      /*margin-left: 280px;*/
-      position: relative;
-    }
   }
 
   .btn-content {
