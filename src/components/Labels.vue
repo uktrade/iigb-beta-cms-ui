@@ -95,9 +95,9 @@
             return ''
           }),
           self.labels = Object.assign({}, self.labels, metadata)
-          for (let prop in metadata.reasons) {
-            let i = Object.keys(metadata.reasons).indexOf(prop)
-            if (Object.prototype.hasOwnProperty.call(metadata.reasons, prop)) {
+          for (let prop in metadata.contact) {
+            let i = Object.keys(metadata.contact).indexOf(prop)
+            if (Object.prototype.hasOwnProperty.call(metadata.contact, prop)) {
               self.columns.splice(i, 1, prop)
             }
           }
@@ -145,8 +145,8 @@
           }
         }
         this.columns = []
-        for (let prop in this.labels.reasons) {
-          if (Object.prototype.hasOwnProperty.call(this.labels.reasons, prop)) {
+        for (let prop in this.labels.contact) {
+          if (Object.prototype.hasOwnProperty.call(this.labels.contact, prop)) {
             this.columns.push(prop)
           }
         }

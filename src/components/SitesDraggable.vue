@@ -24,6 +24,7 @@
                   <div :list="site.content.pages">
                     <TreeElement v-for="list in site.content.pages"
                                  :english="site.content.globalData.locale.language === 'en'"
+                                 :active="active"
                                  v-bind:list="list"
                                  @new-details="updateTree($event)"/>
                   </div>
@@ -46,6 +47,7 @@
   import TreeElement from './TreeElement';
   import Metadata from './Metadata';
   import github from '../github';
+  import { globalBus } from '../main.js'
 
   export default {
     name: 'sites',
@@ -62,12 +64,16 @@
         treeDataDetails: null,
         saveMetadataDisabled: true,
         selected: null,
-        inputEditor: null
+        inputEditor: null,
+        active: ''
       }
     },
     created: function() {
       this.reload();
     },
+    mounted() {
+      globalBus.$on('active', this.setActive)
+  },
     methods: {
       reload: function() {
         let self = this;
@@ -123,8 +129,11 @@
             self.refresh();
           });
       },
-      updateTree: function(model) {
+      updateTree (model) {
         this.treeDataDetails = model
+      },
+      setActive (val) {
+        this.active = val
       },
       console(some) {
         console.log(some)

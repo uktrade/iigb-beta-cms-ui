@@ -9,7 +9,6 @@ import Media from './components/Media'
 import Sites from './components/SitesDraggable';
 import Sidebar from './components/Sidebar';
 
-
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -76,6 +75,8 @@ if (process.env.NODE_ENV != "development") {
 		}
 	})
 }
+
+export const globalBus = new Vue()
 
 new Vue({
 	router,

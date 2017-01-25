@@ -1,13 +1,13 @@
 <template>
   <li>
-    <p @click="toggle"
+    <p @click="toggle(list.data.pageTitle)"
        v-if="english"
-       :class="{'is-folder': isFolder}">
+       :class="{'is-folder': isFolder, 'is-active': isActive(list.data.pageTitle)}">
       <span :class="fileFolderIcon"> </span> {{list.data.pageTitle}}
     </p>
     <p v-else
-       @click="toggle"
-       :class="{'is-folder': isFolder}">
+       @click="toggle(list.data.pageTitle)"
+       :class="{'is-folder': isFolder, 'is-active': isActive(list.data.pageTitle)}">
       <span :class="fileFolderIcon"> </span> {{list.data.pageTitle}} <span class="en-text">{{list.path}}</span>
     </p>
     <ul class="container-list"
@@ -18,6 +18,7 @@
                  :options="{group:'all'}">
         <TreeElement v-for="list in list.children"
                      :english="english"
+                     :active="active"
                      v-bind:list="list"
                      @new-details="updateTree($event)"/>
       </div>
@@ -27,11 +28,12 @@
 
 <script>
 import Draggable from 'vuedraggable'
+import { globalBus } from '../main.js'
 
 export default {
   name: 'TreeElement',
   components: {Draggable},
-  props: ['list', 'english'],
+  props: ['list', 'english', 'active'],
   data () {
     return {
       open: false,
@@ -57,14 +59,18 @@ export default {
     }
   },
   methods: {
-    toggle: function () {
+    toggle: function (item) {
       if (this.isFolder) {
         this.open = !this.open
       }
       this.$emit('new-details', this.list)
+      globalBus.$emit('active', item)
     },
     updateTree: function (model) {
       this.$emit('new-details', model)
+    },
+    isActive(value) {
+      return this.active === value
     },
     console(some) {
       console.log(some)
@@ -86,6 +92,12 @@ export default {
     font-weight: 700;
     line-height: 40px;
     margin: 8px 0;
+  }
+
+  .is-active {
+    color: #000000;
+    background-color: $active-background;
+    padding-left: 8px;
   }
 
   .en-text {
