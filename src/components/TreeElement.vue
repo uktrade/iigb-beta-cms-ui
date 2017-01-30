@@ -97,7 +97,6 @@ export default {
   .is-active {
     color: #000000;
     background-color: $active-background;
-    padding-left: 8px;
   }
 
   .en-text {
@@ -119,14 +118,13 @@ export default {
   ul.container-list li {
     background-color: $grey;
     color: $black;
-    /*border-bottom: 1px solid #41B883;*/
     display: block;
-    /*padding: 0 15px;*/
     line-height: 40px;
   }
 
   ul.container-list li p {
     margin: 0;
+    padding-left: 8px;
   }
 
   ul.container-list.selected.has-container {

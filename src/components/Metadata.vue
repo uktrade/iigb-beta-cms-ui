@@ -81,7 +81,7 @@
         </template>
       </template>
       <!-- use the modal component, pass in the prop -->
-      <modal v-if="showModal">
+      <Modal v-if="showModal">
         <h3 slot="header">{{contentUrl}}</h3>
         <div slot="footer">
           <button class="btn btn-success modal-default-button" :disabled="saveContentDisabled"
@@ -96,7 +96,7 @@
                 :disabled="saveContentDisabled"
                 @content-updated="contentUpdated = $event"
                 @content-save-btn="saveContentDisabled = $event"></Editor>
-      </modal>
+      </Modal>
       <Alert v-if="contentNotSaved" type="error">
         <div slot="body">
           <h3>You have not saved your changes</h3>
