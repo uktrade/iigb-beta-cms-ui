@@ -91,7 +91,7 @@
         <h3>Delete {{selected}}?</h3>
         <p class="filename">
           Are you sure you want to delete {{selected}}?
-        <p>
+        </p>
       </div>
       <div slot="footer">
         <button class="btn btn-primary modal-default-button">

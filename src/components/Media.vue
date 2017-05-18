@@ -16,9 +16,9 @@
                 </div>
                 <div class="col-md-6">
                   <p class="filename">{{filename}}
-                  <p>
+                  </p>
                   <p class="filename has-error">{{errorMsg}}
-                  <p>
+                  </p>
                 </div>
               </div>
               <input type="file" class="hidden-upload-btn" @change="onFileChange">
